@@ -1,0 +1,24 @@
+{
+  "version": "intent-rules-v2",
+  "brands": [
+    {"name":"Apple","patterns":["\\bapple\\b","\\biphone\\b"]},
+    {"name":"Samsung","patterns":["\\bsamsung\\b","\\bgalaxy\\b"]},
+    {"name":"Huawei","patterns":["\\bhuawei\\b"]},
+    {"name":"Xiaomi","patterns":["\\bxiaomi\\b"]},
+    {"name":"Oppo","patterns":["\\boppo\\b"]}
+  ],
+  "named_product_patterns": [
+    {"name_template":"iPhone {1} {2} {3}","pattern":"\\biphone\\s*(\\d{1,2})?\\s*(pro)?\\s*(max)?\\b","family":"premium_smartphones"}
+  ],
+  "family_suppression": {
+    "premium_smartphones": ["smartphones"],
+    "vehicle_financing": ["vehicles", "consumer_finance"],
+    "automotive_air_conditioning": ["vehicles"],
+    "residential_air_conditioning": ["home_appliances"],
+    "hair_styling_appliances": ["hair_care_products"]
+  },
+  "contextual_family_rules": [
+    {"family":"university_programmes","when_multiple":true,"required_offer_terms":["programme","program","course","degree","enrol","enroll","education","study"]}
+  ],
+  "ambiguous_terms": ["smart", "mobile", "ac", "dryer", "dryers", "air conditioner", "air conditioners", "air conditioning"]
+}

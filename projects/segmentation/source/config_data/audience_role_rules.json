@@ -1,0 +1,23 @@
+{
+  "version": "audience-role-v2",
+  "rules": [
+    {"rule_id":"role.invalid","patterns":["\\b(blacklist|blocked|invalid|dead|do not send|opt[ -]?out)\\b"],"concept":"invalid_or_avoid","confidence":1.0,"source_fields":["remainder","original_category"]},
+    {"rule_id":"role.employee","patterns":["\\b(employees?|staff|payroll|social security)\\b"],"concept":"employees","confidence":0.98,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.operational","patterns":["\\b(enquir(?:y|ies)|call center|complaints?|leads? only)\\b"],"concept":"enquiry_or_operational","confidence":0.92,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.student","patterns":["\\b(students?|university students?|college students?|tawjihi)\\b"],"concept":"students","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.graduate","patterns":["\\bgraduates?\\b"],"concept":"graduates","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.parent","patterns":["\\b(parents?|mothers?|fathers?)\\b"],"concept":"parents","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.owner","patterns":["\\b(owners?|ceo|gm|general managers?|business owners?)\\b"],"concept":"owners","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.company","patterns":["\\b(chamber of industry|companies|factories|manufacturing companies|contractors?)\\b"],"concept":"companies","confidence":0.91,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.investor","patterns":["\\b(investors?|shareholders?)\\b"],"concept":"investors","confidence":0.93,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.professional","patterns":["\\b(engineers?|doctors?|pharmacists?|accountants?|lawyers?|teachers?|managers?|procurement|technicians?)\\b"],"concept":"professionals","confidence":0.92,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.patient","patterns":["\\b(patients?)\\b"],"concept":"patients","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.member","patterns":["\\b(members?|association members?|club members?)\\b"],"concept":"members","confidence":0.91,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.subscriber","patterns":["\\b(subscribers?|prepaid users?|postpaid users?)\\b"],"concept":"subscribers","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.customer","patterns":["\\b(customers?|clients?|buyers?|visitors?)\\b"],"concept":"customers_or_prospects","confidence":0.92,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.shopper","patterns":["\\b(shoppers?|shopping online|online shopping|supermarkets?|malls?|fashion|jewelry|shoes and bags)\\b"],"concept":"retail_shoppers","confidence":0.72,"source_fields":["original_category"]},
+    {"rule_id":"role.consumer_segment","patterns":["\\b(restaurants? - cafes?|automotive|beauty - cosmetics|home accessories|home electrics|gym - sports)\\b"],"concept":"customers_or_prospects","confidence":0.66,"source_fields":["original_category"]},
+    {"rule_id":"role.business_contact","patterns":["\\b(chamber of commerce|associations?)\\b"],"concept":"business_contacts","confidence":0.76,"source_fields":["original_category","remainder"]},
+    {"rule_id":"role.pet_customer","patterns":["\\b(pets?|pet care)\\b"],"concept":"customers_or_prospects","confidence":0.68,"source_fields":["original_category"]}
+  ]
+}

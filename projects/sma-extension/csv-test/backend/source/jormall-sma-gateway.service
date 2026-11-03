@@ -1,0 +1,23 @@
+[Unit]
+Description=JorMall SMA Hybrid AI Gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/jormall-sma-gateway/backend
+EnvironmentFile=/etc/jormall-sma-gateway.env
+ExecStart=/opt/jormall-sma-gateway/backend/.venv/bin/gunicorn -c gunicorn.conf.py wsgi:app
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/jormall-sma-gateway
+
+[Install]
+WantedBy=multi-user.target
+

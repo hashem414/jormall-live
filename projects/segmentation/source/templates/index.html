@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order Processing Campaign List Assistant</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-block">
+      <img class="brand-logo" src="{{ url_for('static', filename='img/jormall-logo.png') }}" alt="JorMall Logo">
+      <div>
+        <div class="eyebrow">JorMall · Order Processing</div>
+        <h1>Campaign List Assistant</h1>
+        <p>Choose the most unique SMS lists, preview quantity before sending, and enhance the count safely.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="summary-grid" id="summaryGrid">
+      <div class="summary-card"><span>Total rows</span><strong id="totalRows">—</strong></div>
+      <div class="summary-card"><span>Ready lists</span><strong id="readyLists">—</strong></div>
+      <div class="summary-card"><span>Ready quantity</span><strong id="readyQuantity">—</strong></div>
+      <div class="summary-card"><span>Raw categories</span><strong id="rawCategories">—</strong></div>
+      <div class="summary-card"><span>Category groups</span><strong id="categoryGroups">—</strong></div>
+      <div class="summary-card"><span>Duplicates</span><strong id="dupeRows">—</strong></div>
+      <div class="summary-card"><span>Source dropped</span><strong id="sourceDropped">—</strong></div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <h2>1. Ask for a campaign</h2>
+        <span id="engineLabel">Checking AI status</span>
+      </div>
+      <textarea id="campaignPrompt" placeholder="Example: I want to send a campaign to City Mall and Toyota in West Amman for mixed audience, economy plus, age 25 to 45."></textarea>
+      <p class="small-note">The system intelligently reads the request by default. Dropdown choices below override suggested filters when selected. Use the reset checkbox below when you want Any/manual fields to replace suggested fields.</p>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <h2>2. Filters</h2>
+        <span>Operational controls</span>
+      </div>
+      <p class="small-note">Business categories are clustered into fewer operational groups. Select multiple tags in any dropdown when the campaign can target more than one category, class, city, or area. The original raw category is still kept in exports for audit.</p>
+      <div class="filters-grid">
+        <label>Business Category Group
+          <div class="tag-select" data-select-id="category">
+            <button type="button" class="tag-select-button"><span id="categoryTags">Any</span></button>
+            <div class="tag-options" id="categoryOptions"></div>
+            <select id="category" multiple hidden></select>
+          </div>
+        </label>
+        <label>Audience Gender
+          <div class="tag-select" data-select-id="gender">
+            <button type="button" class="tag-select-button"><span id="genderTags">Any</span></button>
+            <div class="tag-options" id="genderOptions"></div>
+            <select id="gender" multiple hidden></select>
+          </div>
+        </label>
+        <label>Customer Class
+          <div class="tag-select" data-select-id="classFilter">
+            <button type="button" class="tag-select-button"><span id="classFilterTags">Any</span></button>
+            <div class="tag-options" id="classFilterOptions"></div>
+            <select id="classFilter" multiple hidden></select>
+          </div>
+        </label>
+        <label>City / Coverage
+          <div class="tag-select" data-select-id="city">
+            <button type="button" class="tag-select-button"><span id="cityTags">Any</span></button>
+            <div class="tag-options" id="cityOptions"></div>
+            <select id="city" multiple hidden></select>
+          </div>
+        </label>
+        <label>Area
+          <div class="tag-select" data-select-id="area">
+            <button type="button" class="tag-select-button"><span id="areaTags">Any</span></button>
+            <div class="tag-options" id="areaOptions"></div>
+            <select id="area" multiple hidden></select>
+          </div>
+        </label>
+        <label>Minimum list count<input type="text" id="minQuantity" inputmode="numeric" value="0"></label>
+        <label>Target count<input type="text" id="targetQuantity" inputmode="numeric" value="0"></label>
+        <label>Candidate Scope
+          <select id="candidateScope">
+            <option value="direct_only">Direct Matches Only</option>
+            <option value="direct_adjacent">Direct + Adjacent</option>
+            <option value="direct_adjacent_contextual" selected>Direct + Adjacent + Contextual</option>
+            <option value="allow_fallback">Allow Fallback / Maximum Reach</option>
+          </select>
+        </label>
+        <label class="max-list-control">
+          Maximum lists
+          <div class="max-inline">
+            <input type="text" id="maxLists" inputmode="numeric" value="30">
+            <button type="button" id="maxModeBtn" class="mini-btn" aria-pressed="false">Max</button>
+          </div>
+        </label>
+      </div>
+
+      <div class="age-card">
+        <div class="age-title-row">
+          <label>Age Range</label>
+          <strong id="ageRangeLabel">Any age</strong>
+        </div>
+        <div class="dual-range" id="ageRangeControl">
+          <div class="range-track-bg"></div>
+          <div class="range-track-fill" id="ageRangeFill"></div>
+          <input type="range" id="ageMin" min="17" max="80" value="17">
+          <input type="range" id="ageMax" min="17" max="80" value="80">
+        </div>
+        <div class="age-scale"><span id="ageMinBound">17</span><span id="ageMaxBound">80</span></div>
+        <button type="button" id="resetAgeBtn" class="text-btn">Reset age to Any</button>
+      </div>
+
+      <div class="toggles compact-toggles">
+        <label class="checkline"><input type="checkbox" id="resetAIFields"> Use manual filters only</label>
+        <p class="small-note">Target count is automatic: the system first applies the logical filters, then expands only within suitable lists until the target is reached or no more suitable quantity is available.</p>
+      </div>
+      <button id="recommendBtn" class="primary-btn">Recommend Lists</button>
+    </section>
+
+    <section class="working-card" id="workingCard" style="display:none;">
+      <div class="working-animation" aria-hidden="true"><span class="working-spinner"></span></div>
+      <div>
+        <h2>Preparing the best list match…</h2>
+        <p id="workingMessage">Starting recommendation.</p>
+        <div class="progress-shell"><div class="progress-fill" id="workingProgress" style="width:0%"></div></div>
+        <p class="small-note">You can keep this page open while the system ranks lists, checks companies, and builds the branch confirmation.</p>
+      </div>
+    </section>
+
+    <section class="card results-card" id="resultsCard" style="display:none;">
+      <div class="section-title">
+        <h2>Choose the following lists when sending</h2>
+        <span id="targetStatus">—</span>
+      </div>
+      <div class="result-summary">
+        <div><span>Recommended lists</span><strong id="recommendedCount">0</strong></div>
+        <div><span>Total recommended count</span><strong id="recommendedTotal">0</strong></div>
+        <div><span>Selected lists</span><strong id="selectedListCount">0</strong></div>
+        <div><span>Selected count</span><strong id="selectedTotal">0</strong></div>
+        <div><span>Excluded lists</span><strong id="excludedCount">0</strong></div>
+        <div><span>Excluded count</span><strong id="excludedTotal">0</strong></div>
+        <div><span>Target count</span><strong id="targetQtyView">0</strong></div>
+        <div><span>Target difference</span><strong id="targetDiffView">0</strong></div>
+      </div>
+      <div id="companyConfirmation" class="company-confirmation" style="display:none;"></div>
+      <div id="aiNote" class="message"></div>
+      <div class="understanding-band">
+        <div><span>Campaign understanding</span><strong id="campaignUnderstandingSummary"></strong></div>
+        <div><span>Suggested target</span><strong id="suggestedTarget"></strong></div>
+      </div>
+      <div id="runtimeDiagnostics" class="runtime-diagnostics"></div>
+      <div id="intentSummary" class="applied-filters"></div>
+      <div id="appliedFilters" class="applied-filters"></div>
+      <div id="enhancementNote" class="message highlight"></div>
+      <div id="uniqueNote" class="message uniqueness"></div>
+      <div class="actions-row">
+        <button id="selectAllBtn">Select all</button>
+        <button id="clearSelectionBtn">Clear selection</button>
+        <button type="button" id="downloadSelectedBtn" class="download-btn">Download selected lists CSV</button>
+        <a href="/api/export/catalog" class="download-btn secondary">Download clean catalog CSV</a>
+        <a href="/api/export/category-clusters" class="download-btn secondary">Download category cluster mapping</a>
+        <a href="/api/export/source-exclusions" class="download-btn secondary">Download dropped source lists</a>
+      </div>
+      <div id="excludedLists" class="excluded-lists" hidden></div>
+      <div class="table-wrap">
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th>Use</th>
+              <th>List</th>
+              <th>Company</th>
+              <th>About</th>
+              <th>Audience</th>
+              <th>Class</th>
+              <th>Age</th>
+              <th>Location</th>
+              <th>Count</th>
+              <th>Date</th>
+              <th>Uniqueness</th>
+              <th>Reason</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="chart-card">
+        <div class="section-title compact">
+          <h2>Selection count visualisation</h2>
+          <span>Top selected lists by count</span>
+        </div>
+        <div id="selectionChart" class="bar-chart"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

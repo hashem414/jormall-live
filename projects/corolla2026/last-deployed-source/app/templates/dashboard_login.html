@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markazia Toyota — Administrator Login</title>
+    <link rel="icon" href="{{ app_base_path or '' }}/favicon.ico?v={{ asset_version }}" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ app_base_path or '' }}/static/client_assets/central-trade-auto-co-markazia-toyota-jordan/favicon-32x32.png?v={{ asset_version }}">
+    <link rel="apple-touch-icon" href="{{ app_base_path or '' }}/static/client_assets/central-trade-auto-co-markazia-toyota-jordan/apple-touch-icon.png?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ app_base_path or '' }}/static/css/dashboard-login.css?v={{ asset_version }}">
+</head>
+<body>
+    <main class="login-shell">
+        <section class="login-card" aria-labelledby="login-title">
+            <img src="{{ logo_url }}" alt="Markazia Toyota logo" class="login-logo">
+            <h1 id="login-title">Markazia Toyota</h1>
+            <p>Sign in to view the protected operational dashboards.</p>
+
+            <form method="post" action="{{ dashboard_base_path or '' }}/admin/login" class="login-form">
+                <input type="hidden" name="next" value="{{ next_path }}">
+                <label for="dashboard-password">Password</label>
+                <input id="dashboard-password" name="password" type="password" autocomplete="current-password" required autofocus>
+                {% if login_message %}
+                <p class="login-message" role="alert">{{ login_message }}</p>
+                {% endif %}
+                <button type="submit">Open Dashboard</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

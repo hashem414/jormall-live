@@ -1,0 +1,22 @@
+[Unit]
+Description=JorMall privileged deployment runner
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+EnvironmentFile=/etc/jormall/deployer/runner.env
+ExecStart=/usr/bin/python3 /opt/jormall/deployer/runner/jormall_runner.py
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=no
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/run/jormall-deployer /run/nginx.pid /opt/jormall/apps /etc/jormall/apps /etc/jormall/nginx /etc/nginx/jormall/generated /var/lib/jormall/apps /var/lib/jormall/deployer /var/log/jormall/deployer /var/log/nginx /var/run/docker.sock
+
+[Install]
+WantedBy=multi-user.target

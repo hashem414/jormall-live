@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sales-person Call Script | نص مكالمة فريق مبيعات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    /* ===== Cursor (same as SMA) ===== */
+    html, body {
+      cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="2" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"></path></svg>'), auto;
+    }
+    * {
+      cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="2" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"></path></svg>'), auto !important;
+    }
+
+    /* ===== Fonts ===== */
+    @font-face {
+      font-family: 'MontaserArabic';
+      src: url('/fonts/MontaserArabic-Regular.woff2') format('woff2');
+      font-weight: normal; font-style: normal;
+    }
+    @font-face {
+      font-family: 'MontserratArabic';
+      src: url('/fonts/Montserrat-Arabic-Light.woff2') format('woff2');
+      font-weight: 300; font-style: normal;
+    }
+
+    /* ===== Design tokens (same palette as SMA) ===== */
+    :root{
+      --primary:#2575b6;
+      --primary-dark:#1e5a8d;
+      --accent:#47c6f3;
+      --muted:#666666;
+      --bg:#f5f5f5;
+      --paper:#fff;
+      --soft:#ebfaff;
+      --danger:#ee4037;
+      --border:#e6eef6;
+    }
+
+    /* ===== Base ===== */
+    body {
+      font-family: 'MontaserArabic', sans-serif;
+      background: var(--bg);
+      color:#222;
+      margin:0; padding:20px;
+      direction: rtl;
+    }
+
+    /* ===== App Header & Controls (ported from SMA) ===== */
+    .app-header{
+      display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .app-header h2{
+      margin:0; font-size:20px; color:var(--primary);
+      font-family:'MontserratArabic', sans-serif; font-weight:600;
+      line-height:1.4;
+    }
+    .search{
+      display:flex; gap:8px; align-items:center; margin-inline-start:auto; flex-wrap:wrap;
+    }
+    .search input{
+      padding:10px 12px; border:1px solid #ddd; border-radius:8px; min-width:240px;
+      font-family:inherit;
+    }
+    .search i { color: var(--primary); }
+
+    .btn{
+      border:0; padding:10px 12px; border-radius:10px; background:var(--primary); color:#fff;
+      font-family:'MontserratArabic', sans-serif; font-size:14px; cursor:pointer;
+      box-shadow:0 1px 2px rgba(0,0,0,.05);
+    }
+    .btn.secondary{ background:#e9eef5; color:#10324d; }
+    .btn:hover{ background:var(--primary-dark); }
+    .btn.secondary:hover{ background:#dbe6f3; }
+
+    /* ===== Sections (kept & improved) ===== */
+    .section{
+      margin-bottom:12px; border:1px solid #e4e4e4; background:var(--paper);
+      border-radius:10px; overflow:hidden;
+    }
+    .section h3{
+      cursor:pointer; margin:0; padding:12px 14px; background:var(--primary);
+      color:#fff; font-size:16px; border-radius:10px 10px 0 0;
+      font-family:'MontserratArabic', sans-serif; display:flex; justify-content:space-between; align-items:center;
+    }
+    .section h3:hover{ background:var(--primary-dark); }
+    .section h3 .kicker{ opacity:.85; font-size:12px; font-weight:400; }
+    .section-content{
+      display:none; padding:0 14px; max-height:0; overflow:hidden;
+      transition:max-height .4s ease, padding .4s ease; background:var(--paper);
+    }
+    .section-content.open{ display:block; padding:14px; max-height:1500px; }
+
+    /* Little tools per section */
+    .section-tools{
+      display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 2px 0;
+    }
+    .tool-btn{
+      border:1px solid var(--border); background:#f7fbff; color:#10324d;
+      padding:6px 10px; border-radius:8px; font-size:12px; cursor:pointer;
+    }
+    .tool-btn:hover{ background:#eef6ff; }
+
+    /* ===== Text bits (kept) ===== */
+    .question{ margin:5px 0; font-weight:normal; color:#333; font-size:15px; line-height:2; }
+    .tip{ font-size:14px; color:var(--muted); font-weight:normal; margin-bottom:10px; }
+    ul{ line-height:2; font-size:15px; }
+
+    .client-name, .client-company, .client-industry, .client-mobile{
+      font-weight:bold; color:var(--primary);
+    }
+
+    /* ===== Unified (Client Snapshot) Table – styled exactly like SMA ===== */
+    table.report-table{
+      width:100%; border-collapse:collapse; direction:rtl; table-layout:fixed;
+      background:#fff; font-size:16px; margin-top:8px;
+    }
+    .report-table th, .report-table td{
+      padding:10px 12px; text-align:center; vertical-align:middle; word-break:break-word;
+      border:1px solid var(--border);
+    }
+    .report-table tr.band td{
+      background:#666666; font-weight:700; color:#fff; font-size:14px;
+    }
+    .report-table tr.placeholders td{ background:#ffffff; font-weight:400; }
+    .report-table .placeholder{ font-weight:700; color:#000; font-size:12px; }
+
+    .footnote{ color:var(--muted); font-size:12px; margin-top:6px; }
+
+    /* Hidden helper */
+    .hidden{ display:none; }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header with search & global controls -->
+  <div class="app-header">
+    <h2>Sales Dept. Call Script | <br> نص مكالمة فريق مبيعات</h2>
+    <div class="search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input id="filterInput" type="search" placeholder="  البحث في الأقسام | Filter sections" />
+    </div>
+  </div>
+  <button class="btn secondary" id="expandAllBtn">Expand All</button>
+  <button class="btn secondary" id="collapseAllBtn">Collapse All</button>
+
+  <!-- Client Snapshot (Unified SMA-style Table) -->
+  <div class="section">
+    <h3>ملخص العميل | Client Snapshot <span class="kicker">— يستخدم كنقطة مرجعية سريعة</span></h3>
+    <div class="section-content open">
+      <table id="clientSnapshot" class="report-table">
+        <!-- Row group 1 -->
+        <tr class="band">
+          <td>اسم العميل</td>
+          <td>اسم الشركة</td>
+          <td>القطاع</td>
+        </tr>
+        <tr class="placeholders">
+          <td class="placeholder client-name">[اسم العميل]</td>
+          <td class="placeholder client-company">[اسم الشركة]</td>
+          <td class="placeholder client-industry">[القطاع]</td>
+        </tr>
+
+        <!-- Row group 2 -->
+        <tr class="band">
+          <td>رقم الهاتف</td>
+          <td>آخر حملة</td>
+          <td>نسبة التفاعل (آخر حملة)</td>
+        </tr>
+        <tr class="placeholders">
+          <td class="placeholder client-mobile">[رقم الهاتف]</td>
+          <td class="placeholder">[الشهر/السنة]</td>
+          <td class="placeholder">[نسبة التفاعل/نسبة التسليم]</td>
+        </tr>
+
+        <!-- Row group 3 -->
+        <tr class="band">
+          <td>الفئة المستهدفة</td>
+          <td>تاريخ مقترح للإطلاق</td>
+          <td>ملاحظات إضافية</td>
+        </tr>
+        <tr class="placeholders">
+          <td class="placeholder">[الفئة المستهدفة]</td>
+          <td class="placeholder">[التاريخ]</td>
+          <td class="placeholder">[ملاحظة]</td>
+        </tr>
+      </table>
+      <div class="footnote">* الحقول بين الأقواس يتم استبدالها تلقائيًا من النظام عند توفر البيانات.</div>
+      <div class="footnote">* Bracketed fields auto-fill from the system when available.</div>
+<!--      <div class="section-tools">-->
+<!--        <button class="tool-btn" data-copy="#clientSnapshot"><i class="fa-regular fa-copy"></i> نسخ الجدول</button>-->
+<!--      </div>-->
+    </div>
+  </div>
+
+  <!-- Sections (now searchable with data-title & local toolbars) -->
+  <div class="section" data-title="greeting introduction التحية تعريف intro">
+    <h3>1. Greeting & Introduction | التحية والتعريف</h3>
+    <div class="section-content">
+<!--      <div class="section-tools">-->
+<!--        <button class="tool-btn" data-toggle>طي/فتح</button>-->
+<!--        <button class="tool-btn" data-copy="self"><i class="fa-regular fa-copy"></i> نسخ هذا القسم</button>-->
+<!--      </div>-->
+
+      <div class="question">
+        "مرحبًا <span class='client-name'>[اسم العميل]</span>، معك <strong><span style="color:var(--primary);">[اسمك]</span></strong> من شركة جورمول."
+      </div>
+      <div class="question">
+        "سعيد بالتواصل مع شركة <span class='client-company'>[اسم الشركة]</span> التي تعمل في مجال <span class='client-industry'>[القطاع]</span>."
+      </div>
+      <div class="question">
+        "هل رقم الهاتف <span class='client-mobile'>[رقم الهاتف]</span> لا يزال مفعلاً لاستلام رسائل الحملة؟"
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-title="reminder trust past work تذكير عمل سابق ثقة">
+    <h3>2. Reminder of Past Work & Trust-Building | تذكير بالعمل السابق وبناء الثقة</h3>
+    <div class="section-content">
+<!--      <div class="section-tools">-->
+<!--        <button class="tool-btn" data-toggle>طي/فتح</button>-->
+<!--        <button class="tool-btn" data-copy="self"><i class="fa-regular fa-copy"></i> نسخ هذا القسم</button>-->
+<!--      </div>-->
+      <div class="question">
+        "لاحظت أن آخر حملة لك معنا كانت في
+        <strong><span style="color:var(--primary);">[الشهر/السنة]</span></strong>، وحققت
+        <strong><span style="color:var(--primary);">[نسبة التفاعل/نسبة التسليم]</span></strong>.
+        عملاؤنا الذين يرسلون حملات دورية يحصلون عادةً على نتائج أعلى تصل إلى
+        <strong><span style="color:var(--primary);">[مثال: 30% زيادة في التفاعل]</span></strong>.
+        أود أن أساعدك في الوصول إلى نتائج مشابهة."
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-title="value proposition jormall value إبراز قيمة جورمول">
+    <h3>3. Highlighting JorMall's Value | إبراز قيمة خدمة جورمول</h3>
+    <div class="section-content">
+<!--      <div class="section-tools">-->
+<!--        <button class="tool-btn" data-toggle>طي/فتح</button>-->
+<!--        <button class="tool-btn" data-copy="self"><i class="fa-regular fa-copy"></i> نسخ هذا القسم</button>-->
+<!--      </div>-->
+      <ul>
+        <li>قاعدة بيانات ضخمة تضم 7.5 مليون رقم موبايل مصنف بدقة.</li>
+        <li>استهداف دقيق بناءً على الموقع، العمر، ومستوى الدخل.</li>
+        <li>متابعة مباشرة لأداء الحملة عبر روابط Bitly وتقارير مفصلة.</li>
+        <li>دعم في كتابة الرسائل لنساعدك على صياغة رسائل قصيرة وجذابة.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section" data-title="needs exploration استكشاف احتياجات">
+    <h3>4. Exploring Client Needs | استكشاف احتياجات العميل</h3>
+    <div class="section-content">
+<!--      <div class="section-tools">-->
+<!--        <button class="tool-btn" data-toggle>طي/فتح</button>-->
+<!--        <button class="tool-btn" data-copy="self"><i class="fa-regular fa-copy"></i> نسخ هذا القسم</button>-->
+<!--      </div>-->
+      <div class="question">"هل لديك عروض أو خصومات أو فعاليات جديدة ترغب في الترويج لها هذا الشهر؟"</div>
+      <div class="tip">استمع جيدًا وسجّل الملاحظات.</div>
+    </div>
+  </div>
+
+  <div class="section" data-title="solution proposal تقديم الحل المقترح">
+    <h3>5. Proposing the Solution | تقديم الحل المقترح</h3>
+    <div class="section-content">
+<!--      <div class="section-tools">-->
+<!--        <button class="tool-btn" data-toggle>طي/فتح</button>-->
+<!--        <button class="tool-btn" data-copy="self"><i class="fa-regular fa-copy"></i> نسخ هذا القسم</button>-->
+<!--      </div>-->
+      <div class="question">
+        "بناءً على ما ذكرته، يمكننا إنشاء حملة SMS موجهة خصيصًا لـ
+        <strong><span style="color:var(--primary);">[الفئة المستهدفة]</span></strong>...
+        هل تود أن أعد لك مقترح حملة يتضمن 2–3 نماذج رسائل جاهزة بحلول الغد؟"
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-title="closing agreement إتمام الاتفاق">
+    <h3>6. Closing the Agreement | إتمام الاتفاق</h3>
+    <div class="section-content">
+<!--      <div class="section-tools">-->
+<!--        <button class="tool-btn" data-toggle>طي/فتح</button>-->
+<!--        <button class="tool-btn" data-copy="self"><i class="fa-regular fa-copy"></i> نسخ هذا القسم</button>-->
+<!--      </div>-->
+      <div class="question">
+        "يمكننا إطلاق الحملة اعتبارًا من
+        <strong><span style="color:var(--primary);">[التاريخ]</span></strong>.
+        سأحتاج فقط إلى موافقتك وتحديد الميزانية المبدئية.
+        هل تود أن أبدأ في إعدادها الآن؟"
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-title="objections handling الاعتراضات رد">
+    <h3>7. Handling Objections | الرد على الاعتراضات</h3>
+    <div class="section-content">
+<!--      <div class="section-tools">-->
+<!--        <button class="tool-btn" data-toggle>طي/فتح</button>-->
+<!--        <button class="tool-btn" data-copy="self"><i class="fa-regular fa-copy"></i> نسخ هذا القسم</button>-->
+<!--      </div>-->
+      <strong>الاعتراض على السعر:</strong>
+      <div class="question">"لدينا خطط مرنة تناسب مختلف الميزانيات..."</div>
+      <strong>الاعتراض على التوقيت:</strong>
+      <div class="question">"نحن نضبط توقيت الحملات وفقاً لما يناسبك..."</div>
+      <strong>الاعتراض على المحتوى:</strong>
+      <div class="question">"لا تقلق! فريقنا سيقوم بكتابة رسائل جاهزة ومخصصة لعروضك."</div>
+    </div>
+  </div>
+
+  <div class="section" data-title="next steps الخطوات القادمة متابعة">
+    <h3>8. Confirming Next Steps | تأكيد الخطوات القادمة</h3>
+    <div class="section-content">
+<!--      <div class="section-tools">-->
+<!--        <button class="tool-btn" data-toggle>طي/فتح</button>-->
+<!--        <button class="tool-btn" data-copy="self"><i class="fa-regular fa-copy"></i> نسخ هذا القسم</button>-->
+<!--      </div>-->
+      <div class="question">
+        "رائع! سأرسل لك مقترح الحملة مع التوقعات المبدئية للأداء بحلول
+        <strong><span style="color:var(--primary);">[التاريخ/الوقت]</span></strong>..."
+      </div>
+    </div>
+  </div>
+
+  <div class="section" data-title="closing statement الاغلاق الشكر">
+    <h3>9. Closing Statement | جملة الإغلاق</h3>
+    <div class="section-content">
+<!--      <div class="section-tools">-->
+<!--        <button class="tool-btn" data-toggle>طي/فتح</button>-->
+<!--        <button class="tool-btn" data-copy="self"><i class="fa-regular fa-copy"></i> نسخ هذا القسم</button>-->
+<!--      </div>-->
+      <div class="question">"شكرًا على ثقتك بجورمول. هدفنا هو نجاح حملاتك دائمًا..."</div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== Helper: Toast (ported from SMA) ===== */
+    function toast(msg){
+      const t = document.createElement("div");
+      t.textContent = msg;
+      Object.assign(t.style,{
+        position:"fixed", bottom:"20px", insetInlineStart:"20px",
+        background:"#10324d", color:"#fff", padding:"10px 12px",
+        borderRadius:"10px", fontSize:"13px", zIndex:9999, opacity:0.95
+      });
+      document.body.appendChild(t);
+      setTimeout(()=>{ t.remove(); }, 1600);
+    }
+
+    /* ===== Accordion toggling (kept) ===== */
+    document.querySelectorAll(".section h3").forEach(h => {
+      h.addEventListener("click", () => {
+        const content = h.nextElementSibling;
+        content.classList.toggle("open");
+      });
+    });
+
+    /* ===== Expand / Collapse All (from SMA) ===== */
+    document.getElementById("expandAllBtn").addEventListener("click", () => {
+      document.querySelectorAll(".section-content").forEach(c => c.classList.add("open"));
+    });
+    document.getElementById("collapseAllBtn").addEventListener("click", () => {
+      document.querySelectorAll(".section-content").forEach(c => c.classList.remove("open"));
+    });
+
+    /* ===== Section-local toolbars: toggle & copy ===== */
+    document.querySelectorAll(".section-content").forEach(content=>{
+      const toggleBtn = content.querySelector("[data-toggle]");
+      if(toggleBtn){
+        toggleBtn.addEventListener("click", (e)=>{
+          e.stopPropagation();
+          content.classList.toggle("open");
+        });
+      }
+      const copyBtn = content.querySelector("[data-copy]");
+      if(copyBtn){
+        copyBtn.addEventListener("click", async (e)=>{
+          e.stopPropagation();
+          let target = copyBtn.getAttribute("data-copy");
+          let text = "";
+          if(target === "self"){
+            // copy only the textual content of this section (without tool buttons)
+            const clone = content.cloneNode(true);
+            clone.querySelectorAll(".section-tools").forEach(n=>n.remove());
+            text = clone.innerText.trim();
+          }else{
+            const el = document.querySelector(target);
+            text = el ? el.innerText.trim() : "";
+          }
+          try{
+            await navigator.clipboard.writeText(text);
+            toast("📋 تم نسخ المحتوى");
+          }catch{
+            toast("تعذّر النسخ. جرّب يدويًا.");
+          }
+        });
+      }
+    });
+
+    /* ===== Search/filter sections by title keywords (from SMA) ===== */
+    const filterInput = document.getElementById("filterInput");
+    filterInput.addEventListener("input", ()=>{
+      const q = filterInput.value.trim().toLowerCase();
+      document.querySelectorAll(".section").forEach(sec=>{
+        const h = (sec.querySelector("h3")?.innerText || "").toLowerCase();
+        const tags = (sec.getAttribute("data-title")||"").toLowerCase();
+        const hit = h.includes(q) || tags.includes(q) || q==="";
+        sec.style.display = hit ? "" : "none";
+      });
+    });
+
+    /* ===== Credentials injection (kept) ===== */
+    function getCredentials() {
+      return {
+        name: sessionStorage.getItem('cred_name'),
+        company: sessionStorage.getItem('cred_company'),
+        industry: sessionStorage.getItem('cred_industry'),
+        mobile: sessionStorage.getItem('cred_mobile')
+      };
+    }
+
+    window.injectClientCredentials = function () {
+      const name = sessionStorage.getItem('cred_name');
+      const company = sessionStorage.getItem('cred_company');
+      const industry = sessionStorage.getItem('cred_industry');
+      const mobile = sessionStorage.getItem('cred_mobile');
+
+      const inject = (selector, value, fallback, isInvalidFn) => {
+        document.querySelectorAll(selector).forEach(el => {
+          if (value && (!isInvalidFn || !isInvalidFn(value))) {
+            el.textContent = value.trim();
+          } else {
+            el.textContent = fallback;
+          }
+        });
+      };
+
+      inject('.client-name', name, '[اسم العميل]', value => {
+        const lowered = value.toLowerCase();
+        return lowered.startsWith('user') || lowered.startsWith('admin');
+      });
+
+      inject('.client-company', company, '[اسم الشركة]', value => value === 'Auto-fill');
+      inject('.client-industry', industry, '[القطاع]', value => value === 'Auto-fill');
+      inject('.client-mobile', mobile, '[رقم الهاتف]', value => value === 'Auto-fill');
+    };
+
+    document.addEventListener('DOMContentLoaded', window.injectClientCredentials);
+  </script>
+</body>
+</html>

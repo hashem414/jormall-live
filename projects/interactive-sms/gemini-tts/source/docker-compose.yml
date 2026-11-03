@@ -1,0 +1,41 @@
+name: central-ecommerce-current
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-client_chatbot}
+      POSTGRES_USER: ${POSTGRES_USER:-client_chatbot}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-REDACTED_CONFIGURE_LOCALLY}
+    volumes:
+      - /var/lib/jormall/apps/interactive-sms/production/db:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-client_chatbot} -d ${POSTGRES_DB:-client_chatbot}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  chatbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - /etc/jormall/apps/interactive-sms/production/app.env
+    environment:
+      DATABASE_URL: >-
+        postgresql+psycopg://${POSTGRES_USER:-client_chatbot}:${POSTGRES_PASSWORD:-REDACTED_CONFIGURE_LOCALLY}@postgres:5432/${POSTGRES_DB:-client_chatbot}
+    ports:
+      - "127.0.0.1:${APP_PORT:-3000}:8000"
+    volumes:
+      - /var/lib/jormall/apps/interactive-sms/production/conversations:/app/data/conversations
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3).read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped

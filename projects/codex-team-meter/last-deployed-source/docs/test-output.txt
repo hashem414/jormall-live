@@ -1,0 +1,194 @@
+
+> codex-team-meter@1.0.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# (node:1115) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: installer in an isolated Linux home copies the skill, protects profile and refuses reassignment
+ok 1 - installer in an isolated Linux home copies the skill, protects profile and refuses reassignment
+  ---
+  duration_ms: 230.95227
+  type: 'test'
+  ...
+# (node:1116) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: offline queue survives; later sync retries safely and never uploads conversations
+ok 2 - offline queue survives; later sync retries safely and never uploads conversations
+  ---
+  duration_ms: 130.203144
+  type: 'test'
+  ...
+# Subtest: SQLite state survives server reopen
+ok 3 - SQLite state survives server reopen
+  ---
+  duration_ms: 3.571379
+  type: 'test'
+  ...
+# Subtest: numeric extraction excludes conversation, reasoning text and credentials
+ok 4 - numeric extraction excludes conversation, reasoning text and credentials
+  ---
+  duration_ms: 4.021328
+  type: 'test'
+  ...
+# Subtest: existing session history becomes baseline, not newly attributed use
+ok 5 - existing session history becomes baseline, not newly attributed use
+  ---
+  duration_ms: 1.843525
+  type: 'test'
+  ...
+# Subtest: cumulative totals are differenced; repeated token and limit notifications do not duplicate
+ok 6 - cumulative totals are differenced; repeated token and limit notifications do not duplicate
+  ---
+  duration_ms: 0.392377
+  type: 'test'
+  ...
+# Subtest: cache and reasoning are subsets, not extra billable counts
+ok 7 - cache and reasoning are subsets, not extra billable counts
+  ---
+  duration_ms: 0.325428
+  type: 'test'
+  ...
+# Subtest: negative, unsafe and inconsistent numeric records rejected
+ok 8 - negative, unsafe and inconsistent numeric records rejected
+  ---
+  duration_ms: 0.255615
+  type: 'test'
+  ...
+# Subtest: artificial context fill is not counted; following sample re-baselines
+ok 9 - artificial context fill is not counted; following sample re-baselines
+  ---
+  duration_ms: 0.420304
+  type: 'test'
+  ...
+# Subtest: counter reset fails closed rather than double counting
+ok 10 - counter reset fails closed rather than double counting
+  ---
+  duration_ms: 0.354804
+  type: 'test'
+  ...
+# Subtest: fork inherited history not counted under the fork
+ok 11 - fork inherited history not counted under the fork
+  ---
+  duration_ms: 0.35192
+  type: 'test'
+  ...
+# Subtest: rate-limit snapshots keep zero and remove account/credit fields
+ok 12 - rate-limit snapshots keep zero and remove account/credit fields
+  ---
+  duration_ms: 0.66339
+  type: 'test'
+  ...
+# Subtest: trailing incomplete JSON line survives restart without double count
+ok 13 - trailing incomplete JSON line survives restart without double count
+  ---
+  duration_ms: 22.592429
+  type: 'test'
+  ...
+# Subtest: large private content is discarded locally and next usage event still counted
+ok 14 - large private content is discarded locally and next usage event still counted
+  ---
+  duration_ms: 40.398158
+  type: 'test'
+  ...
+# Subtest: only rollout files are scanned; auth.json and ordinary files are not opened
+ok 15 - only rollout files are scanned; auth.json and ordinary files are not opened
+  ---
+  duration_ms: 11.565664
+  type: 'test'
+  ...
+# (node:1159) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: public summary and member list require authentication
+ok 16 - public summary and member list require authentication
+  ---
+  duration_ms: 36.899155
+  type: 'test'
+  ...
+# Subtest: admin can create a member; token is not stored in plaintext in members table
+ok 17 - admin can create a member; token is not stored in plaintext in members table
+  ---
+  duration_ms: 17.029485
+  type: 'test'
+  ...
+# Subtest: member token cannot impersonate another member or create members
+ok 18 - member token cannot impersonate another member or create members
+  ---
+  duration_ms: 10.936196
+  type: 'test'
+  ...
+# Subtest: ingestion rejects prompt, response and arbitrary extra fields
+ok 19 - ingestion rejects prompt, response and arbitrary extra fields
+  ---
+  duration_ms: 15.15598
+  type: 'test'
+  ...
+# Subtest: same upload can be retried without double counting
+ok 20 - same upload can be retried without double counting
+  ---
+  duration_ms: 8.410467
+  type: 'test'
+  ...
+# Subtest: percentages reflect measured token shares, not quota consumption
+ok 21 - percentages reflect measured token shares, not quota consumption
+  ---
+  duration_ms: 12.746373
+  type: 'test'
+  ...
+# Subtest: empty usage reports null shares instead of fabricating zero percent
+ok 22 - empty usage reports null shares instead of fabricating zero percent
+  ---
+  duration_ms: 1.767675
+  type: 'test'
+  ...
+# Subtest: duplicate event seen on another member is flagged, not charged twice
+ok 23 - duplicate event seen on another member is flagged, not charged twice
+  ---
+  duration_ms: 2.091068
+  type: 'test'
+  ...
+# Subtest: a device ID already owned by someone cannot be silently reassigned
+ok 24 - a device ID already owned by someone cannot be silently reassigned
+  ---
+  duration_ms: 7.731246
+  type: 'test'
+  ...
+# Subtest: revoking member removes ingestion and existing session access
+ok 25 - revoking member removes ingestion and existing session access
+  ---
+  duration_ms: 14.512209
+  type: 'test'
+  ...
+# Subtest: cross-origin requests rejected and no CORS wildcard
+ok 26 - cross-origin requests rejected and no CORS wildcard
+  ---
+  duration_ms: 4.498496
+  type: 'test'
+  ...
+# Subtest: account-limit snapshots remain separate by reporter and limit pool
+ok 27 - account-limit snapshots remain separate by reporter and limit pool
+  ---
+  duration_ms: 1.917856
+  type: 'test'
+  ...
+# Subtest: public remote HTTP rejected by server startup
+ok 28 - public remote HTTP rejected by server startup
+  ---
+  duration_ms: 0.543632
+  type: 'test'
+  ...
+# Subtest: future timestamps and malformed numeric batches rejected
+ok 29 - future timestamps and malformed numeric batches rejected
+  ---
+  duration_ms: 0.179218
+  type: 'test'
+  ...
+1..29
+# tests 29
+# suites 0
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 412.383542

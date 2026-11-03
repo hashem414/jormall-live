@@ -1,0 +1,801 @@
+{
+  "version": "taxonomy-v2",
+  "description": "Known-domain enrichment only; never a retrieval gate.",
+  "products": [
+    {
+      "family": "industrial_drying_equipment",
+      "aliases": [
+        "industrial dryer",
+        "industrial dryers",
+        "drying equipment",
+        "dryer",
+        "dryers"
+      ],
+      "required_context_any": [
+        "industrial",
+        "factory",
+        "factories",
+        "manufacturing",
+        "production",
+        "processing plant",
+        "processing plants"
+      ],
+      "forbidden_context": [
+        "hair",
+        "salon",
+        "beauty",
+        "laundry",
+        "home"
+      ],
+      "related_interests": [
+        "industrial_business",
+        "procurement"
+      ],
+      "direct_evidence": [
+        "industrial_drying_equipment"
+      ],
+      "adjacent_evidence": [
+        "industrial_business",
+        "procurement"
+      ],
+      "attributes": {
+        "professional_use": true,
+        "campaign_type": "b2b",
+        "purchase_type": "durable"
+      }
+    },
+    {
+      "family": "hair_styling_appliances",
+      "aliases": [
+        "professional hair dryer",
+        "hair dryer",
+        "hair dryers",
+        "blow dryer",
+        "hair straightener",
+        "hair curler",
+        "dryer"
+      ],
+      "required_context_any": [
+        "hair",
+        "salon",
+        "stylist",
+        "beauty",
+        "blow"
+      ],
+      "forbidden_context": [
+        "industrial",
+        "factory",
+        "manufacturing"
+      ],
+      "related_interests": [
+        "hair_styling",
+        "beauty_cosmetics"
+      ],
+      "direct_evidence": [
+        "hair_styling_appliances"
+      ],
+      "adjacent_evidence": [
+        "hair_styling",
+        "hair_care",
+        "beauty_cosmetics"
+      ],
+      "attributes": {
+        "price_band": "mass_market",
+        "campaign_type": "consumer",
+        "purchase_type": "durable"
+      }
+    },
+    {
+      "family": "laundry_appliances",
+      "aliases": [
+        "clothes dryer",
+        "laundry dryer",
+        "tumble dryer",
+        "dryer",
+        "dryers"
+      ],
+      "required_context_any": [
+        "laundry",
+        "clothes",
+        "home appliance",
+        "household"
+      ],
+      "forbidden_context": [
+        "industrial",
+        "hair",
+        "salon"
+      ],
+      "related_interests": [
+        "home_appliances"
+      ],
+      "direct_evidence": [
+        "laundry_appliances"
+      ],
+      "adjacent_evidence": [
+        "home_appliances"
+      ],
+      "attributes": {
+        "price_band": "middle",
+        "campaign_type": "consumer",
+        "purchase_type": "durable"
+      }
+    },
+    {
+      "family": "automotive_air_conditioning",
+      "aliases": [
+        "automotive ac",
+        "car ac",
+        "vehicle ac",
+        "air conditioning",
+        "ac"
+      ],
+      "required_context_any": [
+        "car",
+        "vehicle",
+        "automotive",
+        "garage"
+      ],
+      "forbidden_context": [
+        "home",
+        "residential",
+        "commercial building"
+      ],
+      "related_interests": [
+        "vehicles"
+      ],
+      "direct_evidence": [
+        "automotive_air_conditioning"
+      ],
+      "adjacent_evidence": [
+        "vehicles"
+      ],
+      "attributes": {
+        "campaign_type": "consumer",
+        "professional_use": false
+      }
+    },
+    {
+      "family": "commercial_hvac",
+      "aliases": [
+        "commercial ac",
+        "commercial air conditioning",
+        "hvac",
+        "chiller",
+        "air conditioning",
+        "ac"
+      ],
+      "required_context_any": [
+        "commercial",
+        "factory",
+        "industrial",
+        "building",
+        "facility",
+        "facilities",
+        "hvac"
+      ],
+      "forbidden_context": [
+        "car",
+        "vehicle",
+        "automotive",
+        "home",
+        "residential"
+      ],
+      "related_interests": [
+        "industrial_business",
+        "procurement"
+      ],
+      "direct_evidence": [
+        "commercial_hvac"
+      ],
+      "adjacent_evidence": [
+        "industrial_business",
+        "procurement"
+      ],
+      "attributes": {
+        "professional_use": true,
+        "campaign_type": "b2b",
+        "purchase_type": "durable"
+      }
+    },
+    {
+      "family": "residential_air_conditioning",
+      "aliases": [
+        "home ac",
+        "residential ac",
+        "air conditioner",
+        "air conditioners",
+        "air conditioning",
+        "ac"
+      ],
+      "required_context_any": [
+        "home",
+        "residential",
+        "household",
+        "apartment",
+        "appliance"
+      ],
+      "forbidden_context": [
+        "car",
+        "vehicle",
+        "automotive",
+        "commercial",
+        "factory",
+        "industrial"
+      ],
+      "related_interests": [
+        "home_appliances",
+        "consumer_electronics"
+      ],
+      "direct_evidence": [
+        "residential_air_conditioning"
+      ],
+      "adjacent_evidence": [
+        "home_appliances",
+        "consumer_electronics"
+      ],
+      "attributes": {
+        "price_band": "middle",
+        "campaign_type": "consumer",
+        "purchase_type": "durable",
+        "financing_accessible": true
+      }
+    },
+    {
+      "family": "premium_smartphones",
+      "aliases": [
+        "iphone",
+        "flagship smartphone",
+        "flagship smartphones",
+        "premium smartphone",
+        "premium smartphones",
+        "galaxy ultra",
+        "galaxy fold"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [
+        "mobile app",
+        "field service"
+      ],
+      "related_interests": [
+        "smartphones",
+        "consumer_electronics",
+        "telecom_services"
+      ],
+      "direct_evidence": [
+        "premium_smartphones",
+        "smartphones"
+      ],
+      "adjacent_evidence": [
+        "consumer_electronics",
+        "telecom_services",
+        "consumer_credit"
+      ],
+      "attributes": {
+        "price_band": "premium",
+        "positioning": [
+          "flagship",
+          "premium",
+          "aspirational"
+        ],
+        "campaign_type": "consumer",
+        "purchase_type": "durable",
+        "financing_accessible": true
+      }
+    },
+    {
+      "family": "smartphones",
+      "aliases": [
+        "smartphone",
+        "smartphones",
+        "mobile phone",
+        "mobile phones",
+        "cell phone",
+        "cell phones"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [
+        "mobile app",
+        "field service"
+      ],
+      "related_interests": [
+        "smartphones",
+        "consumer_electronics",
+        "telecom_services"
+      ],
+      "direct_evidence": [
+        "smartphones"
+      ],
+      "adjacent_evidence": [
+        "consumer_electronics",
+        "telecom_services",
+        "consumer_credit"
+      ],
+      "attributes": {
+        "price_band": "mass_market",
+        "campaign_type": "consumer",
+        "purchase_type": "durable",
+        "financing_accessible": true
+      }
+    },
+    {
+      "family": "telecom_services",
+      "aliases": [
+        "telecom",
+        "mobile package",
+        "mobile packages",
+        "prepaid",
+        "postpaid",
+        "data package",
+        "internet package",
+        "mobile"
+      ],
+      "required_context_any": [
+        "package",
+        "packages",
+        "service",
+        "services",
+        "subscriber",
+        "prepaid",
+        "postpaid",
+        "telecom",
+        "data"
+      ],
+      "forbidden_context": [
+        "mobile app",
+        "field service"
+      ],
+      "related_interests": [
+        "telecom_services"
+      ],
+      "direct_evidence": [
+        "telecom_services"
+      ],
+      "adjacent_evidence": [
+        "smartphones"
+      ],
+      "attributes": {
+        "price_band": "mass_market",
+        "campaign_type": "consumer",
+        "purchase_type": "frequent"
+      }
+    },
+    {
+      "family": "mobile_applications",
+      "aliases": [
+        "mobile app",
+        "mobile application",
+        "smartphone app"
+      ],
+      "required_context_any": [
+        "app",
+        "application",
+        "software",
+        "digital"
+      ],
+      "forbidden_context": [
+        "package",
+        "prepaid",
+        "postpaid",
+        "field service"
+      ],
+      "related_interests": [
+        "online_shopping",
+        "consumer_electronics"
+      ],
+      "direct_evidence": [
+        "mobile_applications"
+      ],
+      "adjacent_evidence": [
+        "online_shopping",
+        "consumer_electronics"
+      ],
+      "attributes": {
+        "price_band": "mass_market",
+        "campaign_type": "software",
+        "purchase_type": "frequent"
+      }
+    },
+    {
+      "family": "mobile_field_services",
+      "aliases": [
+        "mobile field service",
+        "field service",
+        "mobile workforce",
+        "on-site service",
+        "onsite service"
+      ],
+      "required_context_any": [
+        "field",
+        "workforce",
+        "on-site",
+        "onsite",
+        "technician"
+      ],
+      "forbidden_context": [
+        "package",
+        "prepaid",
+        "postpaid",
+        "smartphone"
+      ],
+      "related_interests": [
+        "industrial_business",
+        "procurement"
+      ],
+      "direct_evidence": [
+        "mobile_field_services"
+      ],
+      "adjacent_evidence": [
+        "industrial_business",
+        "procurement"
+      ],
+      "attributes": {
+        "professional_use": true,
+        "campaign_type": "b2b",
+        "purchase_type": "durable"
+      }
+    },
+    {
+      "family": "smart_home_systems",
+      "aliases": [
+        "smart home",
+        "home automation",
+        "connected home"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [
+        "smart city"
+      ],
+      "related_interests": [
+        "home_appliances",
+        "consumer_electronics"
+      ],
+      "direct_evidence": [
+        "smart_home_systems"
+      ],
+      "adjacent_evidence": [
+        "home_appliances",
+        "consumer_electronics"
+      ],
+      "attributes": {
+        "price_band": "middle",
+        "campaign_type": "consumer",
+        "purchase_type": "durable",
+        "financing_accessible": true
+      }
+    },
+    {
+      "family": "smart_city_systems",
+      "aliases": [
+        "smart city",
+        "urban technology",
+        "municipal technology"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [
+        "smart home"
+      ],
+      "related_interests": [
+        "industrial_business",
+        "procurement"
+      ],
+      "direct_evidence": [
+        "smart_city_systems"
+      ],
+      "adjacent_evidence": [
+        "industrial_business",
+        "procurement"
+      ],
+      "attributes": {
+        "professional_use": true,
+        "campaign_type": "b2b",
+        "purchase_type": "durable"
+      }
+    },
+    {
+      "family": "software_automation",
+      "aliases": [
+        "software automation",
+        "business automation",
+        "workflow automation",
+        "automation platform"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [
+        "home automation"
+      ],
+      "related_interests": [
+        "industrial_business",
+        "procurement",
+        "consumer_electronics"
+      ],
+      "direct_evidence": [
+        "software_automation"
+      ],
+      "adjacent_evidence": [
+        "industrial_business",
+        "procurement",
+        "consumer_electronics"
+      ],
+      "attributes": {
+        "professional_use": true,
+        "campaign_type": "b2b",
+        "purchase_type": "durable"
+      }
+    },
+    {
+      "family": "consumer_electronics",
+      "aliases": [
+        "electronics",
+        "consumer electronics",
+        "computers",
+        "televisions",
+        "gadgets"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [],
+      "related_interests": [
+        "consumer_electronics"
+      ],
+      "direct_evidence": [
+        "consumer_electronics"
+      ],
+      "adjacent_evidence": [
+        "smartphones",
+        "online_shopping"
+      ],
+      "attributes": {
+        "price_band": "middle",
+        "campaign_type": "consumer",
+        "purchase_type": "durable"
+      }
+    },
+    {
+      "family": "home_appliances",
+      "aliases": [
+        "home appliance",
+        "home appliances",
+        "washing machine",
+        "refrigerator",
+        "oven",
+        "household appliance"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [],
+      "related_interests": [
+        "home_appliances"
+      ],
+      "direct_evidence": [
+        "home_appliances"
+      ],
+      "adjacent_evidence": [
+        "consumer_electronics"
+      ],
+      "attributes": {
+        "price_band": "middle",
+        "campaign_type": "consumer",
+        "purchase_type": "durable",
+        "financing_accessible": true
+      }
+    },
+    {
+      "family": "hair_care_products",
+      "aliases": [
+        "hair care",
+        "shampoo",
+        "conditioner",
+        "hair products"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [
+        "industrial"
+      ],
+      "related_interests": [
+        "hair_care",
+        "beauty_cosmetics"
+      ],
+      "direct_evidence": [
+        "hair_care_products",
+        "hair_care"
+      ],
+      "adjacent_evidence": [
+        "beauty_cosmetics",
+        "hair_styling"
+      ],
+      "attributes": {
+        "price_band": "mass_market",
+        "campaign_type": "consumer",
+        "purchase_type": "frequent"
+      }
+    },
+    {
+      "family": "vehicle_financing",
+      "aliases": [
+        "vehicle financing",
+        "car financing",
+        "auto loan",
+        "car loan",
+        "vehicle loan",
+        "car installments"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [],
+      "related_interests": [
+        "vehicles",
+        "finance"
+      ],
+      "direct_evidence": [
+        "vehicle_finance"
+      ],
+      "adjacent_evidence": [
+        "vehicles",
+        "consumer_credit"
+      ],
+      "attributes": {
+        "price_band": "middle",
+        "campaign_type": "consumer",
+        "purchase_type": "durable",
+        "financing_accessible": true
+      }
+    },
+    {
+      "family": "vehicles",
+      "aliases": [
+        "vehicle",
+        "vehicles",
+        "car",
+        "cars",
+        "automotive"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [
+        "air conditioning",
+        " ac "
+      ],
+      "related_interests": [
+        "vehicles"
+      ],
+      "direct_evidence": [
+        "vehicles"
+      ],
+      "adjacent_evidence": [
+        "consumer_credit",
+        "insurance"
+      ],
+      "attributes": {
+        "price_band": "middle",
+        "campaign_type": "consumer",
+        "purchase_type": "durable",
+        "financing_accessible": true
+      }
+    },
+    {
+      "family": "university_programmes",
+      "aliases": [
+        "university programme",
+        "university program",
+        "university",
+        "college programme",
+        "higher education"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [],
+      "related_interests": [
+        "university_education"
+      ],
+      "direct_evidence": [
+        "university_programmes",
+        "university_education"
+      ],
+      "adjacent_evidence": [
+        "professional_training"
+      ],
+      "attributes": {
+        "campaign_type": "education",
+        "purchase_type": "durable"
+      }
+    },
+    {
+      "family": "professional_training",
+      "aliases": [
+        "professional training",
+        "training course",
+        "certification",
+        "professional course"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [],
+      "related_interests": [
+        "professional_training"
+      ],
+      "direct_evidence": [
+        "professional_training"
+      ],
+      "adjacent_evidence": [
+        "university_education"
+      ],
+      "attributes": {
+        "campaign_type": "education",
+        "professional_use": true
+      }
+    },
+    {
+      "family": "restaurant_offers",
+      "aliases": [
+        "restaurant offer",
+        "restaurant offers",
+        "dining offer",
+        "dining offers",
+        "cafe offer",
+        "cafe offers",
+        "restaurant"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [],
+      "related_interests": [
+        "restaurants"
+      ],
+      "direct_evidence": [
+        "restaurant_offers",
+        "restaurants"
+      ],
+      "adjacent_evidence": [],
+      "attributes": {
+        "price_band": "mass_market",
+        "campaign_type": "consumer",
+        "purchase_type": "frequent"
+      }
+    },
+    {
+      "family": "fashion",
+      "aliases": [
+        "fashion",
+        "clothing",
+        "apparel",
+        "shoes",
+        "designer fashion"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [],
+      "related_interests": [
+        "fashion"
+      ],
+      "direct_evidence": [
+        "fashion"
+      ],
+      "adjacent_evidence": [
+        "online_shopping"
+      ],
+      "attributes": {
+        "price_band": "middle",
+        "campaign_type": "consumer",
+        "purchase_type": "frequent"
+      }
+    },
+    {
+      "family": "consumer_finance",
+      "aliases": [
+        "consumer finance",
+        "personal loan",
+        "credit card",
+        "installments",
+        "financing"
+      ],
+      "required_context_any": [],
+      "forbidden_context": [],
+      "related_interests": [
+        "finance"
+      ],
+      "direct_evidence": [
+        "consumer_finance",
+        "consumer_credit"
+      ],
+      "adjacent_evidence": [
+        "banking"
+      ],
+      "attributes": {
+        "campaign_type": "finance",
+        "financing_accessible": true
+      }
+    }
+  ]
+}

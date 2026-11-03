@@ -1,0 +1,363 @@
+<style>
+#jor-help {
+    position: fixed;
+    left: min(350px, calc(100vw - 58px));
+    top: 8px;
+    z-index: 5200;
+
+    width: 46px;
+    height: 46px;
+    border: 0;
+    border-radius: 50%;
+    background: #2575b6;
+    color: #fff;
+    box-shadow: 0 5px 18px rgba(0,0,0,.28);
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+}
+
+
+  #jor-help:hover { background:#1d6198; transform:scale(1.04); }
+
+  #jor-tour-layer { position:fixed; inset:0; z-index:9000; display:none; pointer-events:none; }
+  #jor-tour-layer.open { display:block; }
+  #jor-tour-dimmer { position:absolute; inset:0; background:rgba(7,19,32,.58); pointer-events:auto; }
+  #jor-tour-focus {
+    position:fixed; border:3px solid #47c6f3; border-radius:10px;
+    box-shadow:0 0 0 5px rgba(71,198,243,.25),0 0 24px rgba(71,198,243,.8);
+    background:transparent; z-index:9002; pointer-events:none;
+    transition:top .28s ease,left .28s ease,width .28s ease,height .28s ease;
+  }
+  #jor-tour-card {
+    position:fixed; z-index:9004; width:min(390px,calc(100vw - 28px));
+    border-radius:12px; background:#fff; color:#24384a;
+    box-shadow:0 14px 42px rgba(0,0,0,.38); font-family:Arial,sans-serif;
+    pointer-events:auto; transition:top .28s ease,left .28s ease;
+  }
+  #jor-tour-pointer {
+    position:absolute; width:0; height:0; z-index:9005;
+    border:13px solid transparent;
+  }
+  #jor-tour-card[data-side="bottom"] #jor-tour-pointer { top:-26px; left:42px; border-bottom-color:#2575b6; }
+  #jor-tour-card[data-side="top"] #jor-tour-pointer { bottom:-26px; left:42px; border-top-color:#fff; }
+  #jor-tour-card[data-side="right"] #jor-tour-pointer { left:-26px; top:28px; border-right-color:#2575b6; }
+  #jor-tour-card[data-side="left"] #jor-tour-pointer { right:-26px; top:28px; border-left-color:#2575b6; }
+  .jor-tour-head {
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:12px 14px; border-radius:12px 12px 0 0; background:#2575b6; color:#fff;
+  }
+  .jor-tour-head-title { min-width:0; }
+  #jor-tour-title { margin:0; font-size:16px; color:#fff; }
+  #jor-tour-progress { margin-top:3px; font-size:11px; opacity:.9; font-weight:700; }
+  .jor-tour-actions { display:flex; align-items:center; gap:7px; }
+  #jor-tour-language {
+    display:flex; gap:7px; margin:0; padding:0; border:0; direction:ltr;
+  }
+  #jor-tour-language label { display:flex; align-items:center; gap:3px; color:#fff; font-size:11px; cursor:pointer; white-space:nowrap; }
+  #jor-tour-language input { margin:0; accent-color:#fff; }
+  #jor-tour-close { border:0; background:transparent; color:#fff; font-size:21px; line-height:1; cursor:pointer; padding:0 2px; }
+  .jor-tour-body { padding:15px 16px 10px; }
+  #jor-tour-step-title { margin:0 0 8px; color:#183c5b; font-size:18px; }
+  #jor-tour-step-body { margin:0 0 8px; line-height:1.55; font-size:13px; }
+  #jor-tour-list { margin:0; padding-inline-start:19px; font-size:12px; line-height:1.5; }
+  #jor-tour-list li { margin-bottom:3px; }
+  .jor-tour-footer { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 14px 13px; }
+  #jor-tour-dots { display:flex; gap:5px; align-items:center; }
+  .jor-tour-dot { width:6px; height:6px; border-radius:50%; background:#c8d5df; }
+  .jor-tour-dot.active { width:17px; border-radius:9px; background:#2575b6; }
+  .jor-tour-nav { display:flex; gap:7px; direction:ltr; }
+  .jor-tour-nav button { border:0; border-radius:5px; padding:8px 13px; font-weight:700; font-size:12px; cursor:pointer; }
+  #jor-tour-back { background:#e8eef3; color:#36536d; }
+  #jor-tour-next { background:#2575b6; color:#fff; }
+  #jor-tour-back:disabled { opacity:.45; cursor:default; }
+  #jor-tour-card[dir="rtl"] { text-align:right; }
+  #jor-tour-card[dir="rtl"] .jor-tour-head, #jor-tour-card[dir="rtl"] .jor-tour-footer { direction:rtl; }
+  #jor-tour-card[dir="rtl"] .jor-tour-actions { direction:ltr; }
+  @media(max-width:600px) {
+    #jor-help { left:min(350px, calc(100vw - 58px)); top:8px; right:auto; bottom:auto; }
+    #jor-tour-card { width:calc(100vw - 24px); }
+    #jor-tour-focus { display:none; }
+  }
+</style>
+
+<button id="jor-help" type="button" title="Open tutorial" aria-label="Open tutorial" data-no-ui-translate><i class="fa-solid fa-question"></i></button>
+
+<script>
+(function () {
+
+  function isAssistantReady() {
+    const chatBox = document.getElementById('chat-box');
+    const loginScreen = document.getElementById('login-screen');
+    if (!chatBox) return false;
+    const chatVisible = getComputedStyle(chatBox).display !== 'none' && chatBox.getClientRects().length > 0;
+    const loginVisible = loginScreen && getComputedStyle(loginScreen).display !== 'none' && loginScreen.getClientRects().length > 0;
+    return chatVisible && !loginVisible;
+  }
+
+  function positionHelpButton() {
+    const help = document.getElementById('jor-help');
+    if (!help) return;
+    if (!isAssistantReady()) {
+      help.style.display = 'none';
+      return;
+    }
+    help.style.display = 'block';
+
+    const aiButton = document.getElementById('header-ai-analysis-button');
+    if (!aiButton || aiButton.offsetParent === null) {
+      help.style.left = 'min(350px, calc(100vw - 58px))';
+      help.style.top = '8px';
+      help.style.right = 'auto';
+      return;
+    }
+
+    const r = aiButton.getBoundingClientRect();
+    const gap = 8;
+    const size = help.offsetWidth || 46;
+    let left = r.right + gap;
+    let top = r.top + Math.max(0, (r.height - size) / 2);
+
+    // Stay inside the viewport without covering the AI Analysis button.
+    if (left + size > window.innerWidth - 8) {
+      left = Math.max(8, r.left - size - gap);
+    }
+    help.style.left = Math.round(left) + 'px';
+    help.style.top = Math.max(8, Math.round(top)) + 'px';
+    help.style.right = 'auto';
+  }
+
+  window.positionJorMallTutorialButton = positionHelpButton;
+  window.addEventListener('resize', positionHelpButton);
+  window.addEventListener('jormall:sidebar-layout', positionHelpButton);
+  document.addEventListener('DOMContentLoaded', positionHelpButton);
+  requestAnimationFrame(positionHelpButton);
+
+  const STORAGE_KEY = 'jormall_tutorial_language';
+  const content = {
+    en: {
+      tutorialTitle: 'JorMall Assistant Tutorial',
+      progress: (current, total) => `Step ${current} of ${total}`,
+      back: 'Back',
+      next: 'Next',
+      finish: 'Finish',
+      close: 'Close tutorial',
+      open: 'Open tutorial',
+      steps: [
+        {
+          title: '1. Sign in and enter client details',
+          body: 'Start by signing in, then enter the client information requested by the assistant. These details keep the conversation and generated work connected to the correct client.',
+          bullets: ['Enter the client name, company, industry, and mobile number.', 'Review the details before continuing.', 'Start a new chat whenever you begin work for another client.']
+        },
+        {
+          title: '2. Ask the assistant',
+          body: 'Use the main chat to ask questions, prepare campaign ideas, explain reports, or develop client-facing material.',
+          bullets: ['Write a clear request with the company name and objective.', 'Add relevant dates, audience details, and campaign constraints.', 'Review the response and continue in the same chat for follow-up work.']
+        },
+        {
+          title: '3. Add and use files',
+          body: 'Attach supporting files when the answer should use a report, document, image, or spreadsheet. The File Library keeps uploaded files available in the chat.',
+          bullets: ['Attach the relevant file before asking the question.', 'Mention the file and the exact information you need.', 'Open File Library to review the files available to the assistant.']
+        },
+        {
+          title: '4. Create an SMS campaign',
+          body: 'Open Create SMS to generate a structured campaign document. The document language is selected inside this tool and is independent from the page language.',
+          bullets: ['Choose the SMS type that matches the campaign.', 'Select English Document or Arabic Document.', 'Complete the campaign brief, targeting, timing, and optional link details.', 'Generate and download the Word document.']
+        },
+        {
+          title: '5. Generate Client Insights',
+          body: 'Open Client Insights to create a Profile Report, Marketing Plan, or Platform Benefits document. Platform Benefits adds a company-industry selector and can be generated in English or Arabic.',
+          bullets: ['Enter the company name.', 'Choose Company URL or About Text as the information source.', 'Choose Profile Report or Marketing Plan.', 'Select the English or Arabic document option, then generate the report.']
+        },
+        {
+          title: '6. Use the additional tools',
+          body: 'The right toolbar contains tools for file access, chat sharing, client insights, SMS creation, and authorized data analysis.',
+          bullets: ['File Library gives quick access to approved resources.', 'Send Chat prepares the conversation for sharing.', 'AI Analysis is available only to approved admin users.', 'Use the toolbar arrow to collapse or expand the tools.']
+        },
+        {
+          title: '7. Return to previous work',
+          body: 'Use Chat History to reopen earlier conversations and continue from the saved context.',
+          bullets: ['Open the sidebar to view previous chats.', 'Select the correct client conversation before continuing.', 'Use New Chat when the work should not share the earlier context.']
+        }
+      ]
+    },
+    ar: {
+      tutorialTitle: 'دليل استخدام مساعد جورمول',
+      progress: (current, total) => `الخطوة ${current} من ${total}`,
+      back: 'السابق',
+      next: 'التالي',
+      finish: 'إنهاء',
+      close: 'إغلاق الدليل',
+      open: 'فتح الدليل',
+      steps: [
+        {
+          title: '1. تسجيل الدخول وإدخال بيانات العميل',
+          body: 'ابدأ بتسجيل الدخول، ثم أدخل معلومات العميل التي يطلبها المساعد. تساعد هذه البيانات في ربط المحادثة والعمل الناتج بالعميل الصحيح.',
+          bullets: ['أدخل اسم العميل واسم الشركة والقطاع ورقم الهاتف.', 'راجع البيانات قبل المتابعة.', 'ابدأ محادثة جديدة عند بدء العمل لعميل آخر.']
+        },
+        {
+          title: '2. توجيه طلب إلى المساعد',
+          body: 'استخدم المحادثة الرئيسية لطرح الأسئلة أو إعداد أفكار الحملات أو شرح التقارير أو تطوير مواد موجهة للعميل.',
+          bullets: ['اكتب طلباً واضحاً يتضمن اسم الشركة والهدف.', 'أضف التواريخ ذات الصلة وبيانات الجمهور وقيود الحملة.', 'راجع الإجابة وتابع ضمن المحادثة نفسها لاستكمال العمل.']
+        },
+        {
+          title: '3. إضافة الملفات واستخدامها',
+          body: 'أرفق الملفات الداعمة عندما يجب أن تعتمد الإجابة على تقرير أو مستند أو صورة أو جدول بيانات. تحتفظ مكتبة الملفات بالملفات المرفوعة داخل المحادثة.',
+          bullets: ['أرفق الملف المطلوب قبل طرح السؤال.', 'اذكر الملف وحدد المعلومات التي تحتاجها بدقة.', 'افتح مكتبة الملفات لمراجعة الملفات المتاحة للمساعد.']
+        },
+        {
+          title: '4. إنشاء حملة رسائل قصيرة',
+          body: 'افتح أداة إنشاء الرسائل القصيرة لإعداد مستند حملة منظم. يتم اختيار لغة المستند داخل هذه الأداة بشكل مستقل عن لغة الصفحة.',
+          bullets: ['اختر نوع الرسائل الذي يناسب الحملة.', 'اختر المستند الإنجليزي أو المستند العربي.', 'أكمل ملخص الحملة والاستهداف والتوقيت وبيانات الرابط الاختيارية.', 'أنشئ مستند Word ثم قم بتحميله.']
+        },
+        {
+          title: '5. إنشاء لمحة عن العميل',
+          body: 'افتح أداة لمحة عن العميل لإنشاء تقرير ملف تعريفي أو خطة تسويقية بالاعتماد على موقع الشركة أو نبذة مكتوبة عنها.',
+          bullets: ['أدخل اسم الشركة.', 'اختر رابط الشركة أو النبذة النصية كمصدر للمعلومات.', 'اختر تقرير الملف التعريفي أو الخطة التسويقية.', 'اختر المستند الإنجليزي أو العربي، ثم أنشئ التقرير.']
+        },
+        {
+          title: '6. استخدام الأدوات الإضافية',
+          body: 'يتضمن شريط الأدوات الأيمن أدوات لصفحات الهبوط ومشاركة المحادثة والوصول إلى الملفات وتحليل البيانات.',
+          bullets: ['تُنشئ أداة صفحات الهبوط مواد لصفحات هبوط الحملات.', 'تُجهّز أداة إرسال المحادثة محتوى المحادثة للمشاركة.', 'تراجع أداة تحليل البيانات تضمينات قاعدة المعرفة المحملة.', 'استخدم سهم شريط الأدوات لطي الأدوات أو توسيعها.']
+        },
+        {
+          title: '7. العودة إلى الأعمال السابقة',
+          body: 'استخدم سجل المحادثات لفتح المحادثات السابقة ومتابعة العمل بالاعتماد على السياق المحفوظ.',
+          bullets: ['افتح الشريط الجانبي لعرض المحادثات السابقة.', 'اختر محادثة العميل الصحيحة قبل المتابعة.', 'استخدم محادثة جديدة عندما يجب ألا يعتمد العمل على السياق السابق.']
+        }
+      ]
+    }
+  };
+
+  const targets = [
+    ['#credentials-modal', '#credentials-form'],
+    ['#chat-input', '#user-input', '#chat-messages'],
+    ['#chat-input .attach-btn', '#documents-button'],
+    ['#create-sms'],
+    ['#fetch-profile'],
+    ['#right-toolbar', '#toolbar-toggle', '#more-tools-button'],
+    ['#toggle-sidebar-btn', '#chat-sidebar']
+  ];
+
+  function getStoredLanguage() { try { return localStorage.getItem(STORAGE_KEY)==='ar'?'ar':'en'; } catch(e) { return 'en'; } }
+  function storeLanguage(v) { try { localStorage.setItem(STORAGE_KEY,v); } catch(e) {} }
+  let language=getStoredLanguage(), stepIndex=0, previousToolbarCollapsed=null;
+
+  function isVisible(el) {
+    if(!el) return false;
+    const s=getComputedStyle(el), r=el.getBoundingClientRect();
+    return s.display!=='none' && s.visibility!=='hidden' && r.width>1 && r.height>1;
+  }
+  function findTarget() {
+    const list=targets[stepIndex]||[];
+    for(const sel of list) { const el=document.querySelector(sel); if(isVisible(el)) return el; }
+    return null;
+  }
+  function createTour() {
+    if(document.getElementById('jor-tour-layer')) return;
+    const layer=document.createElement('div'); layer.id='jor-tour-layer'; layer.setAttribute('data-no-ui-translate','');
+    layer.innerHTML=`<div id="jor-tour-dimmer"></div><div id="jor-tour-focus"></div>
+      <section id="jor-tour-card" role="dialog" aria-modal="true" aria-labelledby="jor-tour-title">
+        <span id="jor-tour-pointer"></span>
+        <header class="jor-tour-head"><div class="jor-tour-head-title"><h2 id="jor-tour-title"></h2><div id="jor-tour-progress"></div></div>
+          <div class="jor-tour-actions"><fieldset id="jor-tour-language" aria-label="Tutorial language">
+            <label><input type="radio" name="jor-tour-language" value="en"> EN</label>
+            <label><input type="radio" name="jor-tour-language" value="ar"> عربي</label>
+          </fieldset><button id="jor-tour-close" type="button">×</button></div></header>
+        <div class="jor-tour-body"><h3 id="jor-tour-step-title"></h3><p id="jor-tour-step-body"></p><ul id="jor-tour-list"></ul></div>
+        <footer class="jor-tour-footer"><div id="jor-tour-dots"></div><div class="jor-tour-nav"><button id="jor-tour-back"></button><button id="jor-tour-next"></button></div></footer>
+      </section>`;
+    document.body.appendChild(layer);
+    document.getElementById('jor-tour-dimmer').onclick=closeTour;
+    document.getElementById('jor-tour-close').onclick=closeTour;
+    document.getElementById('jor-tour-back').onclick=()=>{ if(stepIndex>0){stepIndex--;render();} };
+    document.getElementById('jor-tour-next').onclick=()=>{ const n=content[language].steps.length; if(stepIndex>=n-1)closeTour(); else{stepIndex++;render();} };
+    document.querySelectorAll('input[name="jor-tour-language"]').forEach(r=>r.onchange=()=>{if(r.checked){language=r.value;storeLanguage(language);render();}});
+  }
+  function escapeHtml(v) { return String(v||'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+
+  function positionTour() {
+    const card=document.getElementById('jor-tour-card'), focus=document.getElementById('jor-tour-focus'); if(!card)return;
+    const target=findTarget(), gap=18, pad=7, vw=innerWidth, vh=innerHeight;
+    const pointer=document.getElementById('jor-tour-pointer');
+    if(!target || vw<601) {
+      focus.style.display='none';
+      if(pointer) pointer.style.display='none';
+      card.dataset.side='bottom'; card.style.left=Math.max(12,(vw-card.offsetWidth)/2)+'px'; card.style.top=Math.max(12,(vh-card.offsetHeight)/2)+'px'; return;
+    }
+    focus.style.display='block';
+    if(pointer) pointer.style.display='block';
+    const r=target.getBoundingClientRect();
+    focus.style.left=(r.left-pad)+'px'; focus.style.top=(r.top-pad)+'px'; focus.style.width=(r.width+pad*2)+'px'; focus.style.height=(r.height+pad*2)+'px';
+    const cw=card.offsetWidth, ch=card.offsetHeight;
+    let side='bottom', left=r.left, top=r.bottom+gap;
+    if(top+ch>vh-12) { side='top'; top=r.top-ch-gap; }
+    if(top<12) { side='right'; top=Math.max(12,Math.min(r.top,vh-ch-12)); left=r.right+gap; }
+    if(left+cw>vw-12) {
+      if(side==='right') { side='left'; left=r.left-cw-gap; } else left=vw-cw-12;
+    }
+    if(left<12) left=12;
+    if(top<12) top=12;
+    card.dataset.side=side; card.style.left=left+'px'; card.style.top=top+'px';
+    target.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
+  }
+
+  function render() {
+    const s=content[language], n=s.steps.length; stepIndex=Math.max(0,Math.min(stepIndex,n-1)); const step=s.steps[stepIndex], card=document.getElementById('jor-tour-card'); if(!card)return;
+    card.lang=language; card.dir=language==='ar'?'rtl':'ltr';
+    document.getElementById('jor-tour-title').textContent=s.tutorialTitle;
+    document.getElementById('jor-tour-progress').textContent=s.progress(stepIndex+1,n);
+    document.getElementById('jor-tour-step-title').textContent=step.title;
+    document.getElementById('jor-tour-step-body').textContent=step.body;
+    document.getElementById('jor-tour-list').innerHTML=step.bullets.map(x=>`<li>${escapeHtml(x)}</li>`).join('');
+    document.getElementById('jor-tour-back').textContent=s.back; document.getElementById('jor-tour-back').disabled=stepIndex===0;
+    document.getElementById('jor-tour-next').textContent=stepIndex===n-1?s.finish:s.next;
+    document.getElementById('jor-tour-dots').innerHTML=s.steps.map((_,i)=>`<span class="jor-tour-dot${i===stepIndex?' active':''}"></span>`).join('');
+    document.querySelectorAll('input[name="jor-tour-language"]').forEach(r=>r.checked=r.value===language);
+    const help=document.getElementById('jor-help'); if(help){help.title=s.open;help.setAttribute('aria-label',s.open);}
+    if(stepIndex===2||stepIndex===3||stepIndex===4||stepIndex===5) { const tb=document.getElementById('right-toolbar'); if(tb)tb.classList.remove('collapsed'); }
+    requestAnimationFrame(()=>requestAnimationFrame(positionTour));
+  }
+  function openTour() {
+    if(!isAssistantReady()) return;
+    createTour(); stepIndex=0;
+    const tb=document.getElementById('right-toolbar'); previousToolbarCollapsed=tb?tb.classList.contains('collapsed'):null;
+    document.getElementById('jor-tour-layer').classList.add('open'); render();
+  }
+  function closeTour() {
+    const layer=document.getElementById('jor-tour-layer'); if(layer)layer.classList.remove('open');
+    const tb=document.getElementById('right-toolbar'); if(tb && previousToolbarCollapsed===true)tb.classList.add('collapsed');
+  }
+  createTour();
+  const help=document.getElementById('jor-help'); if(help)help.addEventListener('click',openTour);
+
+  function syncTutorialAvailability() {
+    const ready=isAssistantReady();
+    if(help) help.style.display=ready?'block':'none';
+    if(!ready) {
+      closeTour();
+      return;
+    }
+    requestAnimationFrame(positionHelpButton);
+  }
+
+  const stateObserver=new MutationObserver(syncTutorialAvailability);
+  const loginScreen=document.getElementById('login-screen');
+  const chatBox=document.getElementById('chat-box');
+  [loginScreen,chatBox].filter(Boolean).forEach(el=>stateObserver.observe(el,{attributes:true,attributeFilter:['style','class']}));
+
+  window.addEventListener('resize',()=>{
+    syncTutorialAvailability();
+    if(document.getElementById('jor-tour-layer')?.classList.contains('open'))positionTour();
+  });
+  window.addEventListener('jormall:sidebar-layout',()=>requestAnimationFrame(positionHelpButton));
+  window.addEventListener('scroll',()=>{if(document.getElementById('jor-tour-layer')?.classList.contains('open'))positionTour();},true);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeTour();});
+  syncTutorialAvailability();
+  render();
+})();
+</script>

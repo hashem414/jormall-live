@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Callback Requests</title>
+    <link rel="icon" type="image/png" href="{{ app_base_path }}/static/images/favicon.png?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ app_base_path }}/static/css/sales-callbacks.css?v={{ asset_version }}">
+    {% if authenticated %}
+    <meta name="sales-callback-csrf" content="{{ csrf_token }}">
+    {% endif %}
+</head>
+<body>
+    {% if not authenticated %}
+    <main class="login-shell">
+        <section class="login-card" aria-labelledby="login-title">
+            <img src="{{ app_base_path }}/static/client_assets/central-e-commerce-co-ltd/Jormall_logo.png" alt="JorMall logo" class="login-logo">
+            <h1 id="login-title">Sales Callback Requests</h1>
+            <p>Customers who asked to be contacted by the sales team.</p>
+
+            <form method="post" action="{{ dashboard_path }}login" class="login-form">
+                <label for="dashboard-password">Password</label>
+                <input id="dashboard-password" name="password" type="password" autocomplete="current-password" required autofocus>
+                {% if login_message %}
+                <p class="login-message" role="alert">{{ login_message }}</p>
+                {% endif %}
+                <button type="submit">Open Dashboard</button>
+            </form>
+        </section>
+    </main>
+    {% else %}
+    <main class="dashboard-shell">
+        <header class="dashboard-header">
+            <div>
+                <p class="eyebrow">Internal Dashboard</p>
+                <h1 data-i18n="title">Sales Callback Requests</h1>
+                <p data-i18n="subtitle">Customers who asked to be contacted by the sales team.</p>
+            </div>
+            <div class="header-actions">
+                <div class="language-switcher" role="group" aria-label="Language selector">
+                    <button type="button" class="language-button active" data-language="en">EN</button>
+                    <button type="button" class="language-button" data-language="ar">AR</button>
+                </div>
+                <form method="post" action="{{ dashboard_path }}logout">
+                    <button type="submit" class="logout-button" data-i18n="logout">Logout</button>
+                </form>
+            </div>
+        </header>
+
+        <section class="toolbar" aria-label="Callback request filters">
+            <label class="search-field">
+                <span data-i18n="search">Search</span>
+                <input id="callback-search" type="search" placeholder="Name or mobile number" autocomplete="off">
+            </label>
+
+            <label class="filter-field">
+                <span data-i18n="statusFilter">Status</span>
+                <select id="status-filter">
+                    <option value="pending" data-i18n="pending">Pending</option>
+                    <option value="contacted" data-i18n="contacted">Contacted</option>
+                    <option value="all" data-i18n="all">All</option>
+                </select>
+            </label>
+
+            <label class="filter-field">
+                <span data-i18n="dateFilter">Date</span>
+                <select id="date-filter">
+                    <option value="all" data-i18n="allDates">All dates</option>
+                    <option value="today" data-i18n="today">Today</option>
+                    <option value="7d" data-i18n="last7">Last 7 days</option>
+                </select>
+            </label>
+
+            <button id="export-button" type="button" class="export-button" data-i18n="export">Export CSV</button>
+        </section>
+
+        <section class="status-line" aria-live="polite">
+            <span id="dashboard-status"></span>
+        </section>
+
+        <section class="table-wrap" aria-label="Sales callback requests">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-i18n="name">Customer Name</th>
+                        <th data-i18n="phone">Mobile Number</th>
+                        <th data-i18n="requestDate">Request Date</th>
+                        <th data-i18n="requestTime">Request Time</th>
+                        <th data-i18n="status">Status</th>
+                        <th data-i18n="actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="callback-table-body"></tbody>
+            </table>
+        </section>
+
+        <section id="callback-card-list" class="callback-card-list" aria-label="Sales callback request cards"></section>
+
+        <section id="empty-state" class="empty-state" hidden>
+            <p data-i18n="empty">No pending callback requests.</p>
+        </section>
+    </main>
+
+    <script>
+        window.SALES_CALLBACK_CONFIG = {
+            appBasePath: {{ app_base_path | tojson }}
+        };
+    </script>
+    <script src="{{ app_base_path }}/static/js/sales-callbacks.js?v={{ asset_version }}"></script>
+    {% endif %}
+</body>
+</html>

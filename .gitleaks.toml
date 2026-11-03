@@ -1,0 +1,19 @@
+title = "JorMall source scan"
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Next.js compiled server-action identifiers, not authentication secrets"
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "match"
+paths = ['''projects/appointments-v2/web-runtime/build-output/server/chunks/ssr/''']
+regexes = ['''e\.(start|end)SupportAccessAction,"[0-9a-f]{42}"''']
+
+[[allowlists]]
+description = "Public localStorage key for the sales notification UI"
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "match"
+paths = ['''projects/sma-extension/(csv-test/frontend/source|production/frontend|test/frontend)/overlay\.js$''']
+regexes = ['''SALES_PRIORITY_NOTIFIED_KEY = "jmaSalesPriorityNotifiedV1"''']

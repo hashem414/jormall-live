@@ -1,0 +1,10 @@
+{
+  "version": "finance-v2",
+  "rules": [
+    {"rule_id":"finance.credit","patterns":["\\b(consumer credit|credit cards?|personal loans?|installments?|financing|financial aid)\\b"],"concept":"consumer_credit","confidence":0.92,"source_fields":["original_category","remainder"]},
+    {"rule_id":"finance.vehicle","patterns":["\\b(vehicle|car|auto) (loan|finance|financing|installment)\\b"],"concept":"vehicle_finance","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"finance.banking","patterns":["\\b(banks?|banking|bank customers?)\\b"],"concept":"banking","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"finance.insurance","patterns":["\\b(insurance|policyholders?)\\b"],"concept":"insurance","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"finance.investment","patterns":["\\b(investors?|investment|trading|brokerage)\\b"],"concept":"investment","confidence":0.9,"source_fields":["original_category","remainder"]}
+  ]
+}

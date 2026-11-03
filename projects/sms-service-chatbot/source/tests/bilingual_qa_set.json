@@ -1,0 +1,182 @@
+﻿[
+    {
+        "id":  "en_service_sms_uses",
+        "language":  "en",
+        "question":  "What are the uses of Service SMS?",
+        "expected_any":  [
+                             "service",
+                             "notification",
+                             "OTP",
+                             "customer",
+                             "communication"
+                         ],
+        "notes":  "Grounded in Service SMS, OTP, personalized messaging, scheduled messaging, and online platform content."
+    },
+    {
+        "id":  "ar_service_sms_uses",
+        "language":  "ar",
+        "question":  "ما استخدامات رسائل الخدمة؟",
+        "expected_any":  [
+                             "رسائل",
+                             "الخدمة",
+                             "OTP",
+                             "العملاء",
+                             "التواصل"
+                         ],
+        "notes":  "Arabic equivalent of Service SMS supported message types."
+    },
+    {
+        "id":  "en_platform_vs_api",
+        "language":  "en",
+        "question":  "What is the difference between the online SMS platform and API integration?",
+        "expected_any":  [
+                             "platform",
+                             "API",
+                             "integration",
+                             "web-based",
+                             "system"
+                         ],
+        "notes":  "Grounded in the Online SMS Platform and SMS API Integration sections."
+    },
+    {
+        "id":  "ar_platform_vs_api",
+        "language":  "ar",
+        "question":  "ما الفرق بين منصة الرسائل القصيرة عبر الإنترنت وتكامل API؟",
+        "expected_any":  [
+                             "منصة",
+                             "API",
+                             "تكامل",
+                             "نظام",
+                             "الرسائل"
+                         ],
+        "notes":  "Arabic equivalent of platform/API comparison."
+    },
+    {
+        "id":  "en_acr_database",
+        "language":  "en",
+        "question":  "How does JorMall ACR help businesses build and manage customer databases?",
+        "expected_any":  [
+                             "ACR",
+                             "customer",
+                             "database",
+                             "registration",
+                             "segmentation"
+                         ],
+        "notes":  "Grounded in JorMall ACR and customer database management content."
+    },
+    {
+        "id":  "ar_acr_database",
+        "language":  "ar",
+        "question":  "كيف يساعد JorMall ACR الشركات على بناء وإدارة قواعد بيانات العملاء؟",
+        "expected_any":  [
+                             "ACR",
+                             "قواعد",
+                             "بيانات",
+                             "العملاء",
+                             "تسجيل"
+                         ],
+        "notes":  "Arabic equivalent of JorMall ACR database management."
+    },
+    {
+        "id":  "en_pricing_handoff",
+        "language":  "en",
+        "question":  "How can I get current SMS prices or a customized quotation?",
+        "expected_any":  [
+                             "Sales Department",
+                             "quotation",
+                             "prices",
+                             "requirements",
+                             "package"
+                         ],
+        "notes":  "Grounded in pricing/quotation guidance requiring Sales Department handoff."
+    },
+    {
+        "id":  "ar_pricing_handoff",
+        "language":  "ar",
+        "question":  "كيف يمكنني الحصول على أسعار الرسائل الحالية أو عرض سعر مخصص؟",
+        "expected_any":  [
+                             "المبيعات",
+                             "عرض سعر",
+                             "أسعار",
+                             "متطلبات",
+                             "باقة"
+                         ],
+        "notes":  "Arabic pricing/quotation handoff."
+    },
+    {
+        "id":  "en_contact_info",
+        "language":  "en",
+        "question":  "What are JorMall contact details?",
+        "expected_any":  [
+                             "info@jormall.com",
+                             "+962 6 582 3961",
+                             "+962 7 7544 4418",
+                             "www.jormall-jo.com"
+                         ],
+        "notes":  "Grounded in Contact JorMall section."
+    },
+    {
+        "id":  "ar_contact_phone_rtl",
+        "language":  "ar",
+        "question":  "ما معلومات التواصل مع جورمول؟",
+        "expected_any":  [
+                             "info@jormall.com",
+                             "+962 6 582 3961",
+                             "+962 7 7544 4418",
+                             "www.jormall-jo.com"
+                         ],
+        "notes":  "Also used to manually verify telephone visual order in RTL rendering."
+    },
+    {
+        "id":  "en_delivery_reports",
+        "language":  "en",
+        "question":  "Does the JorMall online SMS platform provide delivery reports?",
+        "expected_any":  [
+                             "delivery reports",
+                             "message history",
+                             "reports",
+                             "analytics",
+                             "track"
+                         ],
+        "notes":  "Grounded in delivery reports/platform features."
+    },
+    {
+        "id":  "ar_delivery_reports",
+        "language":  "ar",
+        "question":  "هل توفر منصة جورمول تقارير تسليم الرسائل؟",
+        "expected_any":  [
+                             "تقارير",
+                             "تسليم",
+                             "الرسائل",
+                             "سجل",
+                             "متابعة"
+                         ],
+        "notes":  "Arabic delivery reports check."
+    },
+    {
+        "id":  "en_sender_name",
+        "language":  "en",
+        "question":  "Can JorMall help with sender-name management?",
+        "expected_any":  [
+                             "sender-name",
+                             "sender",
+                             "management",
+                             "assistance",
+                             "approval"
+                         ],
+        "notes":  "Grounded in sender-name management/support sections."
+    },
+    {
+        "id":  "ar_sender_name",
+        "language":  "ar",
+        "question":  "هل تساعد جورمول في إدارة اسم المرسل؟",
+        "expected_any":  [
+                             "اسم المرسل",
+                             "المرسل",
+                             "إدارة",
+                             "مساعدة",
+                             "اعتماد"
+                         ],
+        "notes":  "Arabic sender-name management check."
+    }
+]

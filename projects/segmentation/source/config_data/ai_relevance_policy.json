@@ -1,0 +1,25 @@
+{
+  "version": "ai-relevance-v3",
+  "thresholds": {
+    "semantic_evidence": 0.32,
+    "direct_product": 0.40,
+    "direct_use_case": 0.36,
+    "direct_audience": 0.45,
+    "explicit_audience": 0.43,
+    "adjacent_product": 0.32,
+    "adjacent_audience": 0.40,
+    "contextual_primary": 0.34,
+    "fallback_aggregate": 0.32,
+    "negative_material": 0.30,
+    "negative_margin": 0.005
+  },
+  "score_weights": {
+    "product": 50.0,
+    "audience": 38.0,
+    "use_case": 24.0,
+    "industry": 18.0,
+    "adjacent": 14.0,
+    "negative": -30.0,
+    "lexical": 6.0
+  }
+}

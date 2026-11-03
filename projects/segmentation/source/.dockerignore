@@ -1,0 +1,14 @@
+__MACOSX/
+**/__pycache__/
+**/*.pyc
+.git/
+.env
+backups/
+reports/
+tests/
+logs/
+checkpoints/
+benchmarks/
+benchmarks_v2/
+*.md
+.env.example

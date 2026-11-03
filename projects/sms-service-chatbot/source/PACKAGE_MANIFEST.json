@@ -1,0 +1,643 @@
+{
+  "manifest_version": 1,
+  "package_version": 1,
+  "client_slug": "jormall-central-e-commerce-co-ltd",
+  "company_name": "JorMall ? Central E-Commerce Co. Ltd.",
+  "assistant_name": "JorMall SMS Solutions Assistant",
+  "generated_at": "2026-08-02T14:23:33.410076+00:00",
+  "public_base_path": "/sms-service-chatbot",
+  "enabled_features": {
+    "public_campaign_chatbot": true,
+    "pre_chat_lead_capture": true,
+    "sales_callback_dashboard": true,
+    "chat_history_dashboard": true,
+    "document_retrieval": true,
+    "campaign_media_retrieval": false,
+    "postgres_pgvector": true,
+    "docker_compose": true
+  },
+  "approved_document_count": 4,
+  "knowledge_chunk_count": 681,
+  "knowledge_embedding_count": 681,
+  "media_collection_count": 0,
+  "approved_media_count": 0,
+  "dashboards_included": {
+    "sales_callbacks": true,
+    "chat_history": true
+  },
+  "migrations_included": true,
+  "operational_data_packaged": false,
+  "file_count": 122,
+  "files": [
+    {
+      "path": ".dockerignore",
+      "size_bytes": 78,
+      "sha256": "203aecf2d8f444a69c66d83a46d89c7aa3c72f0a30cb01c2bbc08e9fb4d0438f"
+    },
+    {
+      "path": ".env.example",
+      "size_bytes": 1375,
+      "sha256": "6e422bff8eaba07d3de6127c2dba0ef150c046f87ee3ae0d920a6ac8135e1ee4"
+    },
+    {
+      "path": ".gitignore",
+      "size_bytes": 191,
+      "sha256": "26ef842fa9b0fff0f507b5e27bfa7f4854dad961f39a427d25f4f104294735a4"
+    },
+    {
+      "path": "app/__init__.py",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/api/__init__.py",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/api/chat_history.py",
+      "size_bytes": 15324,
+      "sha256": "031e7f81a4e2599363118685457ac8c354725e050b9280e5e474c55c6a22e90c"
+    },
+    {
+      "path": "app/api/media.py",
+      "size_bytes": 2791,
+      "sha256": "345063fb2622810be92dfb8223594f2df9a9065d67d18935e024282feb2c79c0"
+    },
+    {
+      "path": "app/api/public_chat.py",
+      "size_bytes": 32407,
+      "sha256": "27e4765f1c6b959bf42d0226e51d3c22c26345f3d017758af37c3eba1b2f2b04"
+    },
+    {
+      "path": "app/api/sales_callbacks.py",
+      "size_bytes": 12242,
+      "sha256": "0955826361e115eaa4ee5493b51542ea088c954cb3cc46c89816b45d65811044"
+    },
+    {
+      "path": "app/constants.py",
+      "size_bytes": 219,
+      "sha256": "45bf551828bfe397fc9f911a807f5066ef47afbd9c469a7be2384adeea6a8544"
+    },
+    {
+      "path": "app/core/__init__.py",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/core/config.py",
+      "size_bytes": 2978,
+      "sha256": "7580893fc9298c8857a23d323821f022c94a14320410a2e3391904ff0a048c97"
+    },
+    {
+      "path": "app/core/database.py",
+      "size_bytes": 735,
+      "sha256": "9f97b6f992e7e3c8b46340904216c389d6313edb0876df068ea9bbc79d74d102"
+    },
+    {
+      "path": "app/core/db_init.py",
+      "size_bytes": 18360,
+      "sha256": "eaa7995ed25f086aab36fec1736d0c2ff7365c418929a93c18997ddb31d01001"
+    },
+    {
+      "path": "app/incremental_document_ingest.py",
+      "size_bytes": 11244,
+      "sha256": "f0c361432e81f35f8c7a350f1b179855c3223524ac2f245e4642557eeb42885e"
+    },
+    {
+      "path": "app/main.py",
+      "size_bytes": 10796,
+      "sha256": "c10a66211307c8de0a797a0506d6aacbbfc3c7a781abf710e42aa010d8047b62"
+    },
+    {
+      "path": "app/models/__init__.py",
+      "size_bytes": 261,
+      "sha256": "b73befcd2dbfb413d311abf9f2d7e12aa0cbb53e115f4a4d8a1b7a52e3218978"
+    },
+    {
+      "path": "app/models/document.py",
+      "size_bytes": 21073,
+      "sha256": "45db5c99c6c19ed659f5bba4a2a7731b58e902dc8e772c880fadfa3cbb257495"
+    },
+    {
+      "path": "app/schemas/__init__.py",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/schemas/chat.py",
+      "size_bytes": 3094,
+      "sha256": "e768f6dc015fa90c4cb59c26741d432ac3e41966c1c14b6b7566312deb54b37d"
+    },
+    {
+      "path": "app/schemas/media.py",
+      "size_bytes": 3289,
+      "sha256": "b71b4ab3a555678fc7d9b6d41d44721881fc2fc5901408c8812d1138f1bc0a51"
+    },
+    {
+      "path": "app/services/__init__.py",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/services/campaign_media_service.py",
+      "size_bytes": 113766,
+      "sha256": "9573d6fcc6757439989ad20476e12e5bf32f468a48476a954107fe46fabfc0d7"
+    },
+    {
+      "path": "app/services/chat_history_service.py",
+      "size_bytes": 5401,
+      "sha256": "a1804941404392efbd6915e975f6988849f61e6b68691cf967c63bbe687a814f"
+    },
+    {
+      "path": "app/services/chat_service.py",
+      "size_bytes": 105363,
+      "sha256": "0a2a779d8b2275e5a09389e6bcd37383e847043b1f7f3f617ecb7f2eca4b0227"
+    },
+    {
+      "path": "app/services/chat_stream_service.py",
+      "size_bytes": 122411,
+      "sha256": "d02f1d16714c2f102e28d7a62b2d79899c7af902a994fef352fd92e6228bfe7d"
+    },
+    {
+      "path": "app/services/client_config_service.py",
+      "size_bytes": 29758,
+      "sha256": "ef8709d0c39d4c6f10a1b80197cbca52b4015a3ffa4f29a27c73809629a4a700"
+    },
+    {
+      "path": "app/services/conversation_intent_service.py",
+      "size_bytes": 10857,
+      "sha256": "de41b3a2f86c3dca549e60f1d0b6b1ee2ff670564067368f5bba100f2ea23322"
+    },
+    {
+      "path": "app/services/dashboard_auth_service.py",
+      "size_bytes": 5773,
+      "sha256": "8c3ccd34d375e132854bf45c4f1480c657926df3c03884a3c44c0da8b58dcd57"
+    },
+    {
+      "path": "app/services/embedding_service.py",
+      "size_bytes": 3193,
+      "sha256": "37ef8faf4a2f9f374c3f092312f610083d8fdfc60c9d940774876013313f6c06"
+    },
+    {
+      "path": "app/services/embedding_token_service.py",
+      "size_bytes": 3983,
+      "sha256": "96761d41732dda3c4148568e763c01d0ff9edd062a65bbb956ad74c0789fa987"
+    },
+    {
+      "path": "app/services/media_catalog_service.py",
+      "size_bytes": 27660,
+      "sha256": "c3335bc662b8afc52c2179302096cf4b3eae551b4f9f6df6d4289cc1ce8c83ad"
+    },
+    {
+      "path": "app/services/media_evidence_service.py",
+      "size_bytes": 36540,
+      "sha256": "452a0a34e610b9980ceaf846f1a644682002d66719908aeee9f79539ff19bf8f"
+    },
+    {
+      "path": "app/services/openai_client.py",
+      "size_bytes": 537,
+      "sha256": "1a4183e084600e6f7cf6bac62f6c4b8e208f36e2daa2d0051f5b0b493b555f34"
+    },
+    {
+      "path": "app/services/product_catalog_service.py",
+      "size_bytes": 63042,
+      "sha256": "161a58992a6b42488ba04d13c11950cc21c48a26125d62dccbdd884515a38fc8"
+    },
+    {
+      "path": "app/services/product_image_service.py",
+      "size_bytes": 7225,
+      "sha256": "d58c99dd6fa7560609b16db236cffc4eddcbf4ed29e8c29579aa080ceafd60ba"
+    },
+    {
+      "path": "app/services/retrieval_service.py",
+      "size_bytes": 11479,
+      "sha256": "8024f92b6ad47d62ab98e0ca9ff215ce0526b92967800def42b06c8e95bd5f34"
+    },
+    {
+      "path": "app/services/retrieval_threshold_service.py",
+      "size_bytes": 9804,
+      "sha256": "fd2a62bd81bba8e9ea87aa8d4c3bd6330587a47066a3fa49a3b34a6dae45c279"
+    },
+    {
+      "path": "app/services/route_service.py",
+      "size_bytes": 1824,
+      "sha256": "92e7923818b7d7e38e6a36441398c59623e408bd1b4b7c3fcb7990aa6156f350"
+    },
+    {
+      "path": "app/services/session_memory_store.py",
+      "size_bytes": 15467,
+      "sha256": "4395606ae684a4091bbcd84628ce66b0c282502369a27a4317b1783c4adb96de"
+    },
+    {
+      "path": "app/standalone_db_seed.py",
+      "size_bytes": 8962,
+      "sha256": "f0c78db7302cf2cf723fe440d7f30c68548c4622ef629a3e046da5258317286c"
+    },
+    {
+      "path": "app/static/client_assets/jormall-central-e-commerce-co-ltd/favicon.png",
+      "size_bytes": 2471,
+      "sha256": "04265aeacba34dd6fa956e023fc28ac032ab54c505ff4de0a9a16a1036703c53"
+    },
+    {
+      "path": "app/static/client_assets/jormall-central-e-commerce-co-ltd/logo.png",
+      "size_bytes": 84992,
+      "sha256": "460b788e7972ce5f30a54c73fd8b1a07eb0c7d51ff7b1ed869f6a9349a897fa5"
+    },
+    {
+      "path": "app/static/css/chat-history.css",
+      "size_bytes": 5399,
+      "sha256": "4586dfb46889927b473f229a1b706b38da53a8205aacd63de6bcb0c0df6eda59"
+    },
+    {
+      "path": "app/static/css/sales-callbacks.css",
+      "size_bytes": 5994,
+      "sha256": "f8c916e8b05494dda591fd4e972cbe140de4e05098298b71721c9fe347ee9c43"
+    },
+    {
+      "path": "app/static/css/styles.css",
+      "size_bytes": 45364,
+      "sha256": "e1a151edf1e5a25b5de2567d2977d72e21de2bee4c64fd7bf38cc054f12415df"
+    },
+    {
+      "path": "app/static/images/favicon.png",
+      "size_bytes": 115008,
+      "sha256": "7ac6038c45e0f1120e518cae7d291085d2719186464104d096ec7649234a53cb"
+    },
+    {
+      "path": "app/static/images/logo.png",
+      "size_bytes": 69665,
+      "sha256": "c69b0421fb0256a3665b6352bc7ba1531a718bf1d7804cec6f26a093df781cd3"
+    },
+    {
+      "path": "app/static/js/chat-history.js",
+      "size_bytes": 10395,
+      "sha256": "b89de35292d6ee751d48678709ee8e69b16932c7f7bb13fd9bb27090f0d747fc"
+    },
+    {
+      "path": "app/static/js/chat.js",
+      "size_bytes": 74048,
+      "sha256": "0cbca15ff19a87b4e766fb064ce4ddb6374e45818909d94bfb40178ec6b748f1"
+    },
+    {
+      "path": "app/static/js/embed-widget.js",
+      "size_bytes": 11061,
+      "sha256": "2e6289161276cd195af971f0b4f26daaea2caaa504db320e955fa9db17e2c61e"
+    },
+    {
+      "path": "app/static/js/sales-callbacks.js",
+      "size_bytes": 10795,
+      "sha256": "b316908f9dccded44f2b5c76defc11769e45d4fd0897a0877c90483e91644478"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_Arabic_page_001.png",
+      "size_bytes": 65699,
+      "sha256": "7a9cb053386acb0b87594a2cd05f984ac2d390b9206247741e0712727f78e8bf"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_Arabic_page_002.png",
+      "size_bytes": 124299,
+      "sha256": "bf45bd7cbdc2857d5f937d9b4d68d514ec5fde1cfd5cdb8afe4d6392d69ebaed"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_Arabic_page_003.png",
+      "size_bytes": 154592,
+      "sha256": "47b267375c23cbf0246a8848107fa8b9dba65889912d4f8c06d3a117853c6a54"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_Arabic_page_004.png",
+      "size_bytes": 139109,
+      "sha256": "b1b5c2384b77c6b83f80540aa99410d37e5355481553e0d778fc59e7a70014ea"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_Arabic_page_005.png",
+      "size_bytes": 123654,
+      "sha256": "2497c8374f126ce45927a777db2958810ec2a5742b77d2cf7b4400a4ac9befcd"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_Arabic_page_006.png",
+      "size_bytes": 131682,
+      "sha256": "a61fae94d6872e83ade1b7a747f36b32419165b97961d3d3bc8414443dfb2573"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_Arabic_page_007.png",
+      "size_bytes": 127568,
+      "sha256": "cba16175540aa87946940c8de7e7813732d9f2957835a742bd16f01f078d8491"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_Arabic_page_008.png",
+      "size_bytes": 139020,
+      "sha256": "bb37397d25f4b1ff33970565becf91121e0b6f650ce6ea87aa272da9f5d57e65"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_Arabic_page_009.png",
+      "size_bytes": 144769,
+      "sha256": "4752057cc995ee428cdc1fd1d2a02e8f44a8f24290351883aff26df8e7f9bb64"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_page_001.png",
+      "size_bytes": 72047,
+      "sha256": "e0348d00e4b7fa3b8c1d2d53db7747d5e60be609d9043a71f7a084600877dc55"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_page_002.png",
+      "size_bytes": 89581,
+      "sha256": "282702f893fbc7b87e26e6b60922cdfe0050e332719d944dabc9c0c9883e2f6c"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_page_003.png",
+      "size_bytes": 114563,
+      "sha256": "20b839e45746c6edb39661945b3c7ef7b05d3e47eec5dddd6b455e1d52ea3ce5"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_page_004.png",
+      "size_bytes": 118208,
+      "sha256": "bf20fd4dc5b5f16ae789f3614b0f685ccc56d0e57ea33408fcea715522a286d4"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_page_005.png",
+      "size_bytes": 90411,
+      "sha256": "faa2734f7b9fbd2c021c0794f21b11a6f984e19e1eb80fc1ba805e3fb36a10bf"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_page_006.png",
+      "size_bytes": 129058,
+      "sha256": "1d1bdc666443d95fdbfbd850cb0785d067523b2e6224bfffd86ded734a07ff51"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_page_007.png",
+      "size_bytes": 123241,
+      "sha256": "8271359bb3069d09069c7ec3d552099d9568ce56d38a2c51c4e861efec9a883d"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_page_008.png",
+      "size_bytes": 174632,
+      "sha256": "7847f9ad8ccea4805dc543ef4b9baa7cab18eb91312527cd832f22839555f63b"
+    },
+    {
+      "path": "app/static/scraped_sources/jormall-central-e-commerce-co-ltd/document_images/Ocean_Fish_Offer_page_009.png",
+      "size_bytes": 111836,
+      "sha256": "4c735967f49285eab600998a041c9bfe0a72ec881cd28e344bf9b4fd63d148d4"
+    },
+    {
+      "path": "app/templates/chat.html",
+      "size_bytes": 9816,
+      "sha256": "3aca0d49d3706b2a11194665efec81e9d4a59c07eaf6f601012104fc5c1f1bef"
+    },
+    {
+      "path": "app/templates/chat_history.html",
+      "size_bytes": 4199,
+      "sha256": "510ef16d31eb4f171eb0a3c4e203e921e95217ad8307a75fb591cf2d7b1ffafc"
+    },
+    {
+      "path": "app/templates/sales_callbacks.html",
+      "size_bytes": 5149,
+      "sha256": "96abb0aa7dd28c814a01c742d4fab35f8e3b8ab905f3938f67b54dc918ecb02e"
+    },
+    {
+      "path": "data/branding/favicon.png",
+      "size_bytes": 2471,
+      "sha256": "04265aeacba34dd6fa956e023fc28ac032ab54c505ff4de0a9a16a1036703c53"
+    },
+    {
+      "path": "data/branding/logo.png",
+      "size_bytes": 84992,
+      "sha256": "460b788e7972ce5f30a54c73fd8b1a07eb0c7d51ff7b1ed869f6a9349a897fa5"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/campaign/campaign_profile.docx",
+      "size_bytes": 38059,
+      "sha256": "a9c6bc054aeb58947707ee5b0785b8af5858828fc898aee77a434cae341f7601"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/campaign_profile.docx",
+      "size_bytes": 38059,
+      "sha256": "a9c6bc054aeb58947707ee5b0785b8af5858828fc898aee77a434cae341f7601"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/JorMall_ACR_Retail_Stores_Data_English_Arabic.docx",
+      "size_bytes": 40760,
+      "sha256": "6d4c469716a7967ef26cb30a6b5516aa6726dd868ff2550d0e04b13317576fe6"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/JorMall_Service_SMS_Chatbot_Content_Bilingual_Corrected.docx",
+      "size_bytes": 64615,
+      "sha256": "a8e1759211c3b8050e8327c36e818ae346f6afe210d3bf84c83e8d26c557a707"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/Ocean_Fish_Offer.pdf",
+      "size_bytes": 890677,
+      "sha256": "096f8fd9240d649c3917dacbb3aa152ce46b8c9e9f7786d79ef9835ad12ffcbe"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/Ocean_Fish_Offer_Arabic.pdf",
+      "size_bytes": 1502216,
+      "sha256": "ea96898491549ab7378ccb2f7696e516ea7e97b61c693064cd6d72ebd3feb5ed"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/uploaded/JorMall_ACR_Retail_Stores_Data_English_Arabic.docx",
+      "size_bytes": 40760,
+      "sha256": "6d4c469716a7967ef26cb30a6b5516aa6726dd868ff2550d0e04b13317576fe6"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/uploaded/JorMall_Service_SMS_Chatbot_Content_Bilingual_Corrected.docx",
+      "size_bytes": 64417,
+      "sha256": "6d928d3bd19a3e8e701e3c7a58d70c3c63ae69a8818fe5410591da7e973fec38"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/uploaded/Ocean_Fish_Offer.pdf",
+      "size_bytes": 890677,
+      "sha256": "096f8fd9240d649c3917dacbb3aa152ce46b8c9e9f7786d79ef9835ad12ffcbe"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/uploaded/Ocean_Fish_Offer_Arabic.pdf",
+      "size_bytes": 1502216,
+      "sha256": "ea96898491549ab7378ccb2f7696e516ea7e97b61c693064cd6d72ebd3feb5ed"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/uploaded/README.md",
+      "size_bytes": 270,
+      "sha256": "347f0f68dcbda70f52c9c04bc2aa74295f6c66f40de705b9f937ef713934de42"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/approved/~$rMall_Service_SMS_Chatbot_Content_Bilingual_Corrected.docx",
+      "size_bytes": 162,
+      "sha256": "61c8b2fd2f29e745f955337b31aec10f1a8519725b7fa277326937e3970564e4"
+    },
+    {
+      "path": "data/clients/jormall-central-e-commerce-co-ltd/config.json",
+      "size_bytes": 35236,
+      "sha256": "f590ebf774ec3089783faf78416d1a13ebf4d19ba2cf028dba11de3902db0688"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_Arabic_page_001.png",
+      "size_bytes": 65699,
+      "sha256": "7a9cb053386acb0b87594a2cd05f984ac2d390b9206247741e0712727f78e8bf"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_Arabic_page_002.png",
+      "size_bytes": 124299,
+      "sha256": "bf45bd7cbdc2857d5f937d9b4d68d514ec5fde1cfd5cdb8afe4d6392d69ebaed"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_Arabic_page_003.png",
+      "size_bytes": 154592,
+      "sha256": "47b267375c23cbf0246a8848107fa8b9dba65889912d4f8c06d3a117853c6a54"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_Arabic_page_004.png",
+      "size_bytes": 139109,
+      "sha256": "b1b5c2384b77c6b83f80540aa99410d37e5355481553e0d778fc59e7a70014ea"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_Arabic_page_005.png",
+      "size_bytes": 123654,
+      "sha256": "2497c8374f126ce45927a777db2958810ec2a5742b77d2cf7b4400a4ac9befcd"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_Arabic_page_006.png",
+      "size_bytes": 131682,
+      "sha256": "a61fae94d6872e83ade1b7a747f36b32419165b97961d3d3bc8414443dfb2573"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_Arabic_page_007.png",
+      "size_bytes": 127568,
+      "sha256": "cba16175540aa87946940c8de7e7813732d9f2957835a742bd16f01f078d8491"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_Arabic_page_008.png",
+      "size_bytes": 139020,
+      "sha256": "bb37397d25f4b1ff33970565becf91121e0b6f650ce6ea87aa272da9f5d57e65"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_Arabic_page_009.png",
+      "size_bytes": 144769,
+      "sha256": "4752057cc995ee428cdc1fd1d2a02e8f44a8f24290351883aff26df8e7f9bb64"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_page_001.png",
+      "size_bytes": 72047,
+      "sha256": "e0348d00e4b7fa3b8c1d2d53db7747d5e60be609d9043a71f7a084600877dc55"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_page_002.png",
+      "size_bytes": 89581,
+      "sha256": "282702f893fbc7b87e26e6b60922cdfe0050e332719d944dabc9c0c9883e2f6c"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_page_003.png",
+      "size_bytes": 114563,
+      "sha256": "20b839e45746c6edb39661945b3c7ef7b05d3e47eec5dddd6b455e1d52ea3ce5"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_page_004.png",
+      "size_bytes": 118208,
+      "sha256": "bf20fd4dc5b5f16ae789f3614b0f685ccc56d0e57ea33408fcea715522a286d4"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_page_005.png",
+      "size_bytes": 90411,
+      "sha256": "faa2734f7b9fbd2c021c0794f21b11a6f984e19e1eb80fc1ba805e3fb36a10bf"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_page_006.png",
+      "size_bytes": 129058,
+      "sha256": "1d1bdc666443d95fdbfbd850cb0785d067523b2e6224bfffd86ded734a07ff51"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_page_007.png",
+      "size_bytes": 123241,
+      "sha256": "8271359bb3069d09069c7ec3d552099d9568ce56d38a2c51c4e861efec9a883d"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_page_008.png",
+      "size_bytes": 174632,
+      "sha256": "7847f9ad8ccea4805dc543ef4b9baa7cab18eb91312527cd832f22839555f63b"
+    },
+    {
+      "path": "data/media/document_images/Ocean_Fish_Offer_page_009.png",
+      "size_bytes": 111836,
+      "sha256": "4c735967f49285eab600998a041c9bfe0a72ec881cd28e344bf9b4fd63d148d4"
+    },
+    {
+      "path": "data/runtime/db_seed.json",
+      "size_bytes": 61065422,
+      "sha256": "08735cd3b63ba1949ac2b7f744b5e042771aefed1c1855eb14542b56be7da60f"
+    },
+    {
+      "path": "data/runtime/README.txt",
+      "size_bytes": 106,
+      "sha256": "a7d9424953a49f95f06600fa7a92b66d9e9eb471785b1edf9671b4c28bb9996a"
+    },
+    {
+      "path": "db/init/01-vector.sql",
+      "size_bytes": 39,
+      "sha256": "9e9b2cfec47519f49ee73cb533c459e22f8ca54fe5ba1cbec59f3d5883fe191c"
+    },
+    {
+      "path": "DEPLOYMENT.md",
+      "size_bytes": 6539,
+      "sha256": "58fa20ddf7c8935a3d37517d702fa8b1dafc3c4b88ebf735ae5636eb402617bd"
+    },
+    {
+      "path": "docker-compose.yml",
+      "size_bytes": 1534,
+      "sha256": "aaa073310d1643844ed4f0e7e0a3363ea199d178f58e7a0494c3e17a14727495"
+    },
+    {
+      "path": "Dockerfile",
+      "size_bytes": 325,
+      "sha256": "a4fa1f1670a40f5a75cbb8f75dd9a3dfe3f14091fa6e5c86ebd427189abb6cf9"
+    },
+    {
+      "path": "frontend/README.md",
+      "size_bytes": 470,
+      "sha256": "dd5c807f877390fa7d01d3407cadef4762d2e6669deb1b2232afe92b46470da6"
+    },
+    {
+      "path": "PACKAGE_MANIFEST.json",
+      "size_bytes": 24015,
+      "sha256": "91816a95efcd20ef6e22b9fb1595117cc8d7775f4c9e92ee2e5a97288c8f710d"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 6539,
+      "sha256": "58fa20ddf7c8935a3d37517d702fa8b1dafc3c4b88ebf735ae5636eb402617bd"
+    },
+    {
+      "path": "requirements.txt",
+      "size_bytes": 241,
+      "sha256": "3dbafa960fae8e190bbbea46608fb4d8c485cffc7a4ca60ba6c62eba3bbfe773"
+    },
+    {
+      "path": "start.ps1",
+      "size_bytes": 139,
+      "sha256": "479bc753d5820dd0b6fe968c953cc0d08c7966c06e2f30db0d17538657c5ff81"
+    },
+    {
+      "path": "start.sh",
+      "size_bytes": 140,
+      "sha256": "f1ff3c4ab1feca649e40447cc777ab4f23e8896855eea779044ab68d6cad3885"
+    },
+    {
+      "path": "tests/bilingual_qa_set.json",
+      "size_bytes": 7346,
+      "sha256": "07248c0f6821dac4b81afaf43ec76a0bebaafa44f865ecb55ece957d2fa1b6e3"
+    },
+    {
+      "path": "tests/run_bilingual_qa.py",
+      "size_bytes": 4137,
+      "sha256": "a25fe738d134f9f2e2e83f9bc57870a7826b6ecc2f7b2e78ff2a044dd1532e2f"
+    },
+    {
+      "path": "tests/test_callback_features.py",
+      "size_bytes": 9252,
+      "sha256": "fc6b79610e5e0b72bf773fb24eb6b58891faaba65ea5469758a416055e269c1a"
+    },
+    {
+      "path": "tests/test_pricing_policy.py",
+      "size_bytes": 6514,
+      "sha256": "765acecb920e596657fc6da13cb19864b78e20b31c1ecc6dd16222e59977cb62"
+    }
+  ]
+}

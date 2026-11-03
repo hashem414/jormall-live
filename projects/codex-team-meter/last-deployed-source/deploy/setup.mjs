@@ -1,0 +1,16 @@
+import { randomBytes } from 'node:crypto';
+import { writeFileSync,existsSync,mkdirSync } from 'node:fs';
+import { resolve,dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+const i=process.argv.indexOf('--url');const origin=i<0?'http://localhost:8790':process.argv[i+1];
+const url=new URL(origin);
+if(url.pathname!=='/'||url.search||url.hash||url.username||url.password||!['https:','http:'].includes(url.protocol))throw new Error('Supply a URL origin only.');
+if(url.protocol==='http:'&&!['localhost','127.0.0.1','[::1]'].includes(url.hostname))throw new Error('Remote deployment must use HTTPS.');
+const path=resolve(root,'.env');if(existsSync(path))throw new Error('.env already exists. Not overwriting credentials. Edit PUBLIC_URL in it when moving from localhost to a real domain.');
+const token=randomBytes(32).toString('base64url');
+writeFileSync(path,`# PRIVATE — DO NOT SEND THIS FILE TO TEAM MEMBERS\nADMIN_TOKEN=${token}\nPUBLIC_URL=${url.origin}\nPORT=8790\nDATA_DIR=./data\n`,{mode:0o600});
+mkdirSync(resolve(root,'data'),{recursive:true,mode:0o700});
+console.log('Created .env with a fresh admin key. No OpenAI keys are required.');
+console.log('Open .env privately on your computer to copy ADMIN_TOKEN into the dashboard login form.');
+console.log('Do not paste .env or the admin key into a model prompt, ticket, screenshot or group chat.');

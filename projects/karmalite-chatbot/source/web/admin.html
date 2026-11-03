@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>كارماليت — لوحة التحكم</title>
+<link rel="icon" href="/static/logo-mark.png">
+<meta name="theme-color" content="#4d6160">
+<style>
+  /* نفس ثيم شعار Karmalite المستخدم بواجهة الشات (#4D6160 / #F3F5F4 / #DFE1E0) */
+  :root{
+    --bg:#eef1f0; --panel:#fff; --ink:#283736; --muted:#707473; --line:#dfe1e0;
+    --accent:#4d6160; --accent-2:#6b807e; --accent-ink:#fff; --field:#f3f5f4;
+    --ok:#2f7d55; --ok-bg:rgba(47,125,85,.12);
+    --warn:#a07727; --warn-bg:rgba(190,146,58,.16);
+    --err:#b8524a; --err-bg:rgba(184,82,74,.12);
+    --info:#4a6f8c; --info-bg:rgba(74,111,140,.12);
+    --shadow:0 1px 3px rgba(40,55,54,.05), 0 6px 20px rgba(40,55,54,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0e1514; --panel:#18201f; --ink:#e6ecea; --muted:#8b9b99; --line:#283433;
+      --accent:#9db3b0; --accent-2:#7d9591; --accent-ink:#101716; --field:#101716;
+      --ok:#63b585; --ok-bg:rgba(99,181,133,.14);
+      --warn:#d0a856; --warn-bg:rgba(208,168,86,.14);
+      --err:#dd8079; --err-bg:rgba(221,128,121,.14);
+      --info:#82a7c4; --info-bg:rgba(130,167,196,.14);
+      --shadow:0 1px 3px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Segoe UI","Tahoma",system-ui,sans-serif;background:var(--bg);color:var(--ink);
+    min-height:100vh;-webkit-font-smoothing:antialiased;font-size:14px;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 18px 60px}
+
+  /* ---------- gate ---------- */
+  .gate{min-height:100vh;display:grid;place-items:center;padding:20px}
+  .gate .card{background:var(--panel);border:1px solid var(--line);border-radius:20px;
+    padding:32px 28px;max-width:380px;width:100%;box-shadow:var(--shadow);text-align:center}
+  .gate .mark{width:140px;height:130px;margin:0 auto 20px;border-radius:18px;background:#fff;
+    border:1px solid var(--line);background-image:url('/static/logo.png');
+    background-size:78%;background-position:center;background-repeat:no-repeat}
+  .gate h1{font-size:18px;margin-bottom:6px}
+  .gate p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px}
+  .gate input{width:100%;font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--field);
+    border:1px solid var(--line);border-radius:12px;padding:12px 14px;outline:none;margin-bottom:12px;text-align:center}
+  .gate input:focus{border-color:var(--accent)}
+  .gate .msg{font-size:12.5px;color:var(--err);min-height:18px;margin-top:10px}
+
+  /* ---------- header ---------- */
+  header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+  .logo{width:44px;height:44px;border-radius:14px;background:#fff;border:1px solid var(--line);flex:none;
+    background-image:url('/static/logo-mark.png');background-size:82%;
+    background-position:center;background-repeat:no-repeat}
+  header h1{font-size:18px;font-weight:650;flex:1}
+  header .sub{font-size:12px;color:var(--muted);display:block;font-weight:400;margin-top:2px}
+
+  button{font-family:inherit;cursor:pointer}
+  .ghost{background:none;border:1px solid var(--line);color:var(--muted);border-radius:10px;
+    padding:8px 13px;font-size:12.5px;transition:.15s;white-space:nowrap}
+  .ghost:hover{color:var(--ink);border-color:var(--accent)}
+  .langswitch{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .langswitch button{background:none;border:none;font-size:11.5px;font-weight:600;padding:7px 13px;color:var(--muted)}
+  .langswitch button.on{background:var(--accent);color:var(--accent-ink)}
+
+  /* ---------- stats ---------- */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow)}
+  .stat b{display:block;font-size:26px;font-weight:700;line-height:1.2;margin-bottom:4px}
+  .stat span{font-size:12px;color:var(--muted)}
+  .stat.hot b{color:var(--err)}
+  .stat.warn b{color:var(--warn)}
+
+  /* ---------- tabs ---------- */
+  .tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{background:none;border:1px solid var(--line);border-radius:11px;padding:9px 16px;
+    font-size:13.5px;color:var(--muted);transition:.15s}
+  .tab.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+  .sms-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    padding:12px 14px;margin-bottom:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+  .sms-banner small{display:block;color:var(--muted);margin-top:3px}
+  .filters{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+  .filters .lbl{font-size:12px;color:var(--muted);margin-inline-end:4px}
+  .fbtn{background:none;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:12px;color:var(--muted)}
+  .fbtn.on{border-color:var(--accent);color:var(--accent);font-weight:600}
+
+  /* ---------- date/time range filter ---------- */
+  .range{display:flex;gap:6px;flex-wrap:wrap;align-items:center;width:100%;
+    padding:10px 12px;margin-top:2px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+  .range input{border:1px solid var(--line);border-radius:9px;padding:5px 9px;font-size:12px;
+    font-family:inherit;color:var(--ink);background:var(--bg);color-scheme:light dark}
+  .range input:focus{outline:none;border-color:var(--accent)}
+  .range .fbtn.go{border-color:var(--accent);color:var(--accent);font-weight:600}
+  .filters .sep{width:1px;height:20px;background:var(--line);margin:0 4px}
+  .range .count{font-size:12px;color:var(--muted);margin-inline-start:auto}
+  .range .count.err{color:var(--err)}
+
+  /* ---------- kanban board ---------- */
+  .board{display:flex;gap:12px;padding:14px;overflow-x:auto;align-items:flex-start}
+  .col{flex:0 0 258px;background:var(--bg);border:1px solid var(--line);
+    border-radius:14px;padding:10px;min-height:110px;transition:.15s}
+  .col.over{border-color:var(--accent);box-shadow:0 0 0 2px var(--ok-bg) inset}
+  .col > .head{display:flex;align-items:center;gap:7px;margin-bottom:9px;padding:0 2px}
+  .col > .head .n{font-size:11px;color:var(--muted);background:var(--panel);
+    border:1px solid var(--line);border-radius:999px;padding:1px 7px;margin-inline-start:auto}
+  .col .empty{font-size:11.5px;color:var(--muted);text-align:center;padding:14px 0}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:10px;margin-bottom:8px;cursor:grab;box-shadow:var(--shadow)}
+  .card:active{cursor:grabbing}
+  .card.drag{opacity:.45}
+  .card .top{display:flex;align-items:baseline;gap:6px;margin-bottom:5px}
+  .card .top .t{font-size:14px;font-weight:650;color:var(--ink);font-variant-numeric:tabular-nums}
+  .card .top .d{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .card .nm{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}
+  .card .ph{font-size:11.5px;color:var(--muted);direction:ltr;unicode-bidi:embed;
+    font-variant-numeric:tabular-nums;word-break:break-all}
+  td.email{direction:ltr;unicode-bidi:embed;font-size:12px;max-width:190px;
+    overflow:hidden;text-overflow:ellipsis}
+  .card .sv{font-size:11.5px;color:var(--muted);margin-top:4px}
+  .card .nt{font-size:11.5px;color:var(--muted);margin-top:5px;padding-top:5px;
+    border-top:1px dashed var(--line);white-space:pre-wrap;word-break:break-word}
+  .card .acts{margin-top:8px;gap:5px;flex-wrap:wrap}
+
+  /* ---------- table ---------- */
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+  .scroller{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:720px}
+  th{font-size:11.5px;font-weight:600;color:var(--muted);text-align:start;padding:13px 14px;
+     border-bottom:1px solid var(--line);white-space:nowrap;background:var(--field)}
+  td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:var(--field)}
+  .who{font-weight:600}
+  .phone{direction:ltr;unicode-bidi:embed;font-variant-numeric:tabular-nums;font-size:13px}
+  a.call{color:var(--accent);text-decoration:none;font-weight:600;white-space:nowrap}
+  a.call:hover{text-decoration:underline}
+  .missing{color:var(--err);font-weight:600;font-size:12.5px}
+  .when{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .dim{color:var(--muted);font-size:12.5px}
+  .pill{display:inline-block;padding:4px 11px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+  .pill.requested{background:var(--warn-bg);color:var(--warn)}
+  .pill.confirmed,.pill.booked{background:var(--ok-bg);color:var(--ok)}
+  .pill.cancelled,.pill.lost,.pill.no_show,.pill.cancelled_clinic,.pill.cancelled_patient{background:var(--err-bg);color:var(--err)}
+  .pill.rescheduled{background:var(--info-bg);color:var(--info)}
+  .pill.completed,.pill.contacted{background:var(--info-bg);color:var(--info)}
+  .notes{
+    max-width:230px;font-size:12.5px;color:var(--ink);line-height:1.6;
+    white-space:pre-wrap;word-break:break-word;
+  }
+  .notes:empty::before{content:'—';color:var(--muted)}
+  .notes .tag{
+    display:block;font-size:11px;color:var(--muted);margin-top:3px;font-style:italic;
+  }
+  .pill.new{background:var(--warn-bg);color:var(--warn)}
+  .pill.emergency{background:var(--err-bg);color:var(--err)}
+  .pill.medical{background:var(--warn-bg);color:var(--warn)}
+  .pill.manager{background:var(--info-bg);color:var(--info)}
+  .pill.reception{background:var(--field);color:var(--muted)}
+  .acts{display:flex;gap:5px;flex-wrap:wrap}
+  .act{border:1px solid var(--line);background:none;border-radius:8px;padding:5px 10px;font-size:11.5px;color:var(--muted);transition:.15s}
+  .act:hover{border-color:var(--accent);color:var(--accent)}
+  .act.go:hover{border-color:var(--ok);color:var(--ok)}
+  .act.no:hover{border-color:var(--err);color:var(--err)}
+  .empty{padding:52px 20px;text-align:center;color:var(--muted);font-size:13.5px}
+  .toast{position:fixed;inset-inline-end:20px;bottom:20px;background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:12px 18px;box-shadow:var(--shadow);font-size:13px;display:none;z-index:50}
+  .toast.show{display:block;animation:rise .25s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* ---------- clear-cancelled button ---------- */
+  .clear-cancelled-bar{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;justify-content:flex-end}
+  .clear-btn{border:1px solid var(--err);background:var(--err-bg);border-radius:10px;
+    padding:7px 15px;font-size:12.5px;color:var(--err);font-weight:600;cursor:pointer;transition:.18s;
+    display:inline-flex;align-items:center;gap:5px}
+  .clear-btn:hover{background:var(--err);color:#fff}
+  .clear-btn svg{width:14px;height:14px;fill:currentColor}
+  .clear-count{font-size:12px;color:var(--muted)}
+
+  /* ---------- edit modal ---------- */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;place-items:center;
+    backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+  .modal-overlay.show{display:grid}
+  .modal{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px 24px;
+    width:100%;max-width:460px;box-shadow:var(--shadow);animation:rise .2s ease;max-height:90vh;overflow-y:auto}
+  .modal h2{font-size:16px;font-weight:650;margin-bottom:18px}
+  .modal label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px;margin-top:12px}
+  .modal label:first-of-type{margin-top:0}
+  .modal input,.modal select,.modal textarea{width:100%;font-family:inherit;font-size:13.5px;color:var(--ink);
+    background:var(--field);border:1px solid var(--line);border-radius:10px;padding:10px 12px;outline:none}
+  .modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--accent)}
+  .modal textarea{resize:vertical;min-height:60px}
+  .modal-actions{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
+  .modal-actions .ghost{padding:10px 20px}
+  .btn-primary{background:var(--accent);color:var(--accent-ink);border:none;border-radius:10px;
+    padding:10px 22px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit}
+  .btn-primary:hover{opacity:.88}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+  .act.edit{border-color:var(--accent);color:var(--accent)}
+  .act.edit:hover{background:var(--accent);color:var(--accent-ink)}
+  .slot-hint{font-size:11.5px;color:var(--muted);margin-top:4px}
+  .slot-hint.warn{color:var(--warn)}
+</style>
+</head>
+<body>
+
+<!-- ============ gate ============ -->
+<div class="gate" id="gate">
+  <div class="card">
+    <div class="mark" role="img" aria-label="Karmalite Medical Esthetic"></div>
+    <h1 id="gTitle">لوحة تحكم كارماليت</h1>
+    <p id="gText">أدخل توكن الأدمن (ADMIN_TOKEN من ملف .env)</p>
+    <input type="password" id="token" autocomplete="current-password">
+    <button class="ghost" id="gBtn" style="width:100%;padding:12px;border-color:var(--accent);color:var(--accent);font-weight:600">دخول</button>
+    <div class="msg" id="gMsg"></div>
+  </div>
+</div>
+
+<!-- ============ dashboard ============ -->
+<div class="wrap" id="dash" style="display:none">
+  <header>
+    <div class="logo" role="img" aria-label="Karmalite"></div>
+    <h1><span id="hTitle">لوحة التحكم</span><span class="sub" id="hSub"></span></h1>
+    <div class="langswitch">
+      <button data-lang="ar">عربي</button>
+      <button data-lang="en">EN</button>
+    </div>
+    <button class="ghost" id="logout">خروج</button>
+  </header>
+
+  <div class="stats" id="stats"></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="filters" id="filters"></div>
+  <div class="panel"><div class="scroller" id="table"></div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ============ edit modal ============ -->
+<div class="modal-overlay" id="editOverlay">
+  <div class="modal">
+    <h2 id="editTitle"></h2>
+    <input type="hidden" id="editId">
+    <label id="editLblName"></label>
+    <input type="text" id="editName">
+    <label id="editLblPhone"></label>
+    <input type="text" id="editPhone" dir="ltr">
+    <label id="editLblEmail"></label>
+    <input type="email" id="editEmail" dir="ltr">
+    <label id="editLblDate"></label>
+    <input type="date" id="editDate">
+    <label id="editLblTime"></label>
+    <select id="editTime"></select>
+    <div class="slot-hint" id="editTimeHint"></div>
+    <label id="editLblService"></label>
+    <select id="editService"></select>
+    <label id="editLblDoctor"></label>
+    <select id="editDoctor"></select>
+    <label id="editLblGender"></label>
+    <select id="editGender">
+      <option value="male"></option>
+      <option value="female"></option>
+      <option value="unknown"></option>
+    </select>
+    <label id="editLblNotes"></label>
+    <textarea id="editNotes" rows="3"></textarea>
+    <div class="modal-actions">
+      <button class="ghost" id="editCancel"></button>
+      <button class="btn-primary" id="editSave"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==================== i18n ==================== */
+const I18N = {
+  ar:{ dir:'rtl', htmlLang:'ar', title:'كارماليت — لوحة التحكم',
+    gTitle:'لوحة تحكم كارماليت', gText:'أدخل توكن الأدمن (ADMIN_TOKEN من ملف .env)',
+    gBtn:'دخول', gWrong:'التوكن غير صحيح', gMissing:'ADMIN_TOKEN مش محدد بملف .env',
+    hTitle:'لوحة التحكم', logout:'خروج',
+    tabs:{appointments:'المواعيد', leads:'العملاء المحتملون', escalations:'التصعيدات'},
+    stats:{pending_appointments:'طلبات بانتظار التأكيد', today_confirmed:'مواعيد اليوم المؤكدة',
+           upcoming:'مواعيد قادمة', new_leads:'عملاء جدد', total_leads:'إجمالي العملاء',
+           open_escalations:'تصعيدات مفتوحة', emergencies:'حالات طارئة', conversations:'محادثات'},
+    all:'الكل',
+    upcoming_filter:'القادمة',
+    rDate:'التاريخ', rTime:'الوقت', rFrom:'من', rTo:'إلى',
+    vTable:'جدول', vKanban:'كانبان',
+    kEmpty:'ما في مواعيد', kDrop:'اسحب البطاقة لعمود ثاني لتغيير الحالة',
+    kConfirm:(n,s)=>`تغيير حالة موعد ${n} إلى «${s}»؟`,
+    kNotPassed:'ما بينفع تعلّمه «تم» أو «ما حضر» قبل ما يمرّ وقته',
+    kNoMove:'ما بينفع تنقل موعد من هذه الحالة',
+    rApply:'تطبيق الفلتر', rClear:'مسح الفلتر',
+    rCount:n=>`${n} موعد مطابق`,
+    rBadDate:'تاريخ «من» بعد «إلى»', rBadTime:'وقت «من» بعد «إلى»',
+    clearCancelled:'مسح الملغية', cancelledCleared:'تم مسح {n} موعد ملغي',
+    apptCols:['التاريخ','الوقت','الاسم','الهاتف','الإيميل','الخدمة','الطبيب','الجنس','ملاحظات المريض','الحالة','إجراءات'],
+    leadCols:['الاسم','الهاتف','الخدمة','الوقت المفضل','الحالة','التاريخ','إجراءات'],
+    escCols:['المستوى','المريض','الهاتف','السبب','التاريخ','إجراءات'],
+    unknownContact:'غير معروف',
+    status:{requested:'بانتظار التأكيد',confirmed:'مؤكد',cancelled:'ملغي',completed:'تم',no_show:'ما حضر',
+            rescheduled:'أُعيدت جدولته',
+            cancelled_patient:'ألغاه المريض', cancelled_clinic:'ألغته العيادة',
+            new:'جديد',contacted:'تم الاتصال',booked:'محجوز',lost:'خسارة'},
+    notifSent:'تم إنشاء إشعار المريض ووضعه في صادر الرسائل',
+    notifFail:'ما تم إنشاء إشعار للمريض',
+    level:{emergency:'طارئ',medical:'طبي',manager:'إدارة',reception:'استقبال'},
+    gender:{male:'رجل',female:'سيدة',unknown:'—'},
+    act:{confirm:'تأكيد',cancel:'إلغاء',complete:'تم',no_show:'ما حضر',
+         contacted:'تم الاتصال',booked:'حجز',lost:'خسارة',handled:'تمت المعالجة',edit:'تعديل'},
+    editForm:{title:'تعديل الموعد',name:'الاسم',phone:'الهاتف',email:'الإيميل',date:'التاريخ',time:'الوقت',
+           service:'الخدمة',doctor:'الطبيب',gender:'الجنس',notes:'ملاحظات',save:'حفظ',cancelBtn:'إلغاء',
+           loading:'جاري تحميل الأوقات…',closed:'العيادة مغلقة بهاليوم',noSlots:'لا يوجد أوقات متاحة',
+           fridayWarn:'الجمعة مغلق'},
+    empty:'ما في بيانات',
+    saved:'تم الحفظ', failed:'فشل الحفظ',
+    months:['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول'],
+    fmtTime:t=>{const[h,m]=t.split(':').map(Number);const p=h<12?'ص':'م';return `${h%12||12}:${String(m).padStart(2,'0')} ${p}`},
+    fmtDate:s=>{const d=new Date(s);return `${d.getDate()} ${I18N.ar.months[d.getMonth()]}`}
+  },
+  en:{ dir:'ltr', htmlLang:'en', title:'Karmalite — Admin',
+    gTitle:'Karmalite Admin', gText:'Enter the admin token (ADMIN_TOKEN from .env)',
+    gBtn:'Sign in', gWrong:'Invalid token', gMissing:'ADMIN_TOKEN is not set in .env',
+    hTitle:'Dashboard', logout:'Sign out',
+    tabs:{appointments:'Appointments', leads:'Leads', escalations:'Escalations'},
+    stats:{pending_appointments:'Pending requests', today_confirmed:'Confirmed today',
+           upcoming:'Upcoming', new_leads:'New leads', total_leads:'Total leads',
+           open_escalations:'Open escalations', emergencies:'Emergencies', conversations:'Conversations'},
+    all:'All',
+    upcoming_filter:'Upcoming',
+    rDate:'Date', rTime:'Time', rFrom:'From', rTo:'To',
+    vTable:'Table', vKanban:'Kanban',
+    kEmpty:'No appointments', kDrop:'Drag a card to another column to change its status',
+    kConfirm:(n,s)=>`Change ${n}'s appointment to "${s}"?`,
+    kNotPassed:'Cannot mark complete or no-show before the appointment time has passed',
+    kNoMove:'Appointments in this status cannot be moved',
+    rApply:'Apply filter', rClear:'Clear filter',
+    rCount:n=>`${n} matching appointment${n === 1 ? '' : 's'}`,
+    rBadDate:'"From" date is after "To"', rBadTime:'"From" time is after "To"',
+    clearCancelled:'Clear Cancelled', cancelledCleared:'{n} cancelled appointment(s) cleared',
+    apptCols:['Date','Time','Name','Phone','Email','Service','Doctor','For','Patient notes','Status','Actions'],
+    leadCols:['Name','Phone','Service','Preferred time','Status','Created','Actions'],
+    escCols:['Level','Patient','Phone','Reason','Created','Actions'],
+    unknownContact:'Unknown',
+    status:{requested:'Pending',confirmed:'Confirmed',cancelled:'Cancelled',completed:'Completed',no_show:'No-show',
+            rescheduled:'Rescheduled',
+            cancelled_patient:'Cancelled by patient', cancelled_clinic:'Cancelled by clinic',
+            new:'New',contacted:'Contacted',booked:'Booked',lost:'Lost'},
+    notifSent:'Patient notification created and queued for delivery',
+    notifFail:'No patient notification was created',
+    level:{emergency:'Emergency',medical:'Medical',manager:'Manager',reception:'Reception'},
+    gender:{male:'Man',female:'Woman',unknown:'—'},
+    act:{confirm:'Confirm',cancel:'Cancel',complete:'Complete',no_show:'No-show',
+         contacted:'Contacted',booked:'Booked',lost:'Lost',handled:'Mark handled',edit:'Edit'},
+    editForm:{title:'Edit Appointment',name:'Name',phone:'Phone',email:'Email',date:'Date',time:'Time',
+           service:'Service',doctor:'Doctor',gender:'Gender',notes:'Notes',save:'Save',cancelBtn:'Cancel',
+           loading:'Loading times…',closed:'Clinic is closed on this day',noSlots:'No available slots',
+           fridayWarn:'Closed on Fridays'},
+    empty:'Nothing here yet',
+    saved:'Saved', failed:'Save failed',
+    fmtTime:t=>{const[h,m]=t.split(':').map(Number);const p=h<12?'AM':'PM';return `${h%12||12}:${String(m).padStart(2,'0')} ${p}`},
+    fmtDate:s=>new Date(s).toLocaleDateString('en-GB',{day:'numeric',month:'short'})
+  }
+};
+
+let lang = localStorage.getItem('karmalite_lang') || 'ar';
+const T = () => I18N[lang];
+const $ = id => document.getElementById(id);
+const API = location.origin;
+
+let token = localStorage.getItem('karmalite_admin') || '';
+let tab = 'appointments';
+let filter = null;
+
+/* Set of cancelled appointment IDs that have been "cleared" from the All view */
+let clearedCancelledIds = new Set(
+  JSON.parse(localStorage.getItem('karmalite_cleared_cancelled') || '[]')
+);
+
+/* كتالوج الخدمات — لترجمة الـ id المخزّن لاسم مقروء */
+let SERVICES = {};
+fetch(API + '/services').then(r => r.json())
+  .then(d => (d.services || []).forEach(s => { SERVICES[s.id] = s; }))
+  .catch(() => {});
+
+let DOCTORS = {};
+fetch(API + '/doctors').then(r => r.json())
+  .then(d => (d.doctors || []).forEach(doctor => { DOCTORS[doctor.id] = doctor; }))
+  .catch(() => {});
+
+// البيانات القديمة كانت نص حر — بنرجّعها كما هي لو مش من الكتالوج
+const serviceLabel = id => {
+  const s = SERVICES[id];
+  return s ? (lang === 'ar' ? s.ar : s.en) : (id || '—');
+};
+const doctorLabel = id => DOCTORS[id]?.name || (id || '—');
+
+/* ==================== api ==================== */
+async function api(path, options = {}){
+  const res = await fetch(API + path, {
+    ...options,
+    headers: { 'Content-Type':'application/json', 'X-Admin-Token': token, ...(options.headers||{}) }
+  });
+  if (res.status === 401) throw Object.assign(new Error('unauthorised'), { code:401 });
+  if (res.status === 503) throw Object.assign(new Error('no-token'), { code:503 });
+  if (!res.ok){
+    // بنطلع رسالة السيرفر لما تكون موجودة — «HTTP 422» لحالها ما بتقول للمستخدم شو غلط
+    let detail = '';
+    try { detail = (await res.json()).detail || ''; } catch { /* رد مش JSON */ }
+    throw Object.assign(new Error(detail || 'HTTP ' + res.status), { code: res.status });
+  }
+  return res.json();
+}
+
+function toast(text){
+  const el = $('toast');
+  el.textContent = text; el.classList.add('show');
+  clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+/* ==================== gate ==================== */
+async function signIn(value){
+  token = value.trim();
+  if (!token) return;
+  try{
+    await api('/api/admin/stats');
+    localStorage.setItem('karmalite_admin', token);
+    $('gate').style.display = 'none';
+    $('dash').style.display = 'block';
+    render();
+  } catch(err){
+    $('gMsg').textContent = err.code === 503 ? T().gMissing : T().gWrong;
+    token = '';
+    localStorage.removeItem('karmalite_admin');
+  }
+}
+$('gBtn').onclick = () => signIn($('token').value);
+$('token').onkeydown = e => { if (e.key === 'Enter') signIn($('token').value); };
+$('logout').onclick = () => { localStorage.removeItem('karmalite_admin'); location.reload(); };
+
+/* ==================== render ==================== */
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const capitalize = s => String(s ?? '').replace(/\b\w/g, c => c.toUpperCase());
+
+function applyChrome(){
+  const t = T();
+  document.documentElement.lang = t.htmlLang;
+  document.documentElement.dir = t.dir;
+  document.title = t.title;
+  $('gTitle').textContent = t.gTitle; $('gText').textContent = t.gText; $('gBtn').textContent = t.gBtn;
+  $('hTitle').textContent = t.hTitle; $('logout').textContent = t.logout;
+  document.querySelectorAll('.langswitch button').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
+}
+document.querySelectorAll('.langswitch button').forEach(b => {
+  b.onclick = () => { lang = b.dataset.lang; localStorage.setItem('karmalite_lang', lang); applyChrome(); render(); };
+});
+
+/* ---------- appointments view (table | kanban) ---------- */
+let view = localStorage.getItem('karmalite_appt_view') === 'kanban' ? 'kanban' : 'table';
+
+// أعمدة اللوحة = الحالات المخزّنة. الإلغاء بيتفرّع بالعرض (مريض/عيادة)
+// بس بيضل عمود واحد، لأن النقل بيكتب `cancelled` مهما كان مصدره.
+const KANBAN_COLUMNS = ['requested','confirmed','completed','no_show','cancelled','rescheduled'];
+
+// النقلات المسموحة — نفس اللي بتسمح فيها أزرار الجدول، من مصدر واحد
+const KANBAN_MOVES = {
+  requested: ['confirmed','cancelled'],
+  confirmed: ['completed','no_show','cancelled'],
+};
+
+/* ---------- date/time range filter ----------
+   كل حدّ مستقل: تعبّي «من» لحاله بتاخد كل اللي بعده، و«إلى» لحاله كل اللي قبله.
+   الفلترة بتصير على السيرفر عشان الـ LIMIT ينطبق بعد التصفية مش قبلها. */
+let range = { date_from:'', date_to:'', time_from:'', time_to:'' };
+let rangeMsg = '';           // عدد النتائج أو رسالة خطأ، بتتعرض بشريط الفلتر
+
+const rangeActive = () => Object.values(range).some(Boolean);
+
+function rangeBarHTML(){
+  const t = T();
+  const box = (key, type) =>
+    `<input type="${type}" id="r_${key}" value="${range[key]}"${type==='time'?' step="1800"':''}>`;
+  // بدون رسالة = خانة العدّ بتضل فاضية لحد ما ينطبق فلتر أو يصير خطأ
+  const msg = rangeMsg
+    ? `<span class="count${rangeMsg.err?' err':''}">${esc(rangeMsg.text)}</span>`
+    : '<span class="count"></span>';
+  return `<div class="range">
+    <span class="lbl">${t.rDate}</span>
+    <span class="lbl">${t.rFrom}</span>${box('date_from','date')}
+    <span class="lbl">${t.rTo}</span>${box('date_to','date')}
+    <span class="sep"></span>
+    <span class="lbl">${t.rTime}</span>
+    <span class="lbl">${t.rFrom}</span>${box('time_from','time')}
+    <span class="lbl">${t.rTo}</span>${box('time_to','time')}
+    <button class="fbtn go" id="rApply">${t.rApply}</button>
+    ${rangeActive() ? `<button class="fbtn" id="rClear">${t.rClear}</button>` : ''}
+    ${msg}
+  </div>`;
+}
+
+function showRangeMsg(text, isErr){
+  rangeMsg = { text, err: !!isErr };
+  const el = document.querySelector('#filters .range .count');
+  if (el){ el.textContent = text; el.classList.toggle('err', !!isErr); }
+}
+
+function wireRangeBar(){
+  $('rApply').onclick = () => {
+    const next = {};
+    Object.keys(range).forEach(k => { next[k] = $('r_' + k).value; });
+
+    // بنتحقق قبل الإرسال ونحتفظ بالقيم اللي كتبها المستخدم على الشاشة
+    // بدل ما نرسل مدى مقلوب ونرجّع جدول فاضي بدون تفسير.
+    const t = T();
+    if (next.date_from && next.date_to && next.date_from > next.date_to)
+      return showRangeMsg(t.rBadDate, true);
+    if (next.time_from && next.time_to && next.time_from > next.time_to)
+      return showRangeMsg(t.rBadTime, true);
+
+    range = next;
+    rangeMsg = '';
+    render();
+  };
+
+  $('rClear')?.addEventListener('click', () => {
+    range = { date_from:'', date_to:'', time_from:'', time_to:'' };
+    rangeMsg = '';
+    render();
+  });
+
+  // Enter بأي خانة = تطبيق، بدل ما يضطر يمد إيده للزر
+  Object.keys(range).forEach(k => {
+    $('r_' + k).onkeydown = e => { if (e.key === 'Enter') $('rApply').click(); };
+  });
+}
+
+function rangeQuery(){
+  return Object.entries(range)
+    .filter(([, v]) => v)
+    .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+    .join('&');
+}
+
+const FILTERS = {
+  appointments:['requested','confirmed','completed','cancelled','rescheduled','no_show'],
+  leads:['new','contacted','booked','lost'],
+  escalations:[],
+  sms:['pending','submitted_unverified','submitted','delivered','failed']
+};
+
+async function render(){
+  const t = T();
+  applyChrome();
+
+  /* tabs */
+  const tabLabels = {...t.tabs, sms:'SMS'};
+  $('tabs').innerHTML = Object.entries(tabLabels).map(([k,v]) =>
+    `<button class="tab ${k===tab?'on':''}" data-tab="${k}">${v}</button>`).join('');
+  $('tabs').querySelectorAll('.tab').forEach(b =>
+    b.onclick = () => { tab = b.dataset.tab; filter = null; render(); });
+
+  /* filters */
+  const board = tab === 'appointments' && view === 'kanban';
+  const opts = FILTERS[tab];
+
+  // بوضع كانبان الأعمدة نفسها هي الحالات، فأزرار فلتر الحالة بتصير تكرار مربك
+  const statusBtns = (opts.length && !board)
+    ? `<button class="fbtn ${!filter?'on':''}" data-f="">${t.all}</button>` +
+      opts.map(s => {
+        const label = s === 'upcoming' ? t.upcoming_filter : (t.status[s] || s.replaceAll('_',' '));
+        return `<button class="fbtn ${filter===s?'on':''}" data-f="${s}">${label}</button>`;
+      }).join('')
+    : '';
+
+  const viewBtns = tab === 'appointments'
+    ? `<button class="fbtn ${view==='table'?'on':''}" data-v="table">${t.vTable}</button>` +
+      `<button class="fbtn ${view==='kanban'?'on':''}" data-v="kanban">${t.vKanban}</button>` +
+      `<span class="sep"></span>`
+    : '';
+
+  $('filters').innerHTML = viewBtns + statusBtns +
+    (tab === 'appointments' ? rangeBarHTML() : '');
+
+  $('filters').querySelectorAll('.fbtn[data-f]').forEach(b =>
+    b.onclick = () => { filter = b.dataset.f || null; render(); });
+  $('filters').querySelectorAll('.fbtn[data-v]').forEach(b =>
+    b.onclick = () => {
+      view = b.dataset.v;
+      // فلتر حالة عالق من عرض الجدول بيخلّي اللوحة تطلع بعمود واحد فيه بطاقات
+      if (view === 'kanban') filter = null;
+      localStorage.setItem('karmalite_appt_view', view);
+      render();
+    });
+  if (tab === 'appointments') wireRangeBar();
+
+  /* stats */
+  try{
+    const s = await api('/api/admin/stats');
+    $('stats').innerHTML = Object.entries(t.stats).map(([k,label]) => {
+      const cls = k === 'emergencies' && s[k] > 0 ? ' hot'
+                : (k === 'pending_appointments' || k === 'open_escalations') && s[k] > 0 ? ' warn' : '';
+      return `<div class="stat${cls}"><b>${s[k] ?? 0}</b><span>${label}</span></div>`;
+    }).join('');
+  } catch(err){
+    if (err.code === 401 || err.code === 503){ location.reload(); return; }
+  }
+
+  /* table */
+  if (tab === 'appointments')      await renderAppointments();
+  else if (tab === 'leads')        await renderLeads();
+  else if (tab === 'escalations')  await renderEscalations();
+  else                             await renderSms();
+}
+
+async function renderSms(){
+  const statusQuery = filter ? `?status=${encodeURIComponent(filter)}` : '?status=';
+  const [cfg, data] = await Promise.all([
+    api('/api/admin/sms/status'),
+    api('/api/admin/notifications' + statusQuery)
+  ]);
+  const missing = (cfg.missing || []).join(', ');
+  const state = cfg.enabled && cfg.configured ? 'JOSMS is configured and enabled' : 'JOSMS sending is disabled';
+  const detail = missing ? `Missing configuration: ${esc(missing)}`
+    : (!cfg.response_map_configured ? 'Provider response map is not configured; acceptance cannot be verified.' : '');
+  const banner = `<div class="sms-banner"><div><b>${esc(state)}</b><small>${detail}</small></div>
+    <button class="act confirm" id="sendPendingSms" ${cfg.enabled && cfg.configured ? '' : 'disabled'}>Send pending</button></div>`;
+  const cols = ['Created','Patient','Phone','Type','Status','Attempts','Last error','Actions'];
+  const rows = (data.notifications || []).map(n => `<tr>
+    <td class="when">${esc(String(n.created_at || '').slice(0,16).replace('T',' '))}</td>
+    <td>${esc(n.full_name || '—')}</td><td class="phone">${esc(n.phone)}</td>
+    <td>${esc(n.kind)}</td><td><span class="badge ${esc(n.status)}">${esc(n.status)}</span></td>
+    <td>${Number(n.attempts || 0)}</td><td>${esc(n.last_error || '—')}</td>
+    <td>${n.status === 'failed' || n.status === 'pending' ? actBtn('Retry','confirm',`sms:${n.id}`) : '—'}</td>
+  </tr>`);
+  $('table').innerHTML = banner + tableHTML(cols, rows);
+  const sendAll = $('sendPendingSms');
+  if (sendAll) sendAll.onclick = async () => {
+    await api('/api/admin/notifications/send-pending', {method:'POST'});
+    toast('SMS processing queued'); setTimeout(renderSms, 800);
+  };
+  $('table').querySelectorAll('[data-do^="sms:"]').forEach(btn => {
+    btn.onclick = async () => {
+      const id = btn.dataset.do.split(':')[1];
+      await api(`/api/admin/notifications/${id}/send`, {method:'POST'});
+      toast('SMS processing queued'); setTimeout(renderSms, 800);
+    };
+  });
+}
+
+function tableHTML(cols, rows){
+  const t = T();
+  if (!rows.length) return `<div class="empty">${t.empty}</div>`;
+  return `<table><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
+          <tbody>${rows.join('')}</tbody></table>`;
+}
+
+function actBtn(label, kind, handler){
+  return `<button class="act ${kind}" data-do="${handler}">${label}</button>`;
+}
+
+/* الحالة المعروضة أدق من الحالة المخزّنة: الإلغاء بيتفرّع حسب مين ألغى */
+function displayStatus(a){
+  if (a.status === 'rescheduled') return 'rescheduled';
+  if (a.status !== 'cancelled') return a.status;
+  if (a.cancelled_by === 'admin') return 'cancelled_clinic';
+  if (a.cancelled_by === 'chat' || a.cancelled_by === 'self-service') return 'cancelled_patient';
+  return 'cancelled';
+}
+
+async function renderAppointments(){
+  const t = T();
+
+  /* --- Determine the API query parameter --- */
+  let apiFilter = filter;
+  // "upcoming" is a client-side filter — we fetch all, then filter locally
+  if (filter === 'upcoming') apiFilter = null;
+
+  // اللوحة بتعرض كل الحالات كأعمدة، فبتجيب بدون فلتر حالة
+  if (view === 'kanban') apiFilter = null;
+
+  const params = [];
+  if (apiFilter) params.push(`status=${encodeURIComponent(apiFilter)}`);
+  const rq = rangeQuery();
+  if (rq) params.push(rq);
+  const qs = params.length ? '?' + params.join('&') : '';
+
+  let appointments;
+  try{
+    ({ appointments } = await api('/api/admin/appointments' + qs));
+  } catch(err){
+    // الواجهة بتمنع المدى المقلوب قبل الإرسال، فهذا حارس أخير بدون إعادة رسم
+    // (إعادة الرسم هون بترجّع نفس الطلب الفاشل وبتعمل حلقة لا نهائية).
+    showRangeMsg(err.message || String(err), true);
+    $('table').innerHTML = tableHTML(t.apptCols, []);
+    return;
+  }
+  _allAppointments = appointments;  // cache for edit modal
+
+  /* --- Apply client-side filtering --- */
+  let visible = appointments;
+
+  if (filter === 'upcoming') {
+    // Show only future/today appointments with active statuses
+    const todayStr = new Date().toISOString().slice(0, 10);
+    visible = appointments.filter(a =>
+      (a.status === 'requested' || a.status === 'confirmed') &&
+      a.appointment_date >= todayStr
+    );
+  } else if (!filter) {
+    // "All" tab — hide cleared cancelled appointments
+    visible = appointments.filter(a => {
+      if (a.status === 'cancelled' && clearedCancelledIds.has(a.id)) return false;
+      return true;
+    });
+  }
+
+  /* --- Count cancelled appointments still visible in "All" (for the clear button) --- */
+  let cancelledInView = 0;
+  if (!filter) {
+    cancelledInView = visible.filter(a => a.status === 'cancelled').length;
+  }
+
+  // عدد المطابق بيظهر بشريط الفلتر — بدونه جدول فاضي بيبيّن كأنه عطل مش نتيجة فلتر
+  if (rangeActive()) showRangeMsg(t.rCount(visible.length), false);
+
+  if (view === 'kanban'){ renderKanban(visible); return; }
+
+  const rows = visible.map(a => {
+    const acts = apptActions(a);          // نفس الأزرار المستخدمة ببطاقات الكانبان
+    const key = displayStatus(a);
+    const reason = a.cancel_reason ? `<span class="tag">${esc(a.cancel_reason)}</span>` : '';
+    return `<tr>
+      <td class="when">${t.fmtDate(a.appointment_date)}</td>
+      <td class="when">${t.fmtTime(a.appointment_time.slice(0,5))}</td>
+      <td class="who">${esc(capitalize(a.full_name))}</td>
+      <td class="phone">${esc(a.phone)}</td>
+      <td class="dim email">${esc(a.email || '—')}</td>
+      <td class="dim">${esc(serviceLabel(a.service))}</td>
+      <td class="dim">${esc(doctorLabel(a.doctor_id))}</td>
+      <td class="dim">${t.gender[a.gender] || '—'}</td>
+      <td class="notes">${esc(a.notes || '')}${reason}</td>
+      <td><span class="pill ${key}">${t.status[key] || key}</span></td>
+      <td><div class="acts">${acts}</div></td>
+    </tr>`;
+  });
+
+  /* --- Build clear-cancelled bar (only in "All" view when there are cancelled appointments) --- */
+  let clearBar = '';
+  if (!filter && cancelledInView > 0) {
+    clearBar = `<div class="clear-cancelled-bar">
+      <button class="clear-btn" id="clearCancelledBtn">
+        <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        ${t.clearCancelled}
+      </button>
+      <span class="clear-count">(${cancelledInView})</span>
+    </div>`;
+  }
+
+  $('table').innerHTML = clearBar + tableHTML(t.apptCols, rows);
+
+  /* --- Wire the clear button --- */
+  const clearBtn = document.getElementById('clearCancelledBtn');
+  if (clearBtn) {
+    clearBtn.onclick = () => {
+      const cancelledIds = visible.filter(a => a.status === 'cancelled').map(a => a.id);
+      cancelledIds.forEach(id => clearedCancelledIds.add(id));
+      localStorage.setItem('karmalite_cleared_cancelled', JSON.stringify([...clearedCancelledIds]));
+      toast(t.cancelledCleared.replace('{n}', cancelledIds.length));
+      render();
+    };
+  }
+
+  wireActions();
+}
+
+/* ==================== kanban board ==================== */
+function apptActions(a){
+  const t = T();
+  const hasPassed = new Date() >= new Date(`${a.appointment_date}T${a.appointment_time.slice(0,5)}`);
+  if (a.status === 'requested')
+    return actBtn(t.act.confirm,'go',`appt:${a.id}:confirmed`)
+         + actBtn(t.act.cancel,'no',`appt:${a.id}:cancelled`)
+         + actBtn(t.act.edit,'edit',`edit:${a.id}`);
+  if (a.status === 'confirmed')
+    return (hasPassed ? actBtn(t.act.complete,'go',`appt:${a.id}:completed`) : '')
+         + (hasPassed ? actBtn(t.act.no_show,'no',`appt:${a.id}:no_show`) : '')
+         + actBtn(t.act.cancel,'no',`appt:${a.id}:cancelled`)
+         + actBtn(t.act.edit,'edit',`edit:${a.id}`);
+  return '';
+}
+
+function apptCardHTML(a){
+  const t = T();
+  const key = displayStatus(a);
+  // بعمود «ملغي» بنبيّن مين ألغى — العمود لحاله ما بيفرّق بين المريض والعيادة
+  const who = a.status === 'cancelled'
+    ? `<div class="sv"><span class="pill ${key}">${t.status[key] || key}</span></div>` : '';
+  const notes  = a.notes ? `<div class="nt">${esc(a.notes)}</div>` : '';
+  const reason = a.cancel_reason ? `<div class="nt">${esc(a.cancel_reason)}</div>` : '';
+  const acts = apptActions(a);
+  const canMove = Boolean(KANBAN_MOVES[a.status]);
+
+  return `<div class="card" draggable="${canMove}" data-id="${a.id}" data-status="${a.status}">
+    <div class="top">
+      <span class="t">${t.fmtTime(a.appointment_time.slice(0,5))}</span>
+      <span class="d">${t.fmtDate(a.appointment_date)}</span>
+    </div>
+    <div class="nm">${esc(capitalize(a.full_name))}</div>
+    <div class="ph">${esc(a.phone)}</div>
+    ${a.email ? `<div class="ph">${esc(a.email)}</div>` : ''}
+    <div class="sv">${esc(serviceLabel(a.service))} · ${esc(doctorLabel(a.doctor_id))} · ${t.gender[a.gender] || '—'}</div>
+    ${who}${notes}${reason}
+    ${acts ? `<div class="acts">${acts}</div>` : ''}
+  </div>`;
+}
+
+function renderKanban(list){
+  const t = T();
+  const byStatus = Object.fromEntries(KANBAN_COLUMNS.map(s => [s, []]));
+  list.forEach(a => { (byStatus[a.status] ||= []).push(a); });
+
+  const cols = KANBAN_COLUMNS.map(s => {
+    const items = byStatus[s] || [];
+    const cards = items.length
+      ? items.map(apptCardHTML).join('')
+      : `<div class="empty">${t.kEmpty}</div>`;
+    return `<div class="col" data-col="${s}">
+      <div class="head">
+        <span class="pill ${s}">${t.status[s] || s.replaceAll('_',' ')}</span>
+        <span class="n">${items.length}</span>
+      </div>${cards}
+    </div>`;
+  }).join('');
+
+  $('table').innerHTML = `<div class="board">${cols}</div>`;
+  wireActions();
+  wireKanbanDnd();
+}
+
+function wireKanbanDnd(){
+  let dragged = null;
+  const clearOver = () =>
+    $('table').querySelectorAll('.col.over').forEach(c => c.classList.remove('over'));
+
+  $('table').querySelectorAll('.card[draggable="true"]').forEach(card => {
+    card.addEventListener('dragstart', e => {
+      dragged = card;
+      card.classList.add('drag');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', card.dataset.id);
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('drag');
+      dragged = null;
+      clearOver();
+    });
+  });
+
+  $('table').querySelectorAll('.col').forEach(col => {
+    // ما بنسمح بالإفلات إلا على النقلات المسموحة، فالعمود الممنوع ما بينوّر أصلاً
+    col.addEventListener('dragover', e => {
+      if (!dragged) return;
+      const allowed = KANBAN_MOVES[dragged.dataset.status] || [];
+      if (!allowed.includes(col.dataset.col)) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      col.classList.add('over');
+    });
+    col.addEventListener('dragleave', () => col.classList.remove('over'));
+
+    col.addEventListener('drop', async e => {
+      e.preventDefault();
+      col.classList.remove('over');
+      if (!dragged) return;
+
+      const t = T();
+      const id = parseInt(dragged.dataset.id, 10);
+      const from = dragged.dataset.status;
+      const to = col.dataset.col;
+      if (from === to) return;
+
+      const allowed = KANBAN_MOVES[from] || [];
+      if (!allowed.includes(to)) return toast(t.kNoMove);
+
+      const appt = _allAppointments.find(a => a.id === id);
+      if ((to === 'completed' || to === 'no_show') && appt){
+        const when = new Date(`${appt.appointment_date}T${appt.appointment_time.slice(0,5)}`);
+        if (new Date() < when) return toast(t.kNotPassed);
+      }
+
+      // السحب أسهل من الضغط بالغلط، و«تأكيد»/«إلغاء» بيبعتوا رسالة نصية للمريض —
+      // فبنسأل قبل أي نقل بدل ما توصل رسالة لمريض حقيقي من حركة سحب عرضية.
+      const name = appt ? capitalize(appt.full_name) : '';
+      if (!confirm(t.kConfirm(name, t.status[to] || to))) return;
+
+      await setApptStatus(id, to);
+    });
+  });
+}
+
+async function renderLeads(){
+  const t = T();
+  const { leads } = await api('/api/admin/leads' + (filter ? `?status=${filter}` : ''));
+  const rows = leads.map(l => `<tr>
+      <td class="who">${esc(capitalize(l.full_name))}</td>
+      <td class="phone">${esc(l.phone)}</td>
+      <td class="dim">${esc(l.service_interest) || '—'}</td>
+      <td class="dim">${esc(l.preferred_time) || '—'}</td>
+      <td><span class="pill ${l.status}">${t.status[l.status]}</span></td>
+      <td class="dim when">${t.fmtDate(l.created_at)}</td>
+      <td><div class="acts">
+        ${actBtn(t.act.contacted,'',`lead:${l.id}:contacted`)}
+        ${actBtn(t.act.booked,'go',`lead:${l.id}:booked`)}
+        ${actBtn(t.act.lost,'no',`lead:${l.id}:lost`)}
+      </div></td>
+    </tr>`);
+  $('table').innerHTML = tableHTML(t.leadCols, rows);
+  wireActions();
+}
+
+async function renderEscalations(){
+  const t = T();
+  const { escalations } = await api('/api/admin/escalations?handled=false');
+  const rows = escalations.map(e => {
+    // بالطوارئ الرقم هو أهم عمود — إذا مفقود لازم يبين كتحذير مش كفراغ
+    const missing = !e.phone && e.level === 'emergency';
+    const name = e.full_name
+      ? `<span class="who">${esc(e.full_name)}</span>`
+      : `<span class="dim">${t.unknownContact}</span>`;
+    const phone = e.phone
+      ? `<a href="tel:+${esc(e.phone)}" class="phone call">${esc(e.phone)}</a>`
+      : `<span class="${missing ? 'missing' : 'dim'}">${t.unknownContact}</span>`;
+    return `<tr>
+      <td><span class="pill ${e.level}">${t.level[e.level] || e.level}</span></td>
+      <td>${name}</td>
+      <td>${phone}</td>
+      <td>${esc(e.reason)}</td>
+      <td class="dim when">${t.fmtDate(e.created_at)}</td>
+      <td><div class="acts">${actBtn(t.act.handled,'go',`esc:${e.id}:1`)}</div></td>
+    </tr>`;
+  });
+  $('table').innerHTML = tableHTML(t.escCols, rows);
+  wireActions();
+}
+
+/* تغيير حالة موعد — مشترك بين أزرار الجدول وسحب بطاقات الكانبان،
+   عشان إشعار المريض ما ينفّذ بطريقتين مختلفتين. */
+async function setApptStatus(id, value){
+  const res = await api(`/api/admin/appointments/${id}`,
+    { method:'PATCH', body: JSON.stringify({ status:value }) });
+  // إلغاء من العيادة بيولّد إشعاراً للمريض مع أوقات بديلة
+  if (value === 'cancelled'){
+    const n = res.notification;
+    toast(n ? `${T().notifSent} (${n.slots.length})` : T().notifFail);
+  } else {
+    toast(T().saved);
+  }
+  render();
+}
+
+function wireActions(){
+  $('table').querySelectorAll('[data-do]').forEach(btn => {
+    btn.onclick = async () => {
+      const [kind, id, value] = btn.dataset.do.split(':');
+
+      /* --- Edit button opens the modal --- */
+      if (kind === 'edit') {
+        openEditModal(parseInt(id));
+        return;
+      }
+
+      btn.disabled = true;
+      try{
+        if (kind === 'appt'){
+          await setApptStatus(id, value);
+          return;
+        }
+        else if (kind === 'lead')
+          await api(`/api/admin/leads/${id}`, { method:'PATCH', body: JSON.stringify({ status:value }) });
+        else
+          await api(`/api/admin/escalations/${id}`, { method:'PATCH', body: JSON.stringify({ handled:true }) });
+        toast(T().saved);
+        render();
+      } catch {
+        toast(T().failed);
+        btn.disabled = false;
+      }
+    };
+  });
+}
+
+/* ==================== edit modal ==================== */
+let _allAppointments = [];  // cached from last render
+
+function openEditModal(apptId) {
+  const t = T();
+  const a = _allAppointments.find(x => x.id === apptId);
+  if (!a) return;
+
+  // Set labels
+  $('editTitle').textContent = t.editForm.title;
+  $('editLblName').textContent = t.editForm.name;
+  $('editLblPhone').textContent = t.editForm.phone;
+  $('editLblEmail').textContent = t.editForm.email;
+  $('editLblDate').textContent = t.editForm.date;
+  $('editLblTime').textContent = t.editForm.time;
+  $('editLblService').textContent = t.editForm.service;
+  $('editLblDoctor').textContent = t.editForm.doctor;
+  $('editLblGender').textContent = t.editForm.gender;
+  $('editLblNotes').textContent = t.editForm.notes;
+  $('editSave').textContent = t.editForm.save;
+  $('editCancel').textContent = t.editForm.cancelBtn;
+
+  // Fill values
+  $('editId').value = a.id;
+  $('editName').value = capitalize(a.full_name || '');
+  $('editPhone').value = a.phone || '';
+  $('editEmail').value = a.email || '';
+  $('editNotes').value = a.notes || '';
+
+  // Auto-capitalize first letter of each word
+  $('editName').oninput = () => {
+    const el = $('editName');
+    const pos = el.selectionStart;
+    el.value = capitalize(el.value);
+    el.setSelectionRange(pos, pos);
+  };
+
+  // Date picker: restrict to today → +60 days, no Fridays
+  const today = new Date();
+  const maxDate = new Date(today);
+  maxDate.setDate(maxDate.getDate() + 60);
+  $('editDate').min = today.toISOString().slice(0, 10);
+  $('editDate').max = maxDate.toISOString().slice(0, 10);
+  $('editDate').value = a.appointment_date || '';
+
+  // Service dropdown
+  const svcOpts = Object.entries(SERVICES).map(([id, s]) => {
+    const label = lang === 'ar' ? s.ar : s.en;
+    const sel = id === a.service ? 'selected' : '';
+    return `<option value="${esc(id)}" ${sel}>${esc(label)}</option>`;
+  });
+  svcOpts.unshift(`<option value="">—</option>`);
+  $('editService').innerHTML = svcOpts.join('');
+  if (a.service) $('editService').value = a.service;
+
+  loadDoctorOptions(a.doctor_id);
+
+  // Gender dropdown
+  $('editGender').querySelectorAll('option').forEach(o => {
+    o.textContent = t.gender[o.value] || o.value;
+  });
+  $('editGender').value = a.gender || 'unknown';
+
+  // Wire date & gender changes to reload time slots
+  $('editDate').onchange = () => loadTimeSlots();
+  $('editGender').onchange = () => loadTimeSlots();
+  $('editService').onchange = () => {
+    loadDoctorOptions();
+    loadTimeSlots();
+  };
+  $('editDoctor').onchange = () => loadTimeSlots();
+
+  $('editOverlay').classList.add('show');
+
+  // Load available time slots (current appointment time will be included)
+  loadTimeSlots((a.appointment_time || '').slice(0, 5));
+}
+
+function loadDoctorOptions(selectedDoctor) {
+  const service = $('editService').value;
+  const eligible = Object.values(DOCTORS).filter(doctor =>
+    (doctor.service_ids || []).includes(service)
+  );
+  $('editDoctor').innerHTML = eligible.map(doctor =>
+    `<option value="${esc(doctor.id)}">${esc(doctor.name)}</option>`
+  ).join('');
+  if (selectedDoctor && eligible.some(doctor => doctor.id === selectedDoctor)) {
+    $('editDoctor').value = selectedDoctor;
+  }
+}
+
+async function loadTimeSlots(currentTime) {
+  const t = T();
+  const dateVal = $('editDate').value;
+  const gender = $('editGender').value || 'unknown';
+  const hint = $('editTimeHint');
+
+  // Clear and show loading
+  $('editTime').innerHTML = `<option value="">${t.editForm.loading}</option>`;
+  $('editTime').disabled = true;
+  hint.textContent = '';
+  hint.className = 'slot-hint';
+
+  if (!dateVal) {
+    $('editTime').innerHTML = `<option value="">—</option>`;
+    $('editTime').disabled = false;
+    return;
+  }
+
+  // Check if it's a Friday (client-side quick check)
+  const dayOfWeek = new Date(dateVal + 'T00:00:00').getDay(); // 0=Sun,5=Fri
+  if (dayOfWeek === 5) {
+    $('editTime').innerHTML = `<option value="">—</option>`;
+    hint.textContent = t.editForm.fridayWarn;
+    hint.className = 'slot-hint warn';
+    $('editTime').disabled = true;
+    return;
+  }
+
+  try {
+    // الخانة بتستوعب خدمات مختلفة بنفس الوقت، فالأوقات المتاحة بتعتمد على
+    // خدمة هذا الموعد — بدونها بتظهر أوقات محجوزة لنفس الخدمة كأنها فاضية
+    const svc = $('editService').value;
+    const q = new URLSearchParams({ date: dateVal, gender });
+    if (svc) q.set('service', svc);
+    if ($('editDoctor').value) q.set('doctor_id', $('editDoctor').value);
+    const res = await fetch(`${API}/availability?${q}`);
+    const data = await res.json();
+
+    if (!data.is_open) {
+      $('editTime').innerHTML = `<option value="">—</option>`;
+      hint.textContent = t.editForm.closed;
+      hint.className = 'slot-hint warn';
+      $('editTime').disabled = true;
+      return;
+    }
+
+    let slots = data.slots || [];
+    // Include the current appointment time even if it's booked (it's this appointment's own slot)
+    if (currentTime && !slots.includes(currentTime)) {
+      slots.push(currentTime);
+      slots.sort();
+    }
+
+    if (!slots.length) {
+      $('editTime').innerHTML = `<option value="">—</option>`;
+      hint.textContent = t.editForm.noSlots;
+      hint.className = 'slot-hint warn';
+      $('editTime').disabled = true;
+      return;
+    }
+
+    $('editTime').innerHTML = slots.map(s => {
+      const display = t.fmtTime(s);
+      return `<option value="${s}">${display}</option>`;
+    }).join('');
+    $('editTime').disabled = false;
+
+    // Select current time if available
+    if (currentTime && slots.includes(currentTime)) {
+      $('editTime').value = currentTime;
+    }
+
+    hint.textContent = '';
+  } catch {
+    $('editTime').innerHTML = `<option value="">—</option>`;
+    $('editTime').disabled = false;
+    hint.textContent = '';
+  }
+}
+
+function closeEditModal() {
+  $('editOverlay').classList.remove('show');
+}
+
+$('editCancel').onclick = closeEditModal;
+$('editOverlay').onclick = e => { if (e.target === $('editOverlay')) closeEditModal(); };
+
+$('editSave').onclick = async () => {
+  const id = $('editId').value;
+  const body = {
+    full_name: $('editName').value.trim() || undefined,
+    phone: $('editPhone').value.trim() || undefined,
+    email: $('editEmail').value.trim() || undefined,
+    date: $('editDate').value || undefined,
+    time: $('editTime').value || undefined,
+    service: $('editService').value || undefined,
+    doctor_id: $('editDoctor').value || undefined,
+    gender: $('editGender').value || undefined,
+    notes: $('editNotes').value,
+  };
+  // Remove undefined keys
+  Object.keys(body).forEach(k => { if (body[k] === undefined) delete body[k]; });
+
+  $('editSave').disabled = true;
+  try {
+    await api(`/api/admin/appointments/${id}`, { method: 'PUT', body: JSON.stringify(body) });
+    toast(T().saved);
+    closeEditModal();
+    render();
+  } catch {
+    toast(T().failed);
+  } finally {
+    $('editSave').disabled = false;
+  }
+};
+
+/* ==================== init ==================== */
+applyChrome();
+if (token) signIn(token); else $('token').focus();
+</script>
+</body>
+</html>

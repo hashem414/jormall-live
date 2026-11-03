@@ -1,0 +1,21 @@
+[Unit]
+Description=JorMall SMA Extension AI Gateway
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/sma-extension/backend
+EnvironmentFile=/var/www/sma-extension/backend/.env
+ExecStart=/var/www/sma-extension/venv/bin/uvicorn app:app --host 127.0.0.1 --port 5055 --workers 1 --proxy-headers --forwarded-allow-ips=127.0.0.1
+Restart=always
+RestartSec=5
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/www/sma-extension/backend/logs /var/www/sma-extension/backend/storage
+
+[Install]
+WantedBy=multi-user.target

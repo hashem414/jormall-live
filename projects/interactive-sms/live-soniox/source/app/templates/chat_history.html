@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat History</title>
+    <link rel="icon" type="image/png" href="{{ app_base_path }}/static/images/favicon.png?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ app_base_path }}/static/css/chat-history.css?v={{ asset_version }}">
+    {% if authenticated %}
+    <meta name="chat-history-csrf" content="{{ csrf_token }}">
+    {% endif %}
+</head>
+<body>
+    {% if not authenticated %}
+    <main class="login-shell">
+        <section class="login-card" aria-labelledby="login-title">
+            <img src="{{ app_base_path }}/static/client_assets/central-e-commerce-co-ltd/Jormall_logo.png" alt="JorMall logo" class="login-logo">
+            <h1 id="login-title">Chat History</h1>
+            <p>Authorised staff can review customer chatbot conversations.</p>
+
+            <form method="post" action="{{ dashboard_path }}login" class="login-form">
+                <label for="dashboard-password">Password</label>
+                <input id="dashboard-password" name="password" type="password" autocomplete="current-password" required autofocus>
+                {% if login_message %}
+                <p class="login-message" role="alert">{{ login_message }}</p>
+                {% endif %}
+                <button type="submit">Open Dashboard</button>
+            </form>
+        </section>
+    </main>
+    {% else %}
+    <main class="dashboard-shell">
+        <header class="dashboard-header">
+            <div>
+                <p class="eyebrow">Internal Dashboard</p>
+                <h1>Chat History</h1>
+                <p>Search, review, assign, update, and export customer chatbot conversations.</p>
+            </div>
+            <div class="header-actions">
+                <a class="secondary-link" href="{{ app_base_path }}/voice-usage/">API usage</a>
+                <a class="secondary-link" href="{{ app_base_path }}/sales-callbacks/">Sales callbacks</a>
+                <form method="post" action="{{ dashboard_path }}logout">
+                    <button type="submit" class="logout-button">Logout</button>
+                </form>
+            </div>
+        </header>
+
+        <section class="toolbar" aria-label="Conversation filters">
+            <label class="search-field">
+                <span>Search</span>
+                <input id="conversation-search" type="search" placeholder="Name, mobile, session, or conversation ID" autocomplete="off">
+            </label>
+
+            <label class="filter-field">
+                <span>Status</span>
+                <select id="status-filter">
+                    <option value="active">Active</option>
+                    <option value="all">All</option>
+                    <option value="open">Open</option>
+                    <option value="needs_follow_up">Needs follow-up</option>
+                    <option value="assigned">Assigned</option>
+                    <option value="completed">Completed</option>
+                    <option value="archived">Archived</option>
+                </select>
+            </label>
+
+            <label class="filter-field">
+                <span>Language</span>
+                <select id="language-filter">
+                    <option value="">All</option>
+                    <option value="en">English</option>
+                    <option value="ar">Arabic</option>
+                </select>
+            </label>
+
+            <label class="filter-field">
+                <span>Follow-up</span>
+                <select id="follow-up-filter">
+                    <option value="all">All</option>
+                    <option value="true">Required</option>
+                    <option value="false">Not required</option>
+                </select>
+            </label>
+
+            <label class="filter-field">
+                <span>Campaign</span>
+                <input id="campaign-filter" type="search" autocomplete="off">
+            </label>
+
+            <label class="filter-field">
+                <span>Assigned employee</span>
+                <input id="assigned-filter" type="search" autocomplete="off">
+            </label>
+
+            <label class="filter-field">
+                <span>Date from</span>
+                <input id="date-from-filter" type="date">
+            </label>
+
+            <label class="filter-field">
+                <span>Date to</span>
+                <input id="date-to-filter" type="date">
+            </label>
+
+            <button id="export-button" type="button" class="export-button">Export CSV</button>
+        </section>
+
+        <section class="status-line" aria-live="polite">
+            <span id="dashboard-status"></span>
+        </section>
+
+        <section class="history-layout" aria-label="Chat history workspace">
+            <section class="table-panel" aria-label="Conversations">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Mobile</th>
+                                <th>Campaign</th>
+                                <th>Last activity</th>
+                                <th>Messages</th>
+                                <th>Language</th>
+                                <th>Status</th>
+                                <th>Follow-up</th>
+                                <th>Assigned</th>
+                            </tr>
+                        </thead>
+                        <tbody id="conversation-table-body"></tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <button id="previous-page" type="button">Previous</button>
+                    <span id="page-status"></span>
+                    <button id="next-page" type="button">Next</button>
+                </div>
+                <p id="empty-state" class="empty-state" hidden>No conversations found.</p>
+            </section>
+
+            <aside class="detail-panel" aria-label="Conversation details">
+                <div id="detail-empty" class="detail-empty">Select a conversation to view messages.</div>
+                <div id="detail-content" hidden>
+                    <header class="detail-header">
+                        <div>
+                            <p class="eyebrow">Conversation</p>
+                            <h2 id="detail-customer"></h2>
+                            <p id="detail-meta"></p>
+                        </div>
+                        <button id="refresh-detail" type="button" class="small-button">Refresh</button>
+                    </header>
+
+                    <dl class="detail-grid">
+                        <div><dt>Mobile</dt><dd id="detail-mobile"></dd></div>
+                        <div><dt>Campaign</dt><dd id="detail-campaign"></dd></div>
+                        <div><dt>Started</dt><dd id="detail-started"></dd></div>
+                        <div><dt>Last activity</dt><dd id="detail-last"></dd></div>
+                    </dl>
+
+                    <section class="management-panel" aria-label="Conversation management">
+                        <label>
+                            <span>Status</span>
+                            <select id="detail-status">
+                                <option value="open">Open</option>
+                                <option value="needs_follow_up">Needs follow-up</option>
+                                <option value="assigned">Assigned</option>
+                                <option value="completed">Completed</option>
+                                <option value="archived">Archived</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Assigned employee</span>
+                            <input id="detail-assigned" type="text" maxlength="120">
+                        </label>
+                        <label class="checkbox-field">
+                            <input id="detail-follow-up" type="checkbox">
+                            <span>Follow-up required</span>
+                        </label>
+                        <label class="notes-field">
+                            <span>Internal notes</span>
+                            <textarea id="detail-notes" maxlength="4000"></textarea>
+                        </label>
+                        <div class="management-actions">
+                            <button id="save-management" type="button" class="export-button">Save changes</button>
+                            <button id="archive-button" type="button" class="small-button">Archive</button>
+                            <button id="restore-button" type="button" class="small-button">Restore</button>
+                        </div>
+                    </section>
+
+                    <section id="message-list" class="message-list" aria-label="Messages"></section>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <script>
+        window.CHAT_HISTORY_CONFIG = {
+            appBasePath: {{ app_base_path | tojson }}
+        };
+    </script>
+    <script src="{{ app_base_path }}/static/js/chat-history.js?v={{ asset_version }}"></script>
+    {% endif %}
+</body>
+</html>

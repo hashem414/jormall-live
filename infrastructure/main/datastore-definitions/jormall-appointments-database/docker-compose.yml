@@ -1,0 +1,49 @@
+services:
+  database:
+    image: pgvector/pgvector:pg17
+    container_name: jormall-appointments-database
+    restart: unless-stopped
+    env_file:
+      - /etc/jormall/apps/appointments/.env
+    volumes:
+      - appointments_database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    mem_limit: 320m
+    mem_reservation: 128m
+    cpus: 0.5
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  web:
+    image: jormall-local/appointments:20260823-hide-app-store
+    container_name: jormall-appointments-web
+    restart: unless-stopped
+    env_file:
+      - /etc/jormall/apps/appointments/.env
+    environment:
+      DATABASE_HOST: database:5432
+      NODE_OPTIONS: --max-old-space-size=512
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - 127.0.0.1:18019:3000
+    mem_limit: 768m
+    mem_reservation: 256m
+    cpus: 1.25
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+volumes:
+  appointments_database:
+    name: jormall-appointments-database

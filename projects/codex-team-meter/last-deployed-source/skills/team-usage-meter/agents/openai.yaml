@@ -1,0 +1,6 @@
+interface:
+  display_name: "مرصد استخدام الفريق"
+  short_description: "أرقام استخدام كودكس وحالة المزامنة، بدون عرض المحادثات"
+  default_prompt: "Use $team-usage-meter to check my numeric usage tracker status without opening conversations or credential files."
+policy:
+  allow_implicit_invocation: false

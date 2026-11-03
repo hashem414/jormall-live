@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1786346843197,
+      "tag": "0000_burly_paladin",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1786350018587,
+      "tag": "0001_daily_next_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1786353529699,
+      "tag": "0002_amazing_sunspot",
+      "breakpoints": true
+    }
+  ]
+}

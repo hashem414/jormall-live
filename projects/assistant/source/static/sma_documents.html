@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>SMA Documents Sidebar | نماذج وثائق SMA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body {
+      cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="2" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"></path></svg>'), auto;
+    }
+    * {
+      cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="2" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"></path></svg>'), auto !important;
+    }
+
+    @font-face {
+      font-family: 'MontaserArabic';
+      src: url('/fonts/MontaserArabic-Regular.woff2') format('woff2');
+      font-weight: normal; font-style: normal;
+    }
+    @font-face {
+      font-family: 'MontserratArabic';
+      src: url('/fonts/Montserrat-Arabic-Light.woff2') format('woff2');
+      font-weight: 300; font-style: normal;
+    }
+
+    :root{
+      --primary:#2575b6;
+      --primary-dark:#1e5a8d;
+      --accent:#47c6f3;
+      --muted:#666666;
+      --bg:#f5f5f5;
+      --paper:#fff;
+      --soft:#ebfaff;
+      --danger:#ee4037;
+      --ink:#10324d;
+      --border:#e6eef6;
+    }
+
+    body{
+      font-family:'MontaserArabic', sans-serif;
+      background:var(--bg);
+      color:#222;
+      margin:0; padding:20px;
+    }
+
+    .app-header{
+      display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .app-header h2{
+      margin:0; font-size:20px; color:var(--primary);
+      font-family:'MontserratArabic', sans-serif; font-weight:600;
+    }
+    .search{
+      display:flex; gap:8px; align-items:center; margin-inline-start:auto;
+      flex-wrap:wrap;
+    }
+    .search input{
+      padding:10px 12px; border:1px solid #ddd; border-radius:8px; min-width:240px;
+      font-family:inherit;
+    }
+    .search i { color: #2575b6; }
+
+    .btn{
+      border:0; padding:10px 12px; border-radius:10px; background:var(--primary); color:#fff;
+      font-family:'MontserratArabic', sans-serif; font-size:14px;
+      cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,.05);
+      text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn.secondary{ background:#e9eef5; color:#10324d; }
+    .btn:hover{ background:var(--primary-dark); }
+    .btn.secondary:hover{ background:#dbe6f3; }
+
+    .section{
+      margin-bottom:12px; border:1px solid #e4e4e4; background:var(--paper);
+      border-radius:10px; overflow:hidden;
+    }
+    .section h3{
+      cursor:pointer; margin:0; padding:12px 14px; background:var(--primary);
+      color:#fff; font-size:16px; border-radius:10px 10px 0 0;
+      font-family:'MontserratArabic', sans-serif;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .section h3:hover{ background:var(--primary-dark); }
+    .section h3 .kicker{ opacity:.85; font-size:12px; font-weight:400; }
+    .section-content{
+      display:none; padding:0 14px; max-height:0; overflow:hidden;
+      transition:max-height .4s ease, padding .4s ease;
+      background:var(--paper);
+    }
+    .section-content.open{ display:block; padding:14px; max-height:1500px; }
+
+    .doc-block{
+      background:var(--soft); border:1px dashed #b7e6fb; padding:12px; border-radius:10px; margin:10px 0;
+    }
+    .doc-block h4{ margin:0 0 10px 0; font-size:15px; color:#0a3452; }
+    .doc-text{ white-space:pre-wrap; line-height:2; font-size:15px; color:#333; }
+    .placeholder{ color:var(--primary); font-weight:bold; }
+
+    table{
+      width:100%; border-collapse:collapse; margin:8px 0 2px 0; font-size:14px;
+      background:#fff;
+    }
+    /* --- SMA screenshot-style table --- */
+    table.report-table{
+      width:100%;
+      border-collapse:collapse;
+      direction: rtl;
+      table-layout:fixed;
+      background:#fff;
+      font-size:16px;
+    }
+    .report-table th, .report-table td{
+      padding:10px 12px;
+      text-align:center;
+      vertical-align:middle;
+      word-break:break-word;
+      border:1px solid var(--border);
+    }
+    .report-table tr.band td{
+      background:#666666;
+      font-weight:700;
+      color: white;
+      font-size: 14px;
+    }
+    .report-table tr.placeholders td{
+      background:#ffffff;
+      font-weight:400;
+    }
+    .report-table .placeholder{
+      font-weight:700;
+      color:#000;
+      font-size: 12px;
+    }
+    th, td{
+      border:1px solid #e6eef6; padding:8px 10px; text-align:right;
+    }
+    th{ background:#f2f8fe; color:#133a59; font-weight:600; }
+    .footnote{ color:var(--muted); font-size:12px; margin-top:6px; }
+
+    .hidden{ display:none; }
+
+    /* ===== Sample / Download buttons (inline) ===== */
+    .attach-btn{
+      border:1px solid var(--border); background:#f7fbff; color:var(--ink);
+      padding:8px 12px; border-radius:10px; font-size:13px; cursor:pointer;
+      display:inline-flex; align-items:center; gap:8px; margin-top:8px;
+    }
+    .attach-btn:hover{ background:#eef6ff; }
+
+    /* NEW: sibling download button next to sample */
+    .download-btn{
+      border:1px solid var(--border); background:#f7fbff; color:#0a2740;
+      padding:8px 12px; border-radius:10px; font-size:13px; text-decoration:none;
+      display:inline-flex; align-items:center; gap:8px; margin-top:8px;
+    }
+    .attach-btn + .download-btn{ margin-inline-start:8px; }
+    .download-btn:hover{ background:#eef6ff; }
+
+    /* ===== Fullscreen PDF Overlay ===== */
+    .overlay{
+      position:fixed; inset:0; background:rgba(0,0,0,.6);
+      display:none; align-items:stretch; justify-content:center; z-index:9998;
+    }
+    .overlay.open{ display:flex; }
+    .overlay-inner{
+      position:relative; background:#000; width:96vw; height:92vh; margin:auto; border-radius:12px; overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    .overlay iframe{
+      width:100%; height:100%; border:0; background:#fff;
+    }
+    .overlay .close-btn{
+      position:absolute; top:10px; inset-inline-end:12px; z-index:9999;
+      background:rgba(16,50,77,.9); color:#fff; border:0; border-radius:50%;
+      width:36px; height:36px; font-size:20px; line-height:36px; text-align:center; cursor:pointer;
+    }
+    .overlay .close-btn:hover{ background:#0b2740; }
+
+    /* NEW: bottom action bar inside the overlay */
+    .overlay-footer{
+      position:absolute; inset-inline:0; bottom:0;
+      background:linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,0));
+      padding:14px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+      color:#fff; z-index:9999;
+      pointer-events:none; /* allow iframe clicks except on buttons */
+    }
+    .overlay-footer .actions{ display:flex; gap:8px; pointer-events:auto; }
+    .overlay-footer .file-name{ font-size:13px; opacity:.9; padding:6px 10px; background:rgba(255,255,255,.12); border-radius:8px; pointer-events:auto; }
+    .overlay-footer .btn{ box-shadow:none; }
+  </style>
+</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<body>
+
+  <div class="app-header">
+    <h2>SMA Documents Templates | <br> نماذج وثائق الـSMA </h2>
+    <div class="search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input id="filterInput" type="search" placeholder="  البحث بالنماذج | Template Search" />
+    </div>
+  </div>
+  <button class="btn secondary" id="expandAllBtn"> Expand All</button>
+  <button class="btn secondary" id="collapseAllBtn">Collapse All</button>
+  <br>
+
+  <!-- Unified Report Table (used by all documents) -->
+  <div class="section">
+    <h3>الجدول الموحد للبيانات | Unified Data Table <span class="kicker"> –  يستخدم في جميع الوثائق | Used in all the documents </span></h3>
+    <div class="section-content open">
+      <div class="doc-block">
+        <table id="unifiedTable" class="report-table">
+          <!-- Row group 1 -->
+          <tr class="band">
+            <td>رقم العقد</td>
+            <td>تاريخ العقد</td>
+            <td>تاريخ انتهاء العقد</td>
+          </tr>
+          <tr class="placeholders">
+            <td class="placeholder">[رقم العقد]</td>
+            <td class="placeholder">[تاريخ العقد]</td>
+            <td class="placeholder">[تاريخ انتهاء العقد]</td>
+          </tr>
+
+          <!-- Row group 2 -->
+          <tr class="band">
+            <td>كمية SMS المتعاقد عليها</td>
+            <td>الرصيد المتبقي حتى تاريخه</td>
+            <td>النسبة المدفوعة</td>
+          </tr>
+          <tr class="placeholders">
+            <td class="placeholder">[الكمية المتعاقد عليها]</td>
+            <td class="placeholder">[الرصيد المتبقي]</td>
+            <td class="placeholder">[% النسبة المدفوعة]</td>
+          </tr>
+
+          <!-- Row group 3 -->
+          <tr class="band">
+            <td>معدل الإرسال الشهري لآخر 6 أشهر</td>
+            <td>عدد الأشهر المطلوبة لإنهاء الكمية حسب معدل الإرسال</td>
+            <td>آخر شهر تم إرسال SMS</td>
+          </tr>
+          <tr class="placeholders">
+            <td class="placeholder">[معدل الإرسال الشهري]</td>
+            <td class="placeholder">[عدد الأشهر]</td>
+            <td class="placeholder">[تاريخ آخر شهر]</td>
+          </tr>
+        </table>
+
+        <div class="footnote">* الحقول بين الأقواس بالمعلومات تعبىء اوتوماتيكيًا على النظام .</div>
+        <div class="footnote">* The fields in the brackets are replaced automatically on the system.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1) Report Only -->
+  <div class="section" data-title="تقرير فقط report">
+    <h3>1) تقرير فقط  | Report Only</h3>
+    <div class="section-content">
+      <div id="text-report-only" class="doc-block">
+        <h4>النص المرفق</h4>
+        <div class="doc-text">— هذا النموذج يعرض الجدول الموحد فقط دون نص إضافي.</div>
+
+        <button class="attach-btn" data-pdf="../SMA_documents/Report_PDF.pdf">
+          <i class="fa-regular fa-file-pdf"></i> معاينة | Sample
+        </button>
+        <!-- download button is injected automatically next to this -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2) No Delivery ≥ 1 month -->
+  <div class="section" data-title="عدم ارسال شهر لا يوجد إرسال no delivery">
+    <h3>2) لا يوجد إرسال لمدة شهر أو أكثر | No Delivery for 1 Month or More</h3>
+    <div class="section-content">
+      <div id="text-no-delivery" class="doc-block">
+        <h4>النص المرفق</h4>
+        <div class="doc-text">
+نود إبلاغكم بأنه لم يتم إرسال أي رسائل نصية من العقد رقم (<span class="placeholder">[رقم العقد]</span>) الخاص بكم منذ (<span class="placeholder">[تاريخ آخر إرسال]</span>).
+نرجو منكم التفضل بالتواصل معنا في أقرب وقت ممكن لحل أي مشكلات قد تواجهونها.
+نحن هنا لخدمتكم ومستعدون لتقديم الدعم لضمان استفادتكم القصوى من خدماتنا.
+        </div>
+
+        <button class="attach-btn" data-pdf="../SMA_documents/No_Delivery_for_1_Month_or_More.pdf">
+          <i class="fa-regular fa-file-pdf"></i>  معاينة | Sample
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3) Slow Platform Delivery -->
+  <div class="section" data-title="بطء الارسال بطء الإرسال slow platform delivery">
+    <h3>3) بطء في معدل الإرسال | Slow Platform Delivery</h3>
+    <div class="section-content">
+      <div id="text-slow-platform" class="doc-block">
+        <h4>النص المرفق</h4>
+        <div class="doc-text">
+نود إبلاغكم بأن متوسط عدد الرسائل الشهرية المرسلة من عقدكم رقم (<span class="placeholder">[رقم العقد]</span>) هو
+(<span class="placeholder">[معدل الإرسال الشهري]</span>) رسالة شهريًا، وبناءً عليه سيستغرق إتمام الطلب حوالي
+(<span class="placeholder">[عدد الأشهر]</span>) شهرًا من تاريخ اليوم.
+يرجى ملاحظة أن العقد سينتهي في تاريخ (<span class="placeholder">[تاريخ انتهاء العقد]</span>).
+نود التوضيح أن الحفاظ على منصات الإرسال يستلزم تكاليف تشغيلية وفنية، ونقترح استغلال الرصيد غير المستخدم في حملات إعلانية فعّالة.
+في حال عدم استخدام الكمية قبل انتهاء الفترة المحددة، سيتم تطبيق شروط البيع المتفق عليها في العقد.
+        </div>
+
+        <button class="attach-btn" data-pdf="../SMA_documents/SlowـPlatformـDelivery.pdf">
+          <i class="fa-regular fa-file-pdf"></i> معاينة | Sample
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4) Order with balance expired -->
+  <div class="section" data-title="انتهاء عقد رصيد غير مستخدم expired with balance">
+    <h3>4) انتهاء عقد مع وجود رصيد غير مستخدم | Expired Order with Balance</h3>
+    <div class="section-content">
+      <div id="text-expired-balance" class="doc-block">
+        <h4>النص المرفق</h4>
+        <div class="doc-text">
+نود إبلاغكم بأن العقد رقم (<span class="placeholder">[رقم العقد]</span>) الخاص بكم قد انتهت صلاحيته بتاريخ
+(<span class="placeholder">[تاريخ انتهاء العقد]</span>).
+نرجو منكم التواصل معنا لإيجاد حل للرصيد غير المستخدم والبالغ
+(<span class="placeholder">[الرصيد المتبقي]</span>).
+نحن ملتزمون بتقديم أفضل الخدمات ونتطلع لمساعدتكم في إيجاد الحل الأمثل.
+        </div>
+
+        <button class="attach-btn" data-pdf="../SMA_documents/Expired_Order_with_Balance.pdf">
+          <i class="fa-regular fa-file-pdf"></i>  معاينة | Sample
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5) Expiry notice -->
+  <div class="section" data-title="اشعار انتهاء إشعار انتهاء expiry notice">
+    <h3>5) إشعار بانتهاء العقد | Expiry Notice</h3>
+    <div class="section-content">
+      <div id="text-expiry-notice" class="doc-block">
+        <h4>النص المرفق</h4>
+        <div class="doc-text">
+نود إبلاغكم بأن عقد خدمة الرسائل النصية الخاص بكم رقم (<span class="placeholder">[رقم العقد]</span>)
+سينتهي في تاريخ (<span class="placeholder">[تاريخ انتهاء العقد]</span>).
+نحثكم على تسريع عملية الإرسال للاستفادة القصوى من الرصيد وتعزيز التفاعل مع عملائكم.
+يُرجى العلم أنه إذا لم يتم استكمال الرصيد قبل الموعد المحدد فستطبق شروط البيع الخاصة بالعقد.
+        </div>
+
+        <button class="attach-btn" data-pdf="../SMA_documents/Expiry_Notice.pdf">
+          <i class="fa-regular fa-file-pdf"></i>  معاينة | Sample
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6) Slow moving order -->
+  <div class="section" data-title="امر بطيء الحركة بطيء الحركة slow moving order">
+    <h3>6) طلب بطيء الحركة | Slow Moving Order</h3>
+    <div class="section-content">
+      <div id="text-slow-moving" class="doc-block">
+        <h4>النص المرفق</h4>
+        <div class="doc-text">
+استنادًا إلى متوسط الإرسال الشهري لعقدكم رقم (<span class="placeholder">[رقم العقد]</span>) البالغ
+(<span class="placeholder">[معدل الإرسال الشهري]</span>) رسالة، يُتوقع إتمام الطلب خلال
+(<span class="placeholder">[عدد الأشهر]</span>) شهرًا من الآن.
+نقترح إطلاق حملات دورية لاستغلال الرصيد المتبقي قبل تاريخ الانتهاء
+(<span class="placeholder">[تاريخ انتهاء العقد]</span>)، علمًا بأنه ستطبق شروط البيع في حال عدم الاستخدام.
+        </div>
+
+        <button class="attach-btn" data-pdf="../SMA_documents/Slow_Moving_Order.pdf">
+          <i class="fa-regular fa-file-pdf"></i> معاينة | Sample
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7) Order extension -->
+  <div class="section" data-title="تمديد تمديد العقد order extension">
+    <h3>7) تمديد العقد | Order Extension</h3>
+    <div class="section-content">
+      <div id="text-extension" class="doc-block">
+        <h4>النص المرفق</h4>
+        <div class="doc-text">
+نود إبلاغكم بأن عقدكم الحالي رقم (<span class="placeholder">[رقم العقد]</span>) قد انتهت صلاحيته بتاريخ
+(<span class="placeholder">[تاريخ انتهاء العقد]</span>).
+وبالنظر إلى علاقتنا المتميزة، يسعدنا منحكم فترة إضافية مقدارها
+(<span class="placeholder">[مدة التمديد]</span>) لاستخدام الرصيد المتبقي، وذلك وفقًا لشروط العقد المبرم بيننا.
+        </div>
+
+        <button class="attach-btn" data-pdf="../SMA_documents/Order_Extension.pdf">
+          <i class="fa-regular fa-file-pdf"></i> معاينة | Sample
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Fullscreen PDF Overlay ===== -->
+  <div id="pdfOverlay" class="overlay" aria-hidden="true" role="dialog" aria-label="PDF preview dialog">
+    <div class="overlay-inner">
+      <button class="close-btn" id="overlayCloseBtn" aria-label="إغلاق المعاينة">×</button>
+      <iframe id="pdfFrame" src="" title="PDF preview"></iframe>
+
+      <!-- NEW: bottom action bar -->
+      <div class="overlay-footer" dir="rtl">
+        <div class="file-name">
+          <i class="fa-regular fa-file-pdf"></i>
+          <span id="pdfName">—</span>
+        </div>
+        <div class="actions">
+          <a id="downloadBtn" class="btn" href="#" download>
+            <i class="fa-solid fa-download"></i> تحميل الملف | Download
+          </a>
+          <a id="openNewTabBtn" class="btn secondary" href="#" target="_blank" rel="noopener">
+            <i class="fa-solid fa-up-right-from-square"></i>Open in New Tab
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Accordion toggling
+    document.querySelectorAll(".section h3").forEach(h => {
+      h.addEventListener("click", () => {
+        const content = h.nextElementSibling;
+        content.classList.toggle("open");
+      });
+    });
+
+    // Expand / Collapse all
+    document.getElementById("expandAllBtn").addEventListener("click", () => {
+      document.querySelectorAll(".section-content").forEach(c => c.classList.add("open"));
+    });
+    document.getElementById("collapseAllBtn").addEventListener("click", () => {
+      document.querySelectorAll(".section-content").forEach(c => c.classList.remove("open"));
+    });
+
+    // Lightweight toast (kept, but unused here)
+    function toast(msg){
+      const t = document.createElement("div");
+      t.textContent = msg;
+      Object.assign(t.style,{
+        position:"fixed", bottom:"20px", insetInlineStart:"20px",
+        background:"#10324d", color:"#fff", padding:"10px 12px",
+        borderRadius:"10px", fontSize:"13px", zIndex:9999, opacity:0.95
+      });
+      document.body.appendChild(t);
+      setTimeout(()=>{ t.remove(); }, 1600);
+    }
+
+    // Search/filter sections by title keywords
+    const filterInput = document.getElementById("filterInput");
+    filterInput.addEventListener("input", ()=>{
+      const q = filterInput.value.trim().toLowerCase();
+      document.querySelectorAll(".section").forEach(sec=>{
+        if(sec.querySelector("h3")==null) return; // skip non-standard
+        const h = sec.querySelector("h3").innerText.toLowerCase();
+        const tags = (sec.getAttribute("data-title")||"").toLowerCase();
+        const hit = h.includes(q) || tags.includes(q) || q==="";
+        sec.style.display = hit ? "" : "none";
+      });
+    });
+
+    // ===== PDF Overlay logic =====
+    const overlay = document.getElementById('pdfOverlay');
+    const pdfFrame = document.getElementById('pdfFrame');
+    const closeBtn = document.getElementById('overlayCloseBtn');
+
+    // NEW: overlay footer elements
+    const downloadBtn = document.getElementById('downloadBtn');
+    const openNewTabBtn = document.getElementById('openNewTabBtn');
+    const pdfNameSpan = document.getElementById('pdfName');
+
+    function filenameFrom(src){
+      try {
+        const clean = src.split('#')[0];
+        return clean.split('/').pop() || 'document.pdf';
+      } catch(e){ return 'document.pdf'; }
+    }
+
+    function openPdf(src){
+      if(!src) return;
+      const url = src.includes('#') ? src : src + '#toolbar=0';
+      pdfFrame.setAttribute('src', url);
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+
+      // update footer actions
+      const clean = src.split('#')[0];
+      const fname = filenameFrom(src);
+      downloadBtn.href = clean;
+      downloadBtn.setAttribute('download', fname);
+      openNewTabBtn.href = clean;
+      pdfNameSpan.textContent = fname;
+    }
+    function closePdf(){
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden','true');
+      pdfFrame.setAttribute('src','');
+      document.body.style.overflow = '';
+    }
+
+    // Open overlay on sample click
+    document.querySelectorAll('.attach-btn').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const src = btn.getAttribute('data-pdf');
+        openPdf(src);
+      });
+    });
+    closeBtn.addEventListener('click', closePdf);
+    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closePdf(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && overlay.classList.contains('open')) closePdf(); });
+
+    // NEW: inject a "Download" link next to every "Sample" button
+    document.querySelectorAll('.attach-btn').forEach(btn=>{
+      const src = btn.getAttribute('data-pdf');
+      if(!src) return;
+      const a = document.createElement('a');
+      a.className = 'download-btn';
+      a.href = src;
+      a.setAttribute('download', filenameFrom(src));
+      a.innerHTML = '<i class="fa-solid fa-download"></i> تحميل | Download';
+      btn.insertAdjacentElement('afterend', a);
+    });
+  </script>
+</body>
+</html>

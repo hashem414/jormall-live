@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <link rel="icon" type="image/x-icon" href="{{ app_base_path }}/static/images/favicon.ico">
+    <meta charset="UTF-8" />
+    <title>JorMall's Platform Assistant</title>
+    <script src="{{ app_base_path }}/static/vendor/marked.min.js"></script>
+    <script src="{{ app_base_path }}/static/vendor/purify.min.js"></script>
+    <style>
+      :root {
+        --color-1: #2575b6;
+        --color-2: #47c6f3;
+        --color-3: #f4f4f4;
+      }
+      body {
+        background-color: var(--color-3);
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 20px;
+      }
+      .chat-container {
+        max-width: 700px;
+        margin: 3rem auto;
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      }
+      .chat-box {
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background: #f9f9f9;
+        margin-bottom: 1rem;
+      }
+      .message { margin-bottom: 1rem; }
+      .message strong { color: var(--color-1); }
+      .typing-indicator { color: #666; font-style: italic; }
+      .input-area {
+        display: flex;
+        gap: 0.5rem;
+      }
+      input[type="text"] {
+        flex: 1;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #ccc;
+      }
+      button {
+        padding: 0.5rem 1.2rem;
+        background-color: var(--color-2);
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      button:hover { background-color: var(--color-1); }
+      button:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      button:disabled:hover { background-color: var(--color-2); }
+      .suggestions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        justify-content: center;
+      }
+      .toggle-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-direction: row-reverse;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        padding-right: 1rem;
+      }
+      .lang-toggle {
+        display: inline-block;
+        position: relative;
+        width: 60px;
+        height: 30px;
+      }
+      .lang-toggle input { display: none; }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--color-1);
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+      input:checked + .slider { background-color: var(--color-2); }
+      input:checked + .slider:before { transform: translateX(28px); }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        direction: ltr;
+      }
+      th, td {
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        text-align: center;
+      }
+      th {
+        background-color: #e5f2fb;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <img src="{{ app_base_path }}/static/images/josms.png" alt="Logo" style="max-height: 100px; display: block; margin-left: auto; margin-right: auto;">
+      <div class="toggle-container">
+        <label class="lang-toggle">
+          <input type="checkbox" id="langSwitch" onchange="toggleLanguage()">
+          <span class="slider"></span>
+        </label>
+        <div id="lang-label">العربية</div>
+      </div>
+
+      <h1 id="title">مساعد منصة جورمول</h1>
+
+      <div id="chat-box" class="chat-box"></div>
+
+      <div class="suggestions" id="suggestions-ar">
+        {% for label, question in suggestions_ar.items() %}
+          <button onclick='sendMessage({{ question|tojson }})'>{{ label }}</button>
+        {% endfor %}
+      </div>
+
+      <div class="suggestions" id="suggestions-en" style="display: none;">
+        {% for label, question in suggestions_en.items() %}
+          <button onclick='sendMessage({{ question|tojson }})'>{{ label }}</button>
+        {% endfor %}
+      </div>
+
+      <div class="input-area">
+        <input type="text" id="user-input" placeholder="اكتب سؤالك هنا..." onkeydown="handleInputKeydown(event)">
+        <button id="send-button" onclick="sendMessage()">إرسال</button>
+      </div>
+    </div>
+
+    <script>
+      const APP_BASE_PATH = {{ app_base_path|tojson }};
+      let currentLang = document.getElementById('langSwitch')?.checked ? 'en' : 'ar';
+      let requestInProgress = false;
+      let loadingMessage = null;
+
+      document.addEventListener('DOMContentLoaded', () => {
+        toggleLanguage();
+      });
+
+      function toggleLanguage() {
+        const html = document.documentElement;
+        const title = document.getElementById('title');
+        const input = document.getElementById('user-input');
+        const label = document.getElementById('lang-label');
+        const sendBtn = document.getElementById('send-button');
+
+        const langSwitch = document.getElementById('langSwitch');
+        const isArabic = !langSwitch.checked;
+        currentLang = isArabic ? 'ar' : 'en';
+
+        html.setAttribute('dir', isArabic ? 'rtl' : 'ltr');
+        html.setAttribute('lang', currentLang);
+
+        title.textContent = isArabic ? "مساعد منصة جورمول" : "JorMall's Platform Assistant";
+        input.placeholder = isArabic ? "اكتب سؤالك هنا..." : "Type your question here...";
+        sendBtn.textContent = isArabic ? "إرسال" : "Send";
+        label.textContent = isArabic ? "العربية" : "English";
+
+        document.getElementById('suggestions-ar').style.display = isArabic ? 'flex' : 'none';
+        document.getElementById('suggestions-en').style.display = isArabic ? 'none' : 'flex';
+        setBusyState(requestInProgress);
+      }
+
+      function handleInputKeydown(event) {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          if (!requestInProgress) {
+            sendMessage();
+          }
+        }
+      }
+
+      function setBusyState(isBusy) {
+        requestInProgress = isBusy;
+        document.getElementById('send-button').disabled = isBusy;
+        document.querySelectorAll('#suggestions-ar button, #suggestions-en button').forEach((button) => {
+          button.disabled = isBusy;
+        });
+      }
+
+      function showLoadingIndicator(lang) {
+        const chatBox = document.getElementById('chat-box');
+        const div = document.createElement('div');
+        div.className = 'message typing-indicator';
+        const sender = document.createElement('strong');
+        sender.textContent = lang === 'ar' ? 'جورمول' : 'JorMall';
+        div.appendChild(sender);
+        div.appendChild(document.createTextNode(':'));
+        div.appendChild(document.createElement('br'));
+        div.appendChild(document.createTextNode(lang === 'ar' ? 'جاري كتابة الرد...' : 'Typing...'));
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        loadingMessage = div;
+      }
+
+      function removeLoadingIndicator() {
+        if (loadingMessage) {
+          loadingMessage.remove();
+          loadingMessage = null;
+        }
+      }
+
+      function appUrl(path) {
+        const cleanPath = path.startsWith('/') ? path : `/${path}`;
+        return `${APP_BASE_PATH}${cleanPath}`;
+      }
+
+      async function sendMessage(text = null) {
+        if (requestInProgress) return;
+
+        const input = document.getElementById('user-input');
+        const message = text || input.value;
+        if (!message.trim()) return;
+
+        const messageLang = currentLang;
+        appendTextMessage(messageLang === 'ar' ? "أنت" : "You", message);
+        input.value = '';
+        setBusyState(true);
+        showLoadingIndicator(messageLang);
+
+        try {
+          const res = await fetch(appUrl("/chat"), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message })
+          });
+          const data = await res.json();
+          removeLoadingIndicator();
+          appendBotMessage(messageLang === 'ar' ? "جورمول" : "JorMall", data.response || "");
+        } catch (e) {
+          removeLoadingIndicator();
+          appendTextMessage("Error", messageLang === 'ar' ? "تعذر الحصول على الرد. حاول لاحقاً." : "Failed to get a response.");
+        } finally {
+          removeLoadingIndicator();
+          setBusyState(false);
+          input.focus();
+        }
+      }
+
+      function sanitizeMarkdown(markdownText) {
+        const rendered = marked.parse(markdownText || "");
+        return DOMPurify.sanitize(rendered, {
+          USE_PROFILES: { html: true },
+          ADD_TAGS: ['table', 'thead', 'tbody', 'tr', 'th', 'td'],
+          ADD_ATTR: ['target', 'rel'],
+          ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto):|\/static\/images\/|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i
+        });
+      }
+
+      function appendTextMessage(sender, textMessage) {
+        const chatBox = document.getElementById('chat-box');
+        const div = document.createElement('div');
+        div.className = 'message';
+        const strong = document.createElement('strong');
+        strong.textContent = sender;
+        div.appendChild(strong);
+        div.appendChild(document.createTextNode(':'));
+        div.appendChild(document.createElement('br'));
+        div.appendChild(document.createTextNode(textMessage));
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      function appendBotMessage(sender, markdownMessage) {
+        const chatBox = document.getElementById('chat-box');
+        const div = document.createElement('div');
+        div.className = 'message';
+        const strong = document.createElement('strong');
+        strong.textContent = sender;
+        div.appendChild(strong);
+        div.appendChild(document.createTextNode(':'));
+        div.appendChild(document.createElement('br'));
+        const content = document.createElement('div');
+        content.innerHTML = sanitizeMarkdown(markdownMessage);
+        div.appendChild(content);
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    </script>
+  </body>
+</html>

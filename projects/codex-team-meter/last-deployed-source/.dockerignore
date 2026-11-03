@@ -1,0 +1,9 @@
+.env
+.env.*
+data
+.git
+node_modules
+tests
+docs
+*.zip
+member-profile*.json

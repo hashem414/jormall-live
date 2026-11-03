@@ -1,0 +1,10 @@
+[
+  "UI: invalid-login state rendered (fixture API)",
+  "UI: Arabic member table and synthetic 1,120,000-token total rendered",
+  "UI: period selector triggers refresh",
+  "UI: CSV download contains numbers and explicit quota caveat",
+  "UI: mobile layout does not overflow the page width",
+  "UI: numeric-profile download works and HTML-like names are rendered as text",
+  "UI: member role hides administration controls",
+  "UI: no JavaScript page errors during fixture-backed checks"
+]

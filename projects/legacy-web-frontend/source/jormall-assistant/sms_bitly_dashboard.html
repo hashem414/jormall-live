@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMS Bitly Dashboard</title>
+  <style>
+    body{font-family:Inter,system-ui,Arial,sans-serif;margin:20px}
+    .grid{display:grid;grid-template-columns:2fr 1fr;gap:24px}
+    .card{padding:16px;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+    .muted{color:#666}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <h1 style="margin-bottom:8px">SMS Bitly Dashboard</h1>
+  <div class="muted">Aggregated engagements from Bitly links created via JorMall.</div>
+
+  <div class="grid" style="margin-top:20px">
+    <div class="card">
+      <h3>Engagements over time (all links)</h3>
+      <canvas id="allLine"></canvas>
+    </div>
+    <div class="card">
+      <h3>Engagements by referrer</h3>
+      <canvas id="refPie"></canvas>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:24px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 style="margin:0">Top performing links</h3>
+      <div class="muted" id="generatedAt"></div>
+    </div>
+    <table id="topTable" style="margin-top:12px">
+      <thead>
+        <tr>
+          <th>Link</th><th>Company</th><th>Label</th><th>Total</th><th>Last 7d</th><th>WoW %</th><th>Access</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="card" id="detailPanel" style="margin-top:24px;display:none">
+    <h3 id="detailTitle"></h3>
+    <div class="muted" id="detailMeta"></div>
+    <div style="margin-top:12px">
+      <canvas id="detailBar"></canvas>
+    </div>
+  </div>
+  <div class="card" id="detailPanel" style="margin-top:24px;display:none">
+    <h3 id="detailTitle"></h3>
+    <div class="muted" id="detailMeta"></div>
+    <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-top:12px">
+      <canvas id="detailBar"></canvas>
+      <canvas id="detailRefPie"></canvas>
+    </div>
+  </div>
+  
+  <script>
+    function fmtPct(v){ if(v===null || v===undefined || Number.isNaN(v)) return '—'; return (v>0?'+':'') + v.toFixed(1) + '%'; }
+    async function fetchJSON(url){ const r = await fetch(url, {credentials:'same-origin'}); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
+
+    let allLineChart, refPieChart, detailBarChart, detailRefPieChart;
+
+    async function loadDashboard(){
+      const days = 30;
+      const data = await fetchJSON(`/api/sms-bitly-dashboard?days=${days}`);
+      const gen = document.getElementById('generatedAt');
+      if (gen) gen.textContent = 'Updated ' + new Date(data.generated_at).toLocaleString();
+
+      // Line
+      const labels = data.timeseries_all.map(p => p.date);
+      const values = data.timeseries_all.map(p => p.clicks);
+      if (allLineChart) allLineChart.destroy();
+      allLineChart = new Chart(document.getElementById('allLine'), {type:'line', data:{labels, datasets:[{label:'Clicks', data: values, fill:false}]}, options:{responsive:true, plugins:{legend:{display:false}}}});
+
+      // Pie
+      const refLabels = data.referrers_pie.slice(0,12).map(r=>r.referrer);
+      const refValues = data.referrers_pie.slice(0,12).map(r=>r.clicks);
+      if (refPieChart) refPieChart.destroy();
+      refPieChart = new Chart(document.getElementById('refPie'), {type:'pie', data:{labels: refLabels, datasets:[{data: refValues}]}, options:{responsive:true}});
+
+      // Table
+      const tbody = document.querySelector('#topTable tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      (data.top_links || []).forEach(row => {
+        const tr = document.createElement('tr');
+        const a = document.createElement('a'); a.href = row.short_url; a.target = '_blank'; a.textContent = row.bitlink;
+        const tdLink = document.createElement('td'); tdLink.appendChild(a); tr.appendChild(tdLink);
+        const tdComp = document.createElement('td'); tdComp.textContent = row.company_name || ''; tr.appendChild(tdComp);
+        const tdLabel = document.createElement('td'); tdLabel.textContent = row.label || ''; tr.appendChild(tdLabel);
+        const tdTot = document.createElement('td'); tdTot.textContent = row.total_clicks; tr.appendChild(tdTot);
+        const td7 = document.createElement('td'); td7.textContent = row.last7; tr.appendChild(td7);
+        const tdWoW = document.createElement('td'); tdWoW.textContent = fmtPct(row.wow_change_pct); tr.appendChild(tdWoW);
+        const tdBtn = document.createElement('td');
+        const btn = document.createElement('button'); btn.textContent = 'Access'; btn.addEventListener('click', () => showLinkDetail(row.bitlink));
+        tdBtn.appendChild(btn); tr.appendChild(tdBtn);
+        tbody.appendChild(tr);
+      });
+    }
+    
+      async function showLinkDetail(bitlink){
+        const days = 30;
+        const data = await fetchJSON(`/api/sms-bitly-link/${encodeURIComponent(bitlink)}?days=${days}`);
+    
+        document.getElementById('detailTitle').textContent = data.bitlink + ' – ' + (data.company_name || '');
+        document.getElementById('detailMeta').textContent =
+          `User: ${data.created_by || '—'} | Label: ${data.label || '—'} | Total: ${data.total_clicks} | ` +
+          `Last 7d: ${data.last7} | WoW: ${ (data.wow_change_pct==null?'—':data.wow_change_pct.toFixed(1)+'%') }`;
+    
+        // Bar (time series)
+        const labels = data.series.map(p=>p.date);
+        const values = data.series.map(p=>p.clicks);
+        if (detailBarChart) detailBarChart.destroy();
+        detailBarChart = new Chart(document.getElementById('detailBar'), {
+          type:'bar',
+          data:{ labels, datasets:[{ label:'Clicks', data: values }] },
+          options:{ responsive:true, plugins:{ legend:{ display:false } } }
+        });
+    
+        // Per-link referrer pie
+        const refObj = data.referrers || {};
+        const refLabels = Object.keys(refObj);
+        const refValues = refLabels.map(k => refObj[k]);
+        if (detailRefPieChart) detailRefPieChart.destroy();
+        detailRefPieChart = new Chart(document.getElementById('detailRefPie'), {
+          type:'pie',
+          data:{ labels: refLabels, datasets:[{ data: refValues }] },
+          options:{ responsive:true }
+        });
+    
+        document.getElementById('detailPanel').style.display = 'block';
+      }
+    
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadDashboard().catch(err => { console.error(err); alert('Failed to load dashboard'); });
+    });
+
+
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,344 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ config.assistant_name }}</title>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ app_url(config.favicon_url or '/static/images/favicon.png') }}?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ app_url('/static/vendor/fontawesome/css/fontawesome-phone.css') }}?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ app_url('/static/css/styles.css') }}?v={{ asset_version }}">
+
+    <style>
+        :root {
+            --primary-blue: {{ config.secondary_color }};
+            --deep-blue: {{ config.primary_color }};
+            --button-color: {{ config.button_color }};
+            --light-background: {{ config.background_color }};
+        }
+
+        .chat-composer button,
+        .language-button.active {
+            background: var(--button-color);
+        }
+    </style>
+</head>
+
+<body class="{{ 'embed-chat-body' if embed_mode else '' }}">
+    <div class="app-shell {{ 'embed-chat-shell' if embed_mode else '' }}">
+        <header class="topbar">
+            <a class="brand" href="{{ default_chatbot_path }}" aria-label="Interactive SMS chatbot">
+                <span class="logo-frame">
+                    <img
+                        src="{{ app_url(config.logo_url or '/static/images/logo.png') }}"
+                        alt="{{ config.company_name }} logo"
+                        data-i18n-alt="companyLogoAlt"
+                        class="brand-logo"
+                    >
+                </span>
+            </a>
+
+            <div class="topbar-actions">
+                <button id="new-chat-button" class="new-chat-button" type="button" data-i18n="newChat">
+                    New chat
+                </button>
+
+                <div class="language-switcher" role="group" aria-label="Language selector">
+                    <button type="button" class="language-button active" data-language="en">EN</button>
+                    <button type="button" class="language-button" data-language="ar">AR</button>
+                </div>
+
+                <div class="header-contact-actions" aria-label="Company contact options">
+                    <a
+                        class="header-contact-link"
+                        href="tel:+962775444436"
+                        aria-label="Call JorMall"
+                        title="Call JorMall"
+                        data-i18n-aria-label="callCompany"
+                        data-i18n-title="callCompany"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M7.2 3.5 9.7 7.9 7.9 9.7a15.2 15.2 0 0 0 6.4 6.4l1.8-1.8 4.4 2.5-.7 3.1c-.2.8-.9 1.3-1.7 1.3C9.7 20.8 3.2 14.3 2.8 5.9c0-.8.5-1.5 1.3-1.7l3.1-.7Z"></path>
+                        </svg>
+                    </a>
+                    <a
+                        class="header-contact-link"
+                        href="mailto:info@jormall.com"
+                        aria-label="Email JorMall"
+                        title="Email JorMall"
+                        data-i18n-aria-label="emailCompany"
+                        data-i18n-title="emailCompany"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M3.5 5.5h17v13h-17z"></path>
+                            <path d="m4.5 7 7.5 6 7.5-6"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <section class="hero">
+                <div class="hero-label-spacer" aria-hidden="true"></div>
+
+                <h1 data-i18n="heroTitle">{{ config.assistant_name }}</h1>
+
+                <p data-i18n="heroSubtitle">
+                    Ask questions about {{ config.company_name }} services, policies, and support information.
+                </p>
+            </section>
+
+            <section class="chat-panel">
+                <div class="chat-panel-header">
+                    <div>
+                        <h2 data-i18n="chatHeading">How can we help?</h2>
+                    </div>
+                </div>
+
+                <div
+                    id="voice-experience"
+                    class="voice-experience"
+                    data-state="idle"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="voice-experience-title"
+                    hidden
+                >
+                    <button
+                        id="voice-experience-close"
+                        class="voice-experience-close"
+                        type="button"
+                        aria-label="Close voice mode"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="voice-experience-content">
+                        <button
+                            id="voice-orb-button"
+                            class="voice-orb"
+                            type="button"
+                            aria-label="Stop recording"
+                        >
+                            <span class="voice-orb-ring voice-orb-ring-one" aria-hidden="true"></span>
+                            <span class="voice-orb-ring voice-orb-ring-two" aria-hidden="true"></span>
+                            <span class="voice-orb-core" aria-hidden="true">
+                                <svg class="voice-orb-mic" viewBox="0 0 24 24" focusable="false">
+                                    <path d="M12 14.5a3.5 3.5 0 0 0 3.5-3.5V5a3.5 3.5 0 1 0-7 0v6a3.5 3.5 0 0 0 3.5 3.5Z"></path>
+                                    <path d="M5.75 10.5v.5a6.25 6.25 0 0 0 12.5 0v-.5M12 17.25V21M8.75 21h6.5"></path>
+                                </svg>
+                                <span class="voice-orb-wave">
+                                    <i></i><i></i><i></i><i></i><i></i>
+                                </span>
+                            </span>
+                        </button>
+                        <h3 id="voice-experience-title">Listening…</h3>
+                        <p id="voice-experience-hint">Tap the circle when you finish speaking.</p>
+                        <small class="voice-ai-disclosure" data-i18n="voiceDisclosure">
+                            AI-generated voice
+                        </small>
+                    </div>
+                </div>
+
+                <div id="chat-messages" class="chat-messages" aria-live="polite">
+                    <article class="message assistant-message">
+                        <div class="message-bubble">
+                            <p id="welcome-message">
+                                Welcome to {{ config.assistant_name }}. Ask me about {{ config.company_name }}.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="suggestions-wrapper">
+                    <p class="suggestions-label" data-i18n="tryAsking">Try asking</p>
+                    <div id="suggestion-list" class="suggestion-list"></div>
+                </div>
+
+                <form id="chat-form" class="chat-composer">
+                    <button
+                        id="voice-button"
+                        class="voice-button"
+                        type="button"
+                        data-i18n-aria-label="voiceStart"
+                        aria-label="Start voice message"
+                        aria-pressed="false"
+                        {% if not voice_stt_enabled %}hidden{% endif %}
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M12 14.5a3.5 3.5 0 0 0 3.5-3.5V5a3.5 3.5 0 1 0-7 0v6a3.5 3.5 0 0 0 3.5 3.5Z"></path>
+                            <path d="M5.75 10.5v.5a6.25 6.25 0 0 0 12.5 0v-.5M12 17.25V21M8.75 21h6.5"></path>
+                        </svg>
+                    </button>
+
+                    <textarea
+                        id="chat-input"
+                        rows="1"
+                        maxlength="2000"
+                        placeholder="Ask a question about {{ config.company_name }}..."
+                        aria-label="Ask a question about {{ config.company_name }}"
+                    ></textarea>
+
+                    <button id="send-button" type="submit" aria-label="Send message">
+                        <span data-i18n="send">Send &rarr;</span>
+                    </button>
+
+                    <span id="voice-status" class="voice-status" aria-live="polite"></span>
+                </form>
+            </section>
+
+            <p class="footer-note" data-i18n="footerNote">
+                {{ config.footer_text_en or (config.assistant_name ~ ' – ' ~ (config.display_company_name or config.company_name) ~ ' • Powered by JorMall • © 2026. All rights reserved.') }}
+            </p>
+        </main>
+    </div>
+
+    {% if pre_chat_lead_capture_enabled %}
+    <div
+        id="prechat-lead-overlay"
+        class="prechat-lead-overlay"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="prechat-lead-title"
+        aria-describedby="prechat-lead-subtitle"
+        hidden
+    >
+        <form id="prechat-lead-form" class="prechat-lead-card" novalidate>
+            <div class="prechat-lead-header">
+                <img
+                    src="{{ app_url('/static/client_assets/central-e-commerce-co-ltd/Jormall_logo.png') }}"
+                    alt="JorMall logo"
+                    data-i18n-alt="companyLogoAlt"
+                    class="prechat-lead-logo"
+                >
+                <h2 id="prechat-lead-title" data-i18n="leadTitle">Start your conversation</h2>
+                <p id="prechat-lead-subtitle" data-i18n="leadSubtitle">Please enter your name and mobile number to continue to the chatbot.</p>
+                <div class="prechat-language-switcher language-switcher" role="group" aria-label="Language selector">
+                    <button type="button" class="language-button active" data-language="en">EN</button>
+                    <button type="button" class="language-button" data-language="ar">AR</button>
+                </div>
+            </div>
+
+            <label class="prechat-lead-field" for="prechat-lead-name">
+                <span data-i18n="leadNameLabel">Name</span>
+                <input
+                    id="prechat-lead-name"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    maxlength="100"
+                    placeholder="Ahmed Sami"
+                    required
+                >
+                <span id="prechat-lead-name-error" class="prechat-lead-error" aria-live="polite"></span>
+            </label>
+
+            <label class="prechat-lead-field" for="prechat-lead-phone">
+                <span data-i18n="leadPhoneLabel">Mobile Number</span>
+                <input
+                    id="prechat-lead-phone"
+                    name="phone"
+                    type="tel"
+                    inputmode="numeric"
+                    autocomplete="tel"
+                    maxlength="10"
+                    placeholder="07XXXXXXXX"
+                    required
+                >
+                <span id="prechat-lead-phone-error" class="prechat-lead-error" aria-live="polite"></span>
+            </label>
+
+            <p class="prechat-notice-intro">
+                <span data-i18n="leadNoticeIntro">Your contact details will be used to follow up regarding this service.</span>
+                <button
+                    id="review-contact-notice"
+                    class="prechat-notice-info"
+                    type="button"
+                    data-notice-dialog="contact"
+                    data-i18n-aria-label="reviewContactNotice"
+                    aria-label="Review information about contact details and browser storage"
+                >ⓘ</button>
+            </p>
+
+            <button id="prechat-lead-submit" class="prechat-lead-submit" type="submit" disabled data-i18n="leadContinue">
+                Continue
+            </button>
+
+            <p id="prechat-lead-status" class="prechat-lead-status" aria-live="polite"></p>
+        </form>
+    </div>
+    {% endif %}
+
+    <div id="notice-dialog-backdrop" class="notice-dialog-backdrop" hidden>
+        <section
+            id="notice-dialog"
+            class="notice-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="notice-dialog-title"
+            aria-describedby="notice-dialog-body"
+            tabindex="-1"
+        >
+            <div class="notice-dialog-header">
+                <h2 id="notice-dialog-title"></h2>
+                <button id="notice-dialog-close" class="notice-dialog-close" type="button" aria-label="Close notice">&times;</button>
+            </div>
+            <div id="notice-dialog-body" class="notice-dialog-body"></div>
+        </section>
+    </div>
+
+    <script>
+        window.CHATBOT_CONFIG = {
+            clientSlug: {{ config.client_slug | tojson }},
+            companyName: {{ config.company_name | tojson }},
+            displayCompanyName: {{ (config.display_company_name or config.company_name) | tojson }},
+            assistantName: {{ config.assistant_name | tojson }},
+            chatbotType: {{ config.chatbot_type | tojson }},
+            campaignName: {{ config.campaign_name | tojson }},
+            campaignNameAr: {{ config.campaign_name_ar | tojson }},
+            campaignLanguage: {{ config.campaign_language | tojson }},
+            businessType: {{ config.business_type | tojson }},
+            chatbotTone: {{ config.chatbot_tone | tojson }},
+            chatbotGoal: {{ config.chatbot_goal | tojson }},
+            contactInfo: {{ config.contact_info | tojson }},
+            openingMessageEn: {{ config.opening_message_en | tojson }},
+            openingMessageAr: {{ config.opening_message_ar | tojson }},
+            footerTextEn: {{ config.footer_text_en | tojson }},
+            footerTextAr: {{ config.footer_text_ar | tojson }},
+            starterQuestionItems: {{ config.starter_question_items | tojson }},
+            leadConsentVersion: {{ config.lead_consent_version | tojson }},
+            contactDetails: {{ config.contact_details | tojson }},
+            currentYear: {{ current_year | tojson }},
+            scrapeWebsite: {{ config.scrape_website | tojson }},
+            suggestedQuestions: {{ config.suggested_questions | tojson }},
+            appBasePath: {{ app_base_path | tojson }},
+            knowledgeVersion: {{ knowledge_version | tojson }},
+            streamEndpoint: {{ app_url('/api/chat/' ~ config.client_slug ~ '/stream') | tojson }},
+            voiceEnabled: {{ voice_stt_enabled | tojson }},
+            voiceBrowserFallbackEnabled: {{ voice_browser_fallback_enabled | tojson }},
+            voiceTtsProvider: {{ voice_tts_provider | tojson }},
+            voiceTransport: {{ voice_transport | tojson }},
+            voiceWebrtcModel: {{ voice_webrtc_model | tojson }},
+            voiceWebrtcVoice: {{ voice_webrtc_voice | tojson }},
+            voiceTranscribeEndpoint: {{ app_url('/api/chat/' ~ config.client_slug ~ '/transcribe') | tojson }},
+            voiceLiveTranscribeEndpoint: {{ app_url('/api/chat/' ~ config.client_slug ~ '/transcribe-live') | tojson }},
+            voiceWebrtcSessionEndpoint: {{ app_url('/api/chat/' ~ config.client_slug ~ '/webrtc-session') | tojson }},
+            voiceSpeechEndpoint: {{ app_url('/api/chat/' ~ config.client_slug ~ '/speak') | tojson }},
+            voiceMaxRecordingSeconds: {{ voice_max_recording_seconds | tojson }},
+            leadCaptureEnabled: {{ pre_chat_lead_capture_enabled | tojson }},
+            leadStatusEndpoint: {{ app_url('/api/chat/' ~ config.client_slug ~ '/lead') | tojson }},
+            leadSubmitEndpoint: {{ app_url('/api/chat/' ~ config.client_slug ~ '/lead') | tojson }},
+            salesCallbackEndpoint: {{ app_url('/api/chat/' ~ config.client_slug ~ '/request-sales-call') | tojson }},
+            embedMode: {{ embed_mode | tojson }},
+            sessionId: {{ embed_session_id | tojson }},
+            embedParentOrigin: {{ embed_parent_origin | tojson }}
+        };
+    </script>
+    <script src="{{ app_url('/static/js/voice-protocol.js') }}?v={{ asset_version }}"></script>
+    <script src="{{ app_url('/static/js/voice-player.js') }}?v={{ asset_version }}"></script>
+    <script src="{{ app_url('/static/js/voice-webrtc.js') }}?v={{ asset_version }}"></script>
+    <script src="{{ app_url('/static/js/voice-recorder.js') }}?v={{ asset_version }}"></script>
+    <script src="{{ app_url('/static/js/chat.js') }}?v={{ asset_version }}"></script>
+</body>
+</html>

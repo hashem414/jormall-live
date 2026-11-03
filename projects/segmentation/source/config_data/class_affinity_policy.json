@@ -1,0 +1,24 @@
+{
+  "version": "class-affinity-v1",
+  "canonical_order": [
+    "Economy",
+    "Economy Plus",
+    "Middle",
+    "Middle Plus",
+    "Upper"
+  ],
+  "strength_levels": {
+    "none": 0,
+    "weak": 1,
+    "moderate": 2,
+    "strong": 3
+  },
+  "focused_distance_affinity": {
+    "0": "strong",
+    "1": "moderate",
+    "2": "weak",
+    "3": "none",
+    "4": "none"
+  },
+  "neutral_class": "AllClasses"
+}

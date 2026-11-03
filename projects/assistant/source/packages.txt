@@ -1,0 +1,15 @@
+Flask
+Flask-Session
+flask-cors
+python-dotenv
+numpy
+PyMuPDF
+python-docx
+playwright
+mammoth
+requests
+httpx
+openai
+beautifulsoup4
+tzdata
+openpyxl

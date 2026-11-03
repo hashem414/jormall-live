@@ -1,0 +1,3 @@
+module.exports=[15907,a=>{"use strict";var b=a.i(9001),c=a.i(19245);a.s(["CopyInstallationButton",0,function(a){let[d,e]=(0,c.useState)(!1);return(0,b.jsxs)("div",{className:"form-actions",children:[(0,b.jsx)("button",{className:"button secondary-button",onClick:async()=>{await navigator.clipboard.writeText(a.value),e(!0)},type:"button",children:a.label}),(0,b.jsx)("span",{"aria-live":"polite",className:"muted",children:d?a.copiedLabel:""})]})}])}];
+
+//# sourceMappingURL=apps_web_src_components_copy-installation-button_tsx_1o2o-96._.js.map

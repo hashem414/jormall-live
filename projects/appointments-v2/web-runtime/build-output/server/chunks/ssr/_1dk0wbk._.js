@@ -1,0 +1,3 @@
+module.exports=[58647,a=>{"use strict";var b=a.i(25456),c=a.i(98885);a.i(97926);var d=a.i(34524);async function e({children:a,params:f}){let{locale:g}=await f;return(0,c.isSupportedLocale)(g)||(0,d.notFound)(),(0,b.jsx)("html",{dir:c.localeDirection[g],lang:g,children:(0,b.jsx)("body",{children:a})})}a.s(["default",0,e,"generateStaticParams",0,function(){return[{locale:"en"},{locale:"ar"}]},"metadata",0,{title:"JorMall"}])},40239,function(a){a.n(a.i(58647))},98885,a=>{"use strict";let b=a.i(85824).z.enum(["en","ar"]);a.s(["isSupportedLocale",0,function(a){return b.safeParse(a).success},"localeDirection",0,{ar:"rtl",en:"ltr"}])}];
+
+//# sourceMappingURL=_1dk0wbk._.js.map

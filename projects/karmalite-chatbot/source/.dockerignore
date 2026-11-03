@@ -1,0 +1,12 @@
+.env
+.env.example
+.venv/
+.claude/
+.git/
+**/__pycache__/
+**/*.pyc
+tests/
+*.pdf
+*.docx
+*.md
+!data/*.md

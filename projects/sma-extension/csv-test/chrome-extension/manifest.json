@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "JorMall SMA AI Bridge - CSV Test",
+  "short_name": "SMA CSV Test",
+  "version": "2.1.2",
+  "description": "Isolated browser bridge for the JorMall SMA CSV export test assistant.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "JorMall SMA CSV Test",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "http://sma/*",
+    "https://sma/*",
+    "https://jormallapp.com/*",
+    "http://192.168.192.52/*",
+    "https://192.168.192.52/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://sma/*",
+        "https://sma/*",
+        "http://192.168.192.52/*",
+        "https://192.168.192.52/*"
+      ],
+      "js": [
+        "bridge.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  }
+}

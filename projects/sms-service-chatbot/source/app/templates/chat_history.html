@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat History</title>
+    <link rel="icon" type="image/png" href="{{ app_base_path or '' }}/static/images/favicon.png?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ app_base_path or '' }}/static/css/chat-history.css?v={{ asset_version }}">
+    {% if authenticated %}
+    <meta name="chat-history-csrf" content="{{ csrf_token }}">
+    {% endif %}
+</head>
+<body>
+    {% if not authenticated %}
+    <main class="login-shell">
+        <section class="login-card" aria-labelledby="login-title">
+            <img src="{{ logo_url }}" alt="Client logo" class="login-logo">
+            <h1 id="login-title">Chat History</h1>
+            <p>Review customer conversations and follow-up work.</p>
+            <form method="post" action="{{ dashboard_base_path or '' }}/admin/chat-history/login" class="login-form">
+                <label for="dashboard-password">Password</label>
+                <input id="dashboard-password" name="password" type="password" autocomplete="current-password" required autofocus>
+                {% if login_message %}
+                <p class="login-message" role="alert">{{ login_message }}</p>
+                {% endif %}
+                <button type="submit">Open Dashboard</button>
+            </form>
+        </section>
+    </main>
+    {% else %}
+    <main class="dashboard-shell">
+        <header class="dashboard-header">
+            <div>
+                <p class="eyebrow">Internal Dashboard</p>
+                <h1>Chat History</h1>
+                <p>Customer conversations, assignments, notes, and follow-up status.</p>
+            </div>
+            <form method="post" action="{{ dashboard_base_path or '' }}/admin/chat-history/logout">
+                <button type="submit" class="logout-button">Logout</button>
+            </form>
+        </header>
+
+        <section class="toolbar" aria-label="Conversation filters">
+            <label class="search-field">
+                <span>Search</span>
+                <input id="history-search" type="search" placeholder="Name, mobile, session, assignee" autocomplete="off">
+            </label>
+            <label class="filter-field">
+                <span>Status</span>
+                <select id="history-status">
+                    <option value="all">All</option>
+                    <option value="open">Open</option>
+                    <option value="pending">Pending</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+            </label>
+            <label class="filter-field">
+                <span>Archive</span>
+                <select id="history-archive">
+                    <option value="active">Active</option>
+                    <option value="archived">Archived</option>
+                    <option value="all">All</option>
+                </select>
+            </label>
+            <label class="filter-field">
+                <span>Date</span>
+                <select id="history-date">
+                    <option value="all">All dates</option>
+                    <option value="today">Today</option>
+                    <option value="7d">Last 7 days</option>
+                </select>
+            </label>
+            <button id="history-export" type="button" class="export-button">Export CSV</button>
+        </section>
+
+        <section class="status-line" aria-live="polite">
+            <span id="history-status-line"></span>
+        </section>
+
+        <section class="history-layout">
+            <div class="conversation-list" id="conversation-list" aria-label="Conversation list"></div>
+            <article class="conversation-detail" id="conversation-detail" aria-label="Conversation detail">
+                <p class="empty-state">Select a conversation.</p>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        window.DASHBOARD_BASE_PATH = {{ (dashboard_base_path or '') | tojson }};
+    </script>
+    <script src="{{ app_base_path or '' }}/static/js/chat-history.js?v={{ asset_version }}"></script>
+    {% endif %}
+</body>
+</html>

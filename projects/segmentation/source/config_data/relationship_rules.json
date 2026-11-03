@@ -1,0 +1,76 @@
+{
+  "version": "relationship-v2",
+  "description": "Open-vocabulary concept bridges. These rules can establish adjacent business relevance but cannot fabricate direct product evidence.",
+  "stop_terms": [
+    "campaign", "promote", "promotion", "advertise", "advertising", "offer", "offers", "product", "products",
+    "service", "services", "new", "audience", "target", "people", "customers", "users", "jordan", "amman",
+    "حملة", "ترويج", "اعلان", "منتج", "منتجات", "خدمة", "خدمات", "جديد", "عملاء", "الاردن", "عمان"
+  ],
+  "generic_relationship_terms": ["new", "product", "products", "service", "services", "campaign", "offer", "offers", "for", "with", "from", "this", "that", "people", "users", "customers", "jordan", "amman", "mobile", "smart", "professional", "commercial", "industrial", "home"],
+  "target_markers": ["for", "targeting", "aimed at", "to", "ل", "لل", "موجه الى", "تستهدف"],
+  "evidence_category_conflicts": {
+    "industrial_business": ["Beauty & Personal Care"],
+    "commercial_hvac": ["Beauty & Personal Care"],
+    "industrial_drying_equipment": ["Beauty & Personal Care"],
+    "hair_styling": ["Industry & Manufacturing"],
+    "beauty_cosmetics": ["Industry & Manufacturing"]
+  },
+  "campaign_types": {
+    "b2b": ["b2b", "businesses", "companies", "factories", "procurement", "professional", "شركات", "مصانع", "اعمال"],
+    "consumer": ["b2c", "consumers", "customers", "households", "families", "personal", "مستهلكين", "عملاء", "اسر", "عائلات"],
+    "education": ["students", "training", "course", "university", "طلاب", "تدريب", "جامعة"],
+    "finance": ["finance", "loan", "credit", "banking", "تمويل", "قرض", "ائتمان"]
+  },
+  "role_terms": {
+    "companies": ["businesses", "companies", "factories", "retailers", "shops", "organizations", "شركات", "مصانع", "متاجر", "مؤسسات"],
+    "professionals": ["professionals", "engineers", "doctors", "accountants", "technicians", "contractors", "مهنيين", "مهندسين", "اطباء", "محاسبين", "فنيين"],
+    "students": ["students", "graduates", "trainees", "طلاب", "خريجين", "متدربين"],
+    "customers_or_prospects": ["consumers", "customers", "buyers", "households", "families", "مستهلكين", "عملاء", "مشترين", "اسر", "عائلات"]
+  },
+  "arabic_concept_bridge": {
+    "منتجات العناية بالشعر": ["hair care", "hair products"],
+    "العناية بالشعر": ["hair care"],
+    "مجففات الشعر": ["hair dryers", "hair styling"],
+    "هواتف ذكية": ["smartphones", "mobile phones"],
+    "مكيفات": ["air conditioners", "air conditioning"],
+    "الطاقة الشمسية": ["solar energy", "solar panels", "renewable energy"],
+    "الواح شمسية": ["solar panels", "renewable energy"],
+    "رافعات متنقلة": ["mobile cranes", "construction machinery"],
+    "برامج محاسبة": ["accounting software", "business software"],
+    "امن سيبراني": ["cybersecurity", "information technology"],
+    "معدات طبية": ["medical equipment", "healthcare"],
+    "اثاث مكتبي": ["office furniture", "business equipment"],
+    "مستلزمات حيوانات": ["pet supplies", "veterinary"],
+    "معدات مصانع": ["factory equipment", "industrial machinery"],
+    "اجهزة منزلية": ["home appliances"],
+    "هواتف ذكية": ["smartphones"]
+  },
+  "concept_groups": [
+    {"id": "renewable_energy", "seed_terms": ["solar", "solar panel", "solar panels", "photovoltaic", "renewable energy", "wind energy"], "evidence_terms": ["electrical", "electricity", "energy", "engineering", "industrial", "factory", "factories", "construction", "contractor", "procurement"], "categories": ["Industry & Manufacturing", "Professional & Business"]},
+    {"id": "construction_machinery", "seed_terms": ["mobile crane", "mobile cranes", "crane", "cranes", "excavator", "excavators", "construction machinery", "heavy equipment"], "evidence_terms": ["construction", "contractor", "engineering", "engineers", "industrial", "factory", "factories", "machinery", "equipment", "procurement"], "categories": ["Industry & Manufacturing", "Professional & Business"]},
+    {"id": "pet_care", "seed_terms": ["pet", "pets", "pet grooming", "pet supplies", "animal care", "veterinary"], "evidence_terms": ["pet", "pets", "veterinary", "veterinarian", "animal", "animals", "clinic", "grooming"], "categories": ["Health & Wellness", "Retail & Shopping"]},
+    {"id": "business_software", "seed_terms": ["accounting software", "erp", "crm", "business software", "cybersecurity", "cyber security", "workflow software"], "evidence_terms": ["accounting", "accountant", "accountants", "finance", "financial", "software", "technology", "information technology", "it", "computer", "security", "business", "companies"], "categories": ["Professional & Business", "Electronics & Technology", "Finance & Banking"]},
+    {"id": "food_machinery", "seed_terms": ["bakery equipment", "bakery machinery", "food machinery", "commercial oven", "commercial kitchen", "dough sheeter", "dough sheeters", "commercial dough sheeter", "commercial dough sheeters"], "evidence_terms": ["bakery", "bakeries", "restaurant", "restaurants", "cafe", "cafes", "food", "hotel", "hospitality", "industrial", "factory"], "categories": ["Restaurants & Hospitality", "Industry & Manufacturing"]},
+    {"id": "laboratory_equipment", "seed_terms": ["laboratory equipment", "lab equipment", "microscope", "diagnostic equipment"], "evidence_terms": ["laboratory", "lab", "medical", "healthcare", "clinic", "hospital", "doctor", "pharmacy", "research"], "categories": ["Healthcare & Medical", "Professional & Business"]},
+    {"id": "medical_equipment", "seed_terms": ["medical device", "medical devices", "medical equipment", "hospital equipment"], "evidence_terms": ["medical", "healthcare", "clinic", "hospital", "doctor", "doctors", "pharmacy", "nursing"], "categories": ["Healthcare & Medical", "Professional & Business"]},
+    {"id": "agriculture_irrigation", "seed_terms": ["irrigation", "irrigation systems", "agricultural equipment", "farming equipment"], "evidence_terms": ["agriculture", "agricultural", "farm", "farmer", "farmers", "water", "engineering", "industrial"], "categories": ["Industry & Manufacturing", "Professional & Business"]},
+    {"id": "office_furniture", "seed_terms": ["office furniture", "office chair", "office chairs", "desks", "gaming chair", "gaming chairs"], "evidence_terms": ["furniture", "home accessories", "office", "business", "companies", "shopping", "retail", "interior", "design"], "categories": ["Home & Appliances", "Professional & Business", "Fashion & Retail"]},
+    {"id": "thermal_imaging", "seed_terms": ["thermal imaging", "thermal camera", "thermal cameras", "infrared camera"], "evidence_terms": ["security", "engineering", "industrial", "electrical", "technology", "construction", "medical"], "categories": ["Electronics & Technology", "Industry & Manufacturing", "Professional & Business"]},
+    {"id": "fashion_apparel", "seed_terms": ["shirt", "shirts", "jersey", "jerseys", "clothing", "fashion", "apparel", "shoes"], "evidence_terms": ["fashion", "clothing", "apparel", "shopping", "retail", "sports", "football"], "categories": ["Fashion & Retail", "Sports & Fitness"]},
+    {"id": "home_appliance", "seed_terms": ["refrigerator", "refrigerators", "fridge", "freezer", "washing machine", "home appliance", "home appliances"], "evidence_terms": ["home appliance", "home appliances", "appliance", "appliances", "home accessories", "electronics", "shopping", "retail"], "categories": ["Home & Appliances", "Electronics & Technology"]},
+    {"id": "hvac", "seed_terms": ["air conditioner", "air conditioners", "air conditioning", "hvac"], "evidence_terms": ["air conditioning", "hvac", "home appliance", "home appliances", "electronics", "automotive", "industrial", "facility"], "categories": ["Home & Appliances", "Automotive", "Industry & Manufacturing"]},
+    {"id": "hair_care", "seed_terms": ["hair care", "hair products", "hair dryers", "hair styling"], "evidence_terms": ["hair care", "hair", "beauty", "cosmetics", "salon", "salons", "spa", "barber"], "categories": ["Beauty & Personal Care"]},
+    {"id": "factory_equipment", "seed_terms": ["factory equipment", "industrial machinery", "manufacturing equipment", "packaging machinery", "freeze dryers", "freeze dryer"], "evidence_terms": ["industrial", "industry", "manufacturing", "factory", "factories", "production", "packaging", "engineering", "procurement", "laboratory", "food"], "categories": ["Industry & Manufacturing", "Professional & Business"]},
+    {"id": "sports_fitness", "seed_terms": ["gym membership", "gym memberships", "fitness membership", "fitness memberships"], "evidence_terms": ["gym", "fitness", "sports", "club", "clubs", "health", "wellness"], "categories": ["Sports & Fitness", "Healthcare & Medical"]},
+    {"id": "baby_parenting", "seed_terms": ["baby diaper", "baby diapers", "diapers", "baby products"], "evidence_terms": ["parent", "parents", "baby", "babies", "children", "family", "families", "mother", "mothers"], "categories": ["Family & Parenting"]},
+    {"id": "laboratory_equipment_detail", "seed_terms": ["centrifuge", "centrifuges", "laboratory centrifuge", "laboratory centrifuges", "freeze dryer", "freeze dryers"], "evidence_terms": ["laboratory", "lab", "medical", "hospital", "pharmaceutical", "healthcare", "research", "industrial", "food"], "categories": ["Healthcare & Medical", "Industry & Manufacturing", "Professional & Business"]},
+    {"id": "retail_software", "seed_terms": ["pos", "pos software", "point of sale", "point of sale software"], "evidence_terms": ["retail", "shopping", "restaurant", "restaurants", "software", "business", "companies", "accounting", "finance"], "categories": ["Fashion & Retail", "Restaurants & Hospitality", "Professional & Business"]},
+    {"id": "office_equipment", "seed_terms": ["office equipment", "office supplies", "business equipment"], "evidence_terms": ["office", "offices", "companies", "business", "administration", "professional", "furniture", "computer", "technology"], "categories": ["Professional & Business", "Home & Appliances", "Electronics & Technology"]},
+    {"id": "logistics", "seed_terms": ["logistics", "logistics system", "logistics systems", "warehouse system", "fleet system"], "evidence_terms": ["logistics", "transport", "taxi", "delivery", "shipping", "warehouse", "supply chain", "companies"], "categories": ["Transport & Logistics", "Professional & Business"]},
+    {"id": "commercial_cleaning", "seed_terms": ["commercial cleaning", "commercial cleaning services", "facility cleaning"], "evidence_terms": ["hotel", "hotels", "hospital", "hospitals", "office", "offices", "facility", "facilities", "companies", "business"], "categories": ["Restaurants & Hospitality", "Healthcare & Medical", "Professional & Business"]},
+    {"id": "power_energy", "seed_terms": ["power station", "power stations", "energy infrastructure"], "evidence_terms": ["energy", "electrical", "electricity", "engineering", "industrial", "infrastructure", "construction", "companies"], "categories": ["Industry & Manufacturing", "Professional & Business"]},
+    {"id": "mobile_handsets", "seed_terms": ["handset", "handsets", "smartphone", "smartphones", "mobile phone", "mobile phones"], "evidence_terms": ["smartphones", "consumer electronics", "electronics", "telecom services", "telecommunications", "subscriber", "subscribers", "mobile phones"], "categories": ["Electronics & Technology", "Telecommunications"]},
+    {"id": "food_offers", "seed_terms": ["lunch", "dinner", "meal", "meals", "dining", "food offer", "food offers"], "evidence_terms": ["restaurant", "restaurants", "cafe", "cafes", "dining", "food", "hotel", "hospitality"], "categories": ["Restaurants & Hospitality"]},
+    {"id": "computer_accessories", "seed_terms": ["ac adapter", "ac adapters", "adapter", "adapters", "laptop accessory", "laptop accessories"], "evidence_terms": ["computer", "computers", "laptop", "laptops", "electronics", "technology", "information technology", "retail"], "categories": ["Electronics & Technology", "Fashion & Retail"]}
+  ]
+}

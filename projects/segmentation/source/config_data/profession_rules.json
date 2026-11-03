@@ -1,0 +1,13 @@
+{
+  "version": "profession-v2",
+  "rules": [
+    {"rule_id":"profession.engineering","patterns":["\\b(engineers?|engineering|mechanical|electrical|chemical engineers?)\\b"],"concept":"engineering","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"profession.healthcare","patterns":["\\b(doctors?|physicians?|nurses?|pharmacists?|medical professionals?)\\b"],"concept":"healthcare","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"profession.education","patterns":["\\b(teachers?|professors?|educators?|trainers?)\\b"],"concept":"education","confidence":0.92,"source_fields":["original_category","remainder"]},
+    {"rule_id":"profession.finance","patterns":["\\b(accountants?|auditors?|bankers?|finance managers?)\\b"],"concept":"finance_professional","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"profession.legal","patterns":["\\b(lawyers?|attorneys?|legal professionals?)\\b"],"concept":"legal","confidence":0.94,"source_fields":["original_category","remainder"]},
+    {"rule_id":"profession.procurement","patterns":["\\b(procurement|purchasing managers?|supply chain)\\b"],"concept":"procurement","confidence":0.92,"source_fields":["original_category","remainder"]},
+    {"rule_id":"profession.technology","patterns":["\\b(software|developers?|programmers?|information technology|it professionals?)\\b"],"concept":"technology_professional","confidence":0.88,"source_fields":["original_category","remainder"]},
+    {"rule_id":"profession.management","patterns":["\\b(managers?|directors?|executives?|ceos?|business owners?)\\b"],"concept":"management","confidence":0.91,"source_fields":["original_category","remainder"]}
+  ]
+}

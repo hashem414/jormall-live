@@ -1,0 +1,416 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1200"
+    height="900"
+    viewBox="0 0 1200 900"
+    role="img"
+    aria-labelledby="title description">
+
+  <title id="title">SMS business communication</title>
+
+  <desc id="description">
+    A smartphone displaying incoming and outgoing SMS messages.
+  </desc>
+
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#102A33"/>
+      <stop offset="58%" stop-color="#173D49"/>
+      <stop offset="100%" stop-color="#229ACD"/>
+    </linearGradient>
+
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8F7FC"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow
+          dx="0"
+          dy="24"
+          stdDeviation="24"
+          flood-color="#07161C"
+          flood-opacity="0.42"/>
+    </filter>
+
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow
+          dx="0"
+          dy="8"
+          stdDeviation="10"
+          flood-color="#102A33"
+          flood-opacity="0.15"/>
+    </filter>
+
+    <pattern id="dots" width="46" height="46" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.5" fill="#FFFFFF" opacity="0.10"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#background)"/>
+  <rect width="1200" height="900" fill="url(#dots)"/>
+
+  <!-- Decorative SMS bubbles -->
+  <g opacity="0.18">
+    <rect x="60" y="130" width="290" height="110" rx="34" fill="#49B9E8"/>
+    <path d="M105 235 L86 277 L148 239 Z" fill="#49B9E8"/>
+
+    <rect x="875" y="590" width="270" height="105" rx="32" fill="#F44036"/>
+    <path d="M1080 690 L1118 732 L1052 694 Z" fill="#F44036"/>
+  </g>
+
+  <!-- Header text -->
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text
+        x="90"
+        y="105"
+        fill="#FFFFFF"
+        font-size="34"
+        font-weight="700"
+        letter-spacing="2">
+      BUSINESS SMS
+    </text>
+
+    <text
+        x="90"
+        y="151"
+        fill="#BEEAFA"
+        font-size="22">
+      Direct, clear and immediate communication
+    </text>
+  </g>
+
+  <!-- Phone -->
+  <g filter="url(#shadow)">
+    <rect
+        x="395"
+        y="85"
+        width="410"
+        height="730"
+        rx="66"
+        fill="#0A171D"
+        stroke="#526871"
+        stroke-width="5"/>
+
+    <rect
+        x="418"
+        y="111"
+        width="364"
+        height="678"
+        rx="45"
+        fill="url(#screen)"/>
+
+    <rect
+        x="535"
+        y="100"
+        width="130"
+        height="15"
+        rx="8"
+        fill="#263A43"/>
+  </g>
+
+  <!-- SMS app header -->
+  <rect
+      x="418"
+      y="111"
+      width="364"
+      height="104"
+      rx="45"
+      fill="#102A33"/>
+
+  <rect
+      x="418"
+      y="170"
+      width="364"
+      height="45"
+      fill="#102A33"/>
+
+  <circle cx="467" cy="163" r="25" fill="#49B9E8"/>
+
+  <path
+      d="M455 163 L463 171 L479 153"
+      fill="none"
+      stroke="#FFFFFF"
+      stroke-width="5"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text
+        x="507"
+        y="158"
+        fill="#FFFFFF"
+        font-size="21"
+        font-weight="700">
+      JorMall SMS
+    </text>
+
+    <text
+        x="507"
+        y="184"
+        fill="#A8CBD8"
+        font-size="14">
+      Business communication
+    </text>
+  </g>
+
+  <!-- Date -->
+  <text
+      x="600"
+      y="252"
+      fill="#687B84"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="14"
+      text-anchor="middle">
+    Today
+  </text>
+
+  <!-- Incoming message -->
+  <g filter="url(#softShadow)">
+    <rect
+        x="447"
+        y="280"
+        width="257"
+        height="103"
+        rx="26"
+        fill="#FFFFFF"/>
+
+    <path
+        d="M462 367 L445 400 L488 379 Z"
+        fill="#FFFFFF"/>
+  </g>
+
+  <g
+      fill="#16303A"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="17">
+
+    <text x="473" y="315">Your order has been</text>
+    <text x="473" y="341">confirmed successfully.</text>
+    <text x="473" y="366">Thank you.</text>
+  </g>
+
+  <text
+      x="675"
+      y="371"
+      fill="#7C8D95"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="12"
+      text-anchor="end">
+    10:24
+  </text>
+
+  <!-- Outgoing message -->
+  <g filter="url(#softShadow)">
+    <rect
+        x="492"
+        y="420"
+        width="260"
+        height="107"
+        rx="26"
+        fill="#49B9E8"/>
+
+    <path
+        d="M713 514 L752 546 L740 507 Z"
+        fill="#49B9E8"/>
+  </g>
+
+  <g
+      fill="#FFFFFF"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="17">
+
+    <text x="518" y="456">Your appointment is</text>
+    <text x="518" y="482">tomorrow at 10:00 AM.</text>
+    <text x="518" y="508">Reply YES to confirm.</text>
+  </g>
+
+  <text
+      x="720"
+      y="515"
+      fill="#E8F7FC"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="12"
+      text-anchor="end">
+    10:25 ✓
+  </text>
+
+  <!-- Promotional SMS -->
+  <g filter="url(#softShadow)">
+    <rect
+        x="447"
+        y="568"
+        width="283"
+        height="113"
+        rx="26"
+        fill="#FFFFFF"/>
+
+    <path
+        d="M462 665 L445 700 L490 678 Z"
+        fill="#FFFFFF"/>
+  </g>
+
+  <g
+      fill="#16303A"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="17">
+
+    <text x="473" y="603">Special offer available</text>
+    <text x="473" y="629">this week. Visit our</text>
+    <text x="473" y="655">website to learn more.</text>
+  </g>
+
+  <rect
+      x="473"
+      y="665"
+      width="104"
+      height="4"
+      rx="2"
+      fill="#F44036"/>
+
+  <!-- Phone input area -->
+  <rect
+      x="445"
+      y="720"
+      width="270"
+      height="45"
+      rx="23"
+      fill="#FFFFFF"
+      stroke="#D9E4E8"
+      stroke-width="2"/>
+
+  <text
+      x="470"
+      y="749"
+      fill="#8899A1"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="15">
+    Text message
+  </text>
+
+  <circle cx="747" cy="743" r="22" fill="#F44036"/>
+
+  <path
+      d="M738 743 L755 743 M749 736 L756 743 L749 750"
+      fill="none"
+      stroke="#FFFFFF"
+      stroke-width="3.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+
+  <!-- Left feature labels -->
+  <g font-family="Arial, Helvetica, sans-serif">
+    <circle cx="166" cy="380" r="37" fill="#49B9E8"/>
+
+    <path
+        d="M148 370 H184 V392 H163 L151 401 V392 H148 Z"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="4"
+        stroke-linejoin="round"/>
+
+    <text
+        x="225"
+        y="374"
+        fill="#FFFFFF"
+        font-size="21"
+        font-weight="700">
+      Notifications
+    </text>
+
+    <text
+        x="225"
+        y="403"
+        fill="#C7DFE7"
+        font-size="17">
+      Keep customers informed
+    </text>
+
+    <circle cx="166" cy="500" r="37" fill="#F44036"/>
+
+    <path
+        d="M147 487 H185 V511 H162 L151 520 V511 H147 Z"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="4"
+        stroke-linejoin="round"/>
+
+    <text
+        x="225"
+        y="494"
+        fill="#FFFFFF"
+        font-size="21"
+        font-weight="700">
+      Promotions
+    </text>
+
+    <text
+        x="225"
+        y="523"
+        fill="#C7DFE7"
+        font-size="17">
+      Deliver relevant offers
+    </text>
+  </g>
+
+  <!-- Right feature labels -->
+  <g font-family="Arial, Helvetica, sans-serif">
+    <circle cx="1004" cy="380" r="37" fill="#49B9E8"/>
+
+    <path
+        d="M986 367 H1022 V390 H1006 L994 400 V390 H986 Z"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="4"
+        stroke-linejoin="round"/>
+
+    <text
+        x="950"
+        y="447"
+        fill="#FFFFFF"
+        font-size="21"
+        font-weight="700"
+        text-anchor="middle">
+      Reminders
+    </text>
+
+    <text
+        x="950"
+        y="476"
+        fill="#C7DFE7"
+        font-size="17"
+        text-anchor="middle">
+      Confirm appointments
+    </text>
+
+    <circle cx="1004" cy="565" r="37" fill="#F44036"/>
+
+    <path
+        d="M989 565 L999 575 L1020 551"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="5"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+    <text
+        x="950"
+        y="632"
+        fill="#FFFFFF"
+        font-size="21"
+        font-weight="700"
+        text-anchor="middle">
+      Confirmations
+    </text>
+
+    <text
+        x="950"
+        y="661"
+        fill="#C7DFE7"
+        font-size="17"
+        text-anchor="middle">
+      Immediate customer updates
+    </text>
+  </g>
+</svg>

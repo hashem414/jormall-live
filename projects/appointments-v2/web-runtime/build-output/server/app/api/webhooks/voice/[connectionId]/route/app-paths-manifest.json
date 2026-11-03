@@ -1,0 +1,3 @@
+{
+  "/api/webhooks/voice/[connectionId]/route": "app/api/webhooks/voice/[connectionId]/route.js"
+}

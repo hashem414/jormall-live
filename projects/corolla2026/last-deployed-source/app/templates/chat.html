@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Markazia Toyota Assistant</title>
+
+    {% set favicon_src = config.favicon_url or '/static/client_assets/central-trade-auto-co-markazia-toyota-jordan/favicon.ico' %}
+    {% set logo_src = config.logo_url or '/static/client_assets/central-trade-auto-co-markazia-toyota-jordan/logo.jpg' %}
+    {% set favicon_href = ((app_base_path or '') ~ favicon_src) if favicon_src.startswith('/') else favicon_src %}
+    {% set logo_href = ((app_base_path or '') ~ logo_src) if logo_src.startswith('/') else logo_src %}
+
+    <link rel="icon" href="{{ app_base_path or '' }}/favicon.ico?v={{ asset_version }}" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ app_base_path or '' }}/static/client_assets/central-trade-auto-co-markazia-toyota-jordan/favicon-32x32.png?v={{ asset_version }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ app_base_path or '' }}/static/client_assets/central-trade-auto-co-markazia-toyota-jordan/favicon-16x16.png?v={{ asset_version }}">
+    <link rel="apple-touch-icon" href="{{ app_base_path or '' }}/static/client_assets/central-trade-auto-co-markazia-toyota-jordan/apple-touch-icon.png?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ app_base_path or '' }}/static/css/styles.css?v={{ asset_version }}">
+
+    <style>
+        :root {
+            --primary-blue: {{ config.secondary_color }};
+            --deep-blue: {{ config.primary_color }};
+            --button-color: {{ config.button_color }};
+            --light-background: {{ config.background_color }};
+        }
+
+        .chat-composer button,
+        .language-button.active {
+            background: var(--button-color);
+        }
+    </style>
+</head>
+
+<body class="{{ 'embed-chat-body' if embed_mode else '' }}">
+    <div class="app-shell {{ 'embed-chat-shell' if embed_mode else '' }}">
+        <header class="topbar">
+            <a class="brand" href="{{ public_base_path }}" aria-label="Chatbot home">
+                <span class="logo-frame">
+                    <img
+                        src="{{ logo_href }}"
+                        alt="{{ config.company_name }} logo"
+                        class="brand-logo"
+                    >
+                </span>
+            </a>
+
+            <div class="topbar-actions">
+                <button id="new-chat-button" class="new-chat-button" type="button" data-i18n="newChat">
+                    New chat
+                </button>
+
+                <div class="language-switcher" role="group" aria-label="Language selector">
+                    <button type="button" class="language-button active" data-language="en">EN</button>
+                    <button type="button" class="language-button" data-language="ar">Arabic</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <section class="hero">
+                <div class="hero-label-spacer" aria-hidden="true"></div>
+
+                <h1 data-i18n="heroTitle">{{ config.assistant_name }}</h1>
+
+                <p data-i18n="heroSubtitle">
+                    Ask questions about {{ config.company_name }} services, policies, and support information.
+                </p>
+
+                <p class="mvp-notice" data-i18n="mvpNotice">
+                    MVP notice: This is a demonstration chatbot and is not an official Markazia Toyota customer-service channel.
+                </p>
+            </section>
+
+            <section class="chat-panel">
+                <div class="chat-panel-header">
+                    <div>
+                        <h2 data-i18n="chatHeading">How can we help?</h2>
+                    </div>
+                </div>
+
+                <div id="chat-messages" class="chat-messages" aria-live="polite">
+                    <article class="message assistant-message">
+                        <div class="message-bubble">
+                            <p id="welcome-message">
+                                Welcome to {{ config.assistant_name }}. Ask me about {{ config.company_name }}.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="suggestions-wrapper">
+                    <p class="suggestions-label" data-i18n="tryAsking">Try asking</p>
+                    <div id="suggestion-list" class="suggestion-list"></div>
+                </div>
+
+                <form id="chat-form" class="chat-composer">
+                    <textarea
+                        id="chat-input"
+                        rows="1"
+                        maxlength="2000"
+                        placeholder="Ask a question about {{ config.company_name }}..."
+                        aria-label="Ask a question about {{ config.company_name }}"
+                    ></textarea>
+
+                    <button id="send-button" type="submit" aria-label="Send message">
+                        <span data-i18n="send">Send &rarr;</span>
+                    </button>
+                </form>
+            </section>
+
+            <p class="footer-note" data-i18n="footerNote">
+                {{ config.footer_text_en or (config.assistant_name ~ ' – ' ~ (config.display_company_name or config.company_name) ~ ' • © 2026. All rights reserved.') }}
+            </p>
+        </main>
+    </div>
+
+    {% if pre_chat_lead_capture_enabled %}
+    <div
+        id="prechat-lead-overlay"
+        class="prechat-lead-overlay"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="prechat-lead-title"
+        aria-describedby="prechat-lead-subtitle"
+        hidden
+    >
+        <form id="prechat-lead-form" class="prechat-lead-card" novalidate>
+            <div class="prechat-lead-header">
+                <img
+                    src="{{ logo_href }}"
+                    alt="{{ config.company_name }} logo"
+                    class="prechat-lead-logo"
+                >
+                <h2 id="prechat-lead-title" data-i18n="leadTitle">Start your conversation</h2>
+                <p id="prechat-lead-subtitle" data-i18n="leadSubtitle">Please enter your name and mobile number to continue to the chatbot.</p>
+                <div class="prechat-language-switcher language-switcher" role="group" aria-label="Language selector">
+                    <button type="button" class="language-button active" data-language="en">EN</button>
+                    <button type="button" class="language-button" data-language="ar">Arabic</button>
+                </div>
+            </div>
+
+            <label class="prechat-lead-field" for="prechat-lead-name">
+                <span data-i18n="leadNameLabel">Name</span>
+                <input
+                    id="prechat-lead-name"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    maxlength="100"
+                    placeholder="Ahmed Sami"
+                    required
+                >
+                <span id="prechat-lead-name-error" class="prechat-lead-error" aria-live="polite"></span>
+            </label>
+
+            <label class="prechat-lead-field" for="prechat-lead-phone">
+                <span data-i18n="leadPhoneLabel">Mobile Number</span>
+                <input
+                    id="prechat-lead-phone"
+                    name="phone"
+                    type="tel"
+                    inputmode="numeric"
+                    autocomplete="tel"
+                    maxlength="10"
+                    placeholder="07XXXXXXXX"
+                    required
+                >
+                <span id="prechat-lead-phone-error" class="prechat-lead-error" aria-live="polite"></span>
+            </label>
+
+            <p class="prechat-lead-privacy" data-i18n="leadPrivacy">
+                The contact information you provide will be used to respond to your enquiry and to arrange sales follow-up when you request it.
+            </p>
+
+            <button id="prechat-lead-submit" class="prechat-lead-submit" type="submit" disabled data-i18n="leadContinue">
+                Continue
+            </button>
+
+            <p id="prechat-lead-status" class="prechat-lead-status" aria-live="polite"></p>
+        </form>
+    </div>
+    {% endif %}
+
+    <script>
+        window.CHATBOT_CONFIG = {
+            clientSlug: {{ config.client_slug | tojson }},
+            companyName: {{ config.company_name | tojson }},
+            displayCompanyName: {{ (config.display_company_name or config.company_name) | tojson }},
+            assistantName: {{ config.assistant_name | tojson }},
+            chatbotType: {{ config.chatbot_type | tojson }},
+            campaignName: {{ config.campaign_name | tojson }},
+            campaignNameAr: {{ config.campaign_name_ar | tojson }},
+            campaignLanguage: {{ config.campaign_language | tojson }},
+            businessType: {{ config.business_type | tojson }},
+            chatbotTone: {{ config.chatbot_tone | tojson }},
+            chatbotGoal: {{ config.chatbot_goal | tojson }},
+            contactInfo: {{ config.contact_info | tojson }},
+            openingMessageEn: {{ config.opening_message_en | tojson }},
+            openingMessageAr: {{ config.opening_message_ar | tojson }},
+            footerTextEn: {{ config.footer_text_en | tojson }},
+            footerTextAr: {{ config.footer_text_ar | tojson }},
+            starterQuestionItems: {{ config.starter_question_items | tojson }},
+            contactDetails: {{ config.contact_details | tojson }},
+            mediaRetrieval: {{ config.media_retrieval | tojson }},
+            currentYear: {{ current_year | tojson }},
+            scrapeWebsite: {{ config.scrape_website | tojson }},
+            suggestedQuestions: {{ config.suggested_questions | tojson }},
+            appBasePath: {{ (app_base_path or '') | tojson }},
+            streamEndpoint: "{{ api_base_path or '' }}/api/chat/stream",
+            leadCaptureEnabled: {{ pre_chat_lead_capture_enabled | tojson }},
+            leadStatusEndpoint: "{{ api_base_path or '' }}/api/chat/lead",
+            leadSubmitEndpoint: "{{ api_base_path or '' }}/api/chat/lead",
+            salesCallbackEndpoint: "{{ api_base_path or '' }}/api/chat/request-sales-call",
+            embedMode: {{ embed_mode | tojson }},
+            sessionId: {{ embed_session_id | tojson }},
+            embedParentOrigin: {{ embed_parent_origin | tojson }}
+        };
+    </script>
+    <script src="{{ app_base_path or '' }}/static/js/chat.js?v={{ asset_version }}"></script>
+</body>
+</html>

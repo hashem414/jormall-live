@@ -1,0 +1,33 @@
+name: jormall-interactive-sms-soniox5005-20260923
+services:
+  chatbot:
+    image: python:3.13-slim@sha256:9d2e5553305c7c7b0097999bb17187c69b921ccd6bc9d40e4bb5ebe652c00285
+    working_dir: /app
+    command: ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+    container_name: jormall-interactive-sms-soniox5005-20260923
+    env_file: live.env
+    ports:
+      - "127.0.0.1:18035:8000"
+    volumes:
+      - ./build:/app:ro
+      - /home/ubuntu/releases/interactive-sms-06f3b36/runtime/site-packages:/usr/local/lib/python3.13/site-packages:ro
+      - ./data:/app/data:ro
+      - /var/lib/jormall/apps/interactive-sms/production/conversations:/app/data/conversations
+      - ./artifacts:/app/artifacts
+    networks:
+      - existing
+    mem_limit: 512m
+    memswap_limit: 768m
+    cpus: 1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=6)"]
+      interval: 10s
+      timeout: 8s
+      retries: 30
+networks:
+  existing:
+    external: true
+    name: central-ecommerce-current_default

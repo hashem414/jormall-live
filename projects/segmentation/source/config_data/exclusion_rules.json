@@ -1,0 +1,12 @@
+{
+  "version": "exclusion-v2",
+  "rules": [
+    {"rule_id":"operational_blacklist","purpose":"Suppress contacts explicitly marked unusable or opted out.","patterns":["\\b(blacklist|blocked|do not send|numbers not sent|not sent|failed(?: sms)?|invalid|dead(?: numbers?)?|avoid|suppression|opt[ -]?out)\\b"],"source_fields":["list_name","original_category"],"exclusion_code":"operational_blacklist","exclude":true},
+    {"rule_id":"internal_test","purpose":"Suppress explicit test or JorMall internal operational lists.","patterns":["\\b(test(?: list)?|internal|jormall internal|jor mall internal|jormallnet internal)\\b"],"source_fields":["list_name","original_category"],"exclusion_code":"internal_or_test","exclude":true},
+    {"rule_id":"crm_operational","purpose":"Suppress rows explicitly labelled as CRM operational data.","patterns":["\\bcrm\\b"],"source_fields":["original_category","list_name"],"exclusion_code":"internal_or_test","exclude":true},
+    {"rule_id":"employee_payroll","purpose":"Prevent employee and payroll lists from campaign recommendations.","patterns":["\\b(employees?|payroll|social security)\\b"],"source_fields":["original_category","list_name"],"exclusion_code":"employee_or_payroll","exclude":true},
+    {"rule_id":"administrative_duplicate","purpose":"Suppress records explicitly marked administrative duplicates.","patterns":["\\b(duplicate only|duplicate-only|administrative record)\\b"],"source_fields":["list_name","original_category"],"exclusion_code":"administrative_duplicate","exclude":true},
+    {"rule_id":"manual_database","purpose":"Suppress manually imported customer databases with unclear consent.","patterns":["\\b(manual list|custom list|customer database|purpose list)\\b"],"source_fields":["list_name","original_category"],"exclusion_code":"manual_customer_database","exclude":true},
+    {"rule_id":"sma_review","purpose":"Track SMA-labelled professional sources for review without blanket exclusion.","patterns":["\\bsma\\b"],"source_fields":["list_name"],"exclusion_code":"sma_review","exclude":false}
+  ]
+}

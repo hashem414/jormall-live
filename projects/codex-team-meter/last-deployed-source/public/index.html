@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مرصد كودكس | استخدام الفريق</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<header><div class="brand"><span class="brand-icon" aria-hidden="true">▥</span><div><b>مرصد كودكس</b><small>CODEX TEAM METER</small></div></div><div class="top-actions"><span class="privacy-tag">أرقام فقط. بلا محادثات.</span><button id="logout" class="ghost" hidden>خروج</button></div></header>
+<main>
+<section id="login" class="login-card">
+  <span class="eyebrow">خصوصية الفريق أولًا</span><h1>اعرف الاستخدام.<br><em>مش المحادثات.</em></h1>
+  <p>لوحة مستقلة لمقارنة التوكنز المرصودة على أجهزة الفريق. أدخل مفتاح المدير أو مفتاح العضو الخاص بهذه اللوحة، وليس كلمة مرور ChatGPT.</p>
+  <form id="login-form"><label for="credential">مفتاح الدخول</label><input id="credential" type="password" autocomplete="off" required placeholder="مفتاح مرصد كودكس" dir="ltr"><button type="submit" class="primary">الدخول للوحة</button></form>
+  <p id="login-error" class="error" role="alert"></p><div class="micro">لا نطلب حساب OpenAI أو ملف auth.json. الدخول يحفظ جلسة متصفح مؤقتة فقط.</div>
+</section>
+<div id="app" hidden>
+  <div class="page-heading"><div><span class="eyebrow">الاستهلاك تحت نظرك</span><h1>استخدام الفريق</h1><p>مين استهلك أكثر؟ الأرقام واضحة، والمحادثات خاصة.</p></div><div class="controls"><label class="sr-only" for="period">الفترة</label><select id="period"><option value="5">آخر 5 ساعات</option><option value="24">آخر 24 ساعة</option><option value="168" selected>آخر 7 أيام</option><option value="720">آخر 30 يومًا</option><option value="2160">آخر 90 يومًا</option></select><button id="refresh" class="secondary">تحديث</button></div></div>
+  <div id="connection" class="connection" role="status">جاري تحميل الأرقام…</div>
+  <section class="stats" aria-label="ملخص الاستخدام">
+    <article class="stat"><span>إجمالي التوكنز المرصودة</span><strong id="total">—</strong><small>المدخلات + المخرجات، بدون تكرار الكاش</small></article>
+    <article class="stat"><span>الأعضاء المسجلون</span><strong id="member-count">—</strong><small>المفاتيح النشطة في الفريق</small></article>
+    <article class="stat"><span>مرسلو البيانات المتصلون</span><strong id="online">—</strong><small>وصلت مزامنة خلال آخر 3 دقائق</small></article>
+    <article class="stat accent"><span>الأعلى استهلاكًا بالفترة</span><strong id="leader">—</strong><small id="leader-share">من التوكنز المرصودة، لا من حد الاشتراك</small></article>
+  </section>
+  <aside class="notice"><b>النسبة هنا مش نسبة حصة Pro.</b> حصة العضو = توكنزه المرصودة ÷ إجمالي توكنز الفريق المرصودة. لا نحولها لنسبة خصم رسمية من الاشتراك، ولا تشمل الأجهزة غير المربوطة أو الأعمال السحابية التي لا تترك سجلًا محليًا.</aside>
+  <section class="panel">
+    <div class="panel-heading"><div><h2>توزيع الاستهلاك</h2><p>قياس يبدأ من تثبيت المرسل على كل جهاز.</p></div><button id="export" class="secondary">تصدير CSV</button></div>
+    <div class="table-scroll"><table><thead><tr><th>العضو</th><th>حصته من المرصود</th><th>إجمالي التوكنز</th><th>مدخلات</th><th>منها كاش</th><th>مخرجات</th><th>آخر مزامنة</th><th id="manage-head" hidden>إدارة</th></tr></thead><tbody id="members"></tbody></table></div>
+    <div id="empty" class="empty" hidden><b>اللوحة جاهزة، وبانتظار أول أرقام.</b><p>أضف عضوًا، ثبّت المرسل عنده، ثم استخدم Codex محليًا.</p></div>
+    <div class="panel-foot">توكنز التفكير جزء من المخرجات، والكاش جزء من المدخلات؛ لا يُضاف أيٌّ منهما مرة ثانية.</div>
+  </section>
+  <div class="two-column">
+    <section class="panel"><div class="panel-heading"><div><h2>آخر حدود الحساب المرصودة</h2><p>كما سجلها Codex؛ ليست استهلاك صاحب الجهاز وحده.</p></div><span class="pill">لقطات وليست عدّادًا مباشرًا</span></div><div id="limits" class="limits"></div></section>
+    <section class="panel"><div class="panel-heading"><div><h2>سلامة القياس</h2><p>اعرف حدود التغطية قبل مقارنة الفريق.</p></div></div><div class="health"><div><b>المزامنة التلقائية</b><p>كل دقيقة بالخدمة المثبتة. تحديث اللوحة كل 15 ثانية.</p></div><div><b>الانقطاع لا يمسح الطابور</b><p>الأرقام تبقى محليًا وتُرسل عند رجوع الاتصال؛ تُحذف من الطابور بعد تأكيد الاستلام.</p></div><div><b>سجلات تحتاج مراجعة</b><p id="issues">—</p></div><div><b>قياس تعاوني، وليس منعًا للتلاعب</b><p>من يوقف المرسل أو يعمل خارج الأجهزة المربوطة لن يُقاس استخدامه بالكامل. لا نفرض حدود OpenAI.</p></div></div></section>
+  </div>
+  <section id="admin-panel" class="panel" hidden><div class="panel-heading"><div><h2>إضافة عضو</h2><p>لكل عضو مفتاح منفصل؛ شارك ملفه معه بشكل خاص فقط.</p></div></div><form id="member-form" class="member-form"><label for="member-name">اسم العضو</label><input id="member-name" maxlength="60" required placeholder="مثال: أحمد"><button type="submit" class="primary">إنشاء ملف الربط</button></form><p id="member-error" class="error" role="alert"></p><div class="panel-foot">مفتاح العضو يسمح بإرسال أرقامه وعرض ملخص الفريق فقط. لا يسمح بإضافة الأعضاء أو قراءة محادثات.</div></section>
+  <footer><b>مرصد كودكس</b><span>أداة مستقلة غير تابعة لـ OpenAI · أرقام محلية مرصودة · الاحتفاظ ببيانات الاستخدام 90 يومًا</span></footer>
+</div>
+</main>
+<dialog id="profile-dialog"><div class="dialog-body"><span class="eyebrow">احتفظ بالملف بشكل خاص</span><h2 id="profile-title">ملف العضو</h2><p>نزّل الملف وأرسله لصاحبه فقط. المفتاح يظهر مرة واحدة عند الإنشاء.</p><label for="profile-token">مفتاح العضو للمرصد، وليس لـ OpenAI</label><input id="profile-token" readonly dir="ltr"><div class="dialog-actions"><button id="download-profile" class="primary">تنزيل ملف الربط JSON</button><button id="close-dialog" class="secondary">إغلاق</button></div><div class="micro">هذا الملف يعرّف العضو في اللوحة. يمكنه تثبيته على جهازه مع سكيل team-usage-meter.</div></div></dialog>
+</body></html>

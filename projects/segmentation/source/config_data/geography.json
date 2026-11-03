@@ -1,0 +1,26 @@
+{
+  "version": "jordan-geography-v2",
+  "country": "Jordan",
+  "national_aliases": ["all jordan", "all over jordan", "across jordan", "nationwide", "كل الاردن", "جميع انحاء الاردن"],
+  "governorates": [
+    {"name":"Amman","aliases":["amman","عمان"]},
+    {"name":"Zarqa","aliases":["zarqa","al zarqa","الزرقاء"]},
+    {"name":"Irbid","aliases":["irbid","اربد"]},
+    {"name":"Balqa","aliases":["balqa","al balqa","salt","البلقاء","السلط"]},
+    {"name":"Madaba","aliases":["madaba","مادبا"]},
+    {"name":"Mafraq","aliases":["mafraq","al mafraq","المفرق"]},
+    {"name":"Jerash","aliases":["jerash","jarash","جرش"]},
+    {"name":"Ajloun","aliases":["ajloun","ajlun","عجلون"]},
+    {"name":"Karak","aliases":["karak","al karak","الكرك"]},
+    {"name":"Tafilah","aliases":["tafilah","tafila","الطفيلة"]},
+    {"name":"Ma'an","aliases":["ma'an","maan","معان"]},
+    {"name":"Aqaba","aliases":["aqaba","al aqaba","العقبة"]}
+  ],
+  "amman_directions": [
+    {"name":"West","aliases":["west","amman west","west amman","غرب عمان"]},
+    {"name":"East","aliases":["east","amman east","east amman","شرق عمان"]}
+  ],
+  "amman_areas": [
+    "Abdoun", "Al Abdali", "Jabal Amman", "Jabal Al Webdeh", "Sweifiyeh", "Wadi Al Seer", "Khalda", "Dabouq", "Tla Al Ali", "Tela Al Ali", "Gardens", "Shmeisani", "Shafa Badran", "Marj Al Hamam", "Sahab", "Marka", "Al Jubeiha", "Airport Road", "Bayader Wadi Al Seer", "Zahran", "Um Uthaina", "Mecca Street"
+  ]
+}

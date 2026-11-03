@@ -1,0 +1,3 @@
+{
+  "/api/import-errors/[batchId]/route": "app/api/import-errors/[batchId]/route.js"
+}

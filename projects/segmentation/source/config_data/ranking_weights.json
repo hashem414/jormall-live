@@ -1,0 +1,21 @@
+{
+  "version": "ranking-v3",
+  "description": "Weights order candidates only after deterministic eligibility.",
+  "tier_base": {"direct": 100.0, "adjacent": 70.0, "contextual": 45.0, "fallback": 20.0, "rejected": -100.0},
+  "weights": {
+    "product_exact": 14.0,
+    "product_semantic": 40.0,
+    "product_family": 2.0,
+    "audience_role": 0.0,
+    "explicit_target_role": 4.0,
+    "industry": 0.0,
+    "b2b_context": 0.0,
+    "advertiser": 18.0,
+    "class_affinity_strong": 5.0,
+    "class_affinity_moderate": 2.0,
+    "location": 4.0,
+    "recency": 3.0,
+    "diversity": 1.0,
+    "quantity": 0.3
+  }
+}

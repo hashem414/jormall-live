@@ -1,0 +1,8 @@
+{
+  "version": "source-roots-local-v1",
+  "description": "Local read-only source locations used only by the integrity verifier.",
+  "source_roots": {
+    "CURRENT_REFERENCE": "C:\\Users\\h.alshaweesh\\Downloads\\seg\\11-Data-Segmentation",
+    "LEGACY_SHELL": "C:\\Users\\h.alshaweesh\\Downloads\\financial_assistant\\Documents\\11-Data-Segmentation"
+  }
+}

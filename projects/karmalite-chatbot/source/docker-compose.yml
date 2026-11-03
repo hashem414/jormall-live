@@ -1,0 +1,22 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: karmalite-pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: karmalite
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD locally}
+      POSTGRES_DB: karmalite
+    ports:
+      - "5432:5432"
+    volumes:
+      - karmalite_pgdata:/var/lib/postgresql/data
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U karmalite -d karmalite"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  karmalite_pgdata:

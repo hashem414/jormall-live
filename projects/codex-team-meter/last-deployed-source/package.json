@@ -1,0 +1,6 @@
+{
+  "name": "codex-team-meter", "version": "1.0.0", "private": true,
+  "type": "module", "engines": { "node": ">=22.16.0" },
+  "scripts": { "start": "node --env-file=.env server/server.mjs", "test": "node --test tests/*.test.mjs", "setup": "node deploy/setup.mjs" },
+  "description": "Consent-based, numeric-only Codex usage telemetry. No OpenAI credential collection."
+}

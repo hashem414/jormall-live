@@ -1,0 +1,687 @@
+{
+  "node": {
+    "40eb6ca9c2fa839708476fa10f69bc5ac68f7b186f": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "switchBranchAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "400536e6925cd01c2b6f530b3c7c34e1f1ee7ee77a": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "assignConversationAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "400c6cbc7b2ca86f1bc8bbc84722e9671ef6c22301": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "replaceMembershipRoleAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "400da3fb945057cfa5c77e6e045547d6e15029933b": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "markConversationReadAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "4010d238bda6c04e836fe3f39dd154cda66b61d608": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "generateCopilotInsightAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "4015456bea5662d1201e391304fe7f84de780d1f4e": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createCustomerAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "401af35ad8cf1b850c84ef39de586a1ae37e6c6a13": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "loginAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "401cd5fae4344b52878118bcf7b515399fdbc874d0": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "deleteBranchAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "401de392a69702a1978704834ad24d5bb7b6b8fec6": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "setOrganizationStatusAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "401eb11c58a35e1ad1f24d040677c90bbbc1a55684": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "updateHumanHandoffAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "402174dc0e9fbf77ecdb7994155ba6702fc8092bc8": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createServiceAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40232d7d00400d3b0eb29e742e6404d5fe39a72c9b": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "setMembershipStatusAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "4026839bc6a36e6ef6e9d37d5b580422485b9d51dd": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "configureServiceBranchAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "4027218b051c0a945b7abeda48a2a61254964c8f8f": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "rescheduleAppointmentAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "402d33cba5c85583aef7591b2f36dcb234bca97b56": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "acceptInvitationAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "402d6605cc26713207171079543d52aa61cda8c758": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "logoutAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "402dcfe598924bd7612fb187150f120a0e0eb2ab57": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createWidgetConfigurationAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "403861f7844311e499b7a65e33d42578f97678182d": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "expireSlotOfferAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "403a8ba37c3ff68a74c422354ecd507003aa247543": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "addCustomerNoteAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "4042413ba0d1440cabb53eccf823a55f0e142c77c2": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "declineSlotOfferAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "404a8c4ab854f64cb8be8c96efa5877778bcbd30f2": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "activateKnowledgeVersionAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "404e06a4894ede297cef29903463b697d4f5d3b4c4": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createResourceAvailabilityRuleAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "4056204038c4220d84bad3e5170994beb834f41ff9": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "registerFromInvitationAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "405833f7721a1b51d4199f17d4a68357e351daa024": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "ingestKnowledgeAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "405e8456906b0d02c19117af1e3ca3b53aa097eb26": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createWaitlistEntryAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40654b30e1e5a8e8ced1a245601ba644af77bd56a0": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createResourceAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40692fa2cc54c0588fa08137c1e844b009b71d4e4a": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createBranchAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "406a512e30e4e43b73862618c4f53ad00438ec9bfe": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "startSupportAccessAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "406e5c2bd6e1087b48c0af9a7c47d5ba08d7db09cc": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "configureProviderBookingAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "4075ce84ba8c2491b1275e168e547e585cae86bb8c": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "bulkConfirmAppointmentsAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40772aebb7437d1c9851f08528802f3092411a8eb8": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createBranchHoursRuleAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "4080905b9a6ef2f1387b524035333c86fbc71a1bd8": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "endSupportAccessAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40825cc8f27771ae71f170cd635bfedeff77e37b57": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "cancelWaitlistEntryAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "4082a902c7bd17bf964597f71473e3d3ed09a38e55": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createAppointmentAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "408f11456a5995890d4f7f9523b8114f3d1e205022": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "setServiceResourceRequirementAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "4091002aa0e96f0f766e3f8917975ea84509f16e1b": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "sendTemplateMessageAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "409504a88d1a7828face34d2aaa9bc2b66e1c1cb9b": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "updateCustomerAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40963fc30dd4b944228320d318090921d534763241": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "updateBranchAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "409fb5d1e31791acb624dee2966b629d46768ae512": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "sendMockSlotOfferAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40a130b0fd4a459d5c009245f612d913fb46d25e52": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "recordConsentAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40a585a6ebad8c5a8db916d28688df935d08e24554": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "updateSettingsAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40a91e7bf3abb119a0e5ae9686f3388e9ac54dadee": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "setCommunicationPreferenceAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40add7539ae960099558fe2be227d878f483523ea2": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createRoleAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40b197cccfe19839d2ecd07ee53e0640ab0e010f4b": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "revokeInvitationAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40b2343140f027e1570041b03d5e289d77622623ac": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "transitionAppointmentAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40bb3fcf3fd494aa2b9b1109b2c57bd0d59fb4d1a8": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "setResourceStatusAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40be7ebcfa1b09150c36f1b21c38515ad4eb95678f": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "recordCopilotFeedbackAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40c638eee645e6d547ff838aade7cd08606163134b": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "setMockProviderBehaviorAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40cbb4ac0fc5d5502aa27a74502d047a059b8139c6": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createResourceGroupAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40d70fe9fa01ed78425d58eddd458611b3a10c0904": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "switchOrganizationAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40d7fbbf7aec73ed19526a5c4a7aa79f7b495b344d": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "addAppointmentNoteAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40e45c8d6ab954d82effd4a89d75ff3a6d2d3a4e8e": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "acceptSlotOfferAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40e58b862c88491769d0c874b7b7080e43010696b2": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "retryMessageAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40f89f474689ed1e71ef5eceac087e9e0519157fef": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "combinedAppointmentTransitionAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "40fe1886ea32bd0f2632ac493e02a14a9907d6875e": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "updateAIConfigurationAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "605029145ace4a884847d61202effc99a7a9805399": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createOrganizationAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "6051dcb733f620617bd4173787108ed3ff204db9b9": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createInvitationAction",
+      "filename": "apps/web/src/app/[locale]/actions.ts"
+    },
+    "403297a7c88510bc386b7bdc6b63b78aad89da2ac4": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "dryRunImportAction",
+      "filename": "apps/web/src/app/[locale]/phase-seven-actions.ts"
+    },
+    "403d8064a6e07fcf91193344286eac4631063cf4ac": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "commitImportAction",
+      "filename": "apps/web/src/app/[locale]/phase-seven-actions.ts"
+    },
+    "403f12d3f0cb4f8348b0c2f6f58ef92d7b8fb4b05e": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "createExportAction",
+      "filename": "apps/web/src/app/[locale]/phase-seven-actions.ts"
+    },
+    "40454455adb09b326e92d8f549f728e068a70d3eea": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "runReportAction",
+      "filename": "apps/web/src/app/[locale]/phase-seven-actions.ts"
+    },
+    "40dc49b97a3f410f01fe639bfe7cb82708a08de457": {
+      "workers": {
+        "app/[locale]/dashboard/imports/page": {
+          "moduleId": 84061,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "rollbackImportAction",
+      "filename": "apps/web/src/app/[locale]/phase-seven-actions.ts"
+    }
+  },
+  "edge": {}
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Activity Log</title>
+  <style>
+    html, body {
+        cursor:  url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="2" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"></path></svg>'), auto;
+      }
+  
+      * {
+        cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%23FFF" stroke="%23000" stroke-width="2" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.85a.5.5 0 0 0-.85.35Z"></path></svg>'), auto !important;
+      }
+     
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    h2 {
+      color: #2575b6;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      font-size: 14px;
+      text-align: left;
+    }
+    th {
+      background: #2575b6;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .tag {
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h2>📊 Admin Activity Log</h2>
+  <table id="log-table">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>User</th>
+        <th>Action</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, ch => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[ch]);
+
+    fetch('/admin/activity-log-data')
+      .then(response => response.json())
+      .then(data => {
+        const tbody = document.querySelector("#log-table tbody");
+        data.forEach(entry => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${escapeHtml(entry.timestamp)}</td>
+            <td>${escapeHtml(entry.username)}</td>
+            <td><span class="tag">${escapeHtml(entry.description || entry.action)}</span></td>
+            <td>
+              ${entry.company_name ? `Company: ${escapeHtml(entry.company_name)}<br>` : ""}
+              ${entry.status ? `Status: ${escapeHtml(entry.status)}<br>` : ""}
+              ${entry.document_language ? `Language: ${escapeHtml(entry.document_language)}<br>` : ""}
+              ${entry.action === "email_sent" ? `To: ${escapeHtml(entry.to)}<br>Subject: ${escapeHtml(entry.subject)}` : ""}
+              ${entry.action === "email_with_attachment" ? `To: ${escapeHtml(entry.to)}<br>File: ${escapeHtml(entry.filename)}<br>Subject: ${escapeHtml(entry.subject)}` : ""}
+              ${entry.filename && !["email_with_attachment"].includes(entry.action) ? `File: ${escapeHtml(entry.filename)}<br>` : ""}
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(error => {
+        document.querySelector("body").innerHTML += `<p style="color:red;">Error loading log data.</p>`;
+        console.error(error);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,734 @@
+{
+  "manifest_version": 1,
+  "package_version": 1,
+  "client_slug": "central-trade-auto-co-markazia-toyota-jordan",
+  "company_name": "Central Trade & Auto Co. — Markazia Toyota Jordan",
+  "assistant_name": "Markazia Assistant",
+  "generated_at": "2026-07-30T09:09:57.987988+00:00",
+  "route_contract_version": 2,
+  "compose_project_name": "markazia-toyota-jordan-standalone-v2",
+  "database_configuration": {
+    "uses_component_settings": true,
+    "database_url_interpolation": false,
+    "postgres_host": "postgres",
+    "postgres_port": 5432
+  },
+  "public_base_path": "/central-trade-auto-co-markazia-toyota-jordan",
+  "enabled_features": {
+    "public_campaign_chatbot": true,
+    "pre_chat_lead_capture": true,
+    "sales_callback_dashboard": true,
+    "chat_history_dashboard": true,
+    "document_retrieval": true,
+    "campaign_media_retrieval": true,
+    "postgres_pgvector": true,
+    "docker_compose": true
+  },
+  "approved_document_count": 2,
+  "knowledge_chunk_count": 246,
+  "knowledge_embedding_count": 246,
+  "media_collection_count": 1,
+  "approved_media_count": 10,
+  "display_asset_count": 10,
+  "thumbnail_count": 10,
+  "static_asset_count": 32,
+  "dashboards_included": {
+    "sales_callbacks": true,
+    "chat_history": true
+  },
+  "migrations_included": true,
+  "operational_data_packaged": false,
+  "file_count": 138,
+  "files": [
+    {
+      "path": ".dockerignore",
+      "size_bytes": 78,
+      "sha256": "203aecf2d8f444a69c66d83a46d89c7aa3c72f0a30cb01c2bbc08e9fb4d0438f"
+    },
+    {
+      "path": ".env.example",
+      "size_bytes": 1470,
+      "sha256": "6ee3a3d9ec1d45f546bb4db5e37a3d5b169a50943a6b65d4a3e5de4770bb9643"
+    },
+    {
+      "path": ".gitignore",
+      "size_bytes": 191,
+      "sha256": "26ef842fa9b0fff0f507b5e27bfa7f4854dad961f39a427d25f4f104294735a4"
+    },
+    {
+      "path": "DEPLOYMENT.md",
+      "size_bytes": 5787,
+      "sha256": "bb06c20de38f1cff9b137a8aace233384b96d5076e6b26da5335212a0dc3d363"
+    },
+    {
+      "path": "Dockerfile",
+      "size_bytes": 325,
+      "sha256": "a4fa1f1670a40f5a75cbb8f75dd9a3dfe3f14091fa6e5c86ebd427189abb6cf9"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 5787,
+      "sha256": "bb06c20de38f1cff9b137a8aace233384b96d5076e6b26da5335212a0dc3d363"
+    },
+    {
+      "path": "START_HERE.md",
+      "size_bytes": 1004,
+      "sha256": "044f07751aee33701d3f3b3053609fe0ef762766fb71138ccfc06af3b696c886"
+    },
+    {
+      "path": "app/__init__.py",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/api/__init__.py",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/api/chat_history.py",
+      "size_bytes": 13748,
+      "sha256": "537393686294cf7ed0a837c64d0fd7b8d67dc2357137dacf789b046ce7b30000"
+    },
+    {
+      "path": "app/api/dashboard_auth.py",
+      "size_bytes": 3787,
+      "sha256": "2040d4cf4afb3faff2d8ac8e0ea79aac93647f1db5231b6abad77bc36f6ddc25"
+    },
+    {
+      "path": "app/api/media.py",
+      "size_bytes": 2541,
+      "sha256": "00e7f4c9ba38b753720197822470d0c0a4f7233ee12815c93512083fd4879804"
+    },
+    {
+      "path": "app/api/public_chat.py",
+      "size_bytes": 1773,
+      "sha256": "3ac2285de5da3501fee432b80ed2cd2e708ca26e78a84318f67603470be76b83"
+    },
+    {
+      "path": "app/api/public_chat_shared.py",
+      "size_bytes": 31216,
+      "sha256": "ae7a070fc014e7a7dc80e6a0cccb609bb7ec4120e87cea3433da7153bdde495d"
+    },
+    {
+      "path": "app/api/sales_callbacks.py",
+      "size_bytes": 10725,
+      "sha256": "97fe75003bdf01879a7f1d4c7bf231eb7f3bdb1aa3f5070d006cdce48f5bb1dc"
+    },
+    {
+      "path": "app/constants.py",
+      "size_bytes": 255,
+      "sha256": "8583b8177cc908842de00aa6e8d21f0f7f7712f55f163acd364f7b1880b4f5ad"
+    },
+    {
+      "path": "app/core/__init__.py",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/core/config.py",
+      "size_bytes": 5591,
+      "sha256": "85317cf318fe7f583e695e2d23c103ed90a5c3c906198dc82f66a47f341395f8"
+    },
+    {
+      "path": "app/core/database.py",
+      "size_bytes": 735,
+      "sha256": "9f97b6f992e7e3c8b46340904216c389d6313edb0876df068ea9bbc79d74d102"
+    },
+    {
+      "path": "app/core/db_init.py",
+      "size_bytes": 18235,
+      "sha256": "4999aa8cf484d417f1cdb95255a4220dad311f8e63b66d79003f88941101289e"
+    },
+    {
+      "path": "app/main.py",
+      "size_bytes": 13481,
+      "sha256": "3ccc1dc669299b4376fb2968fc49c816e9b75023bb8d0a6260785975c499ba81"
+    },
+    {
+      "path": "app/models/__init__.py",
+      "size_bytes": 261,
+      "sha256": "b73befcd2dbfb413d311abf9f2d7e12aa0cbb53e115f4a4d8a1b7a52e3218978"
+    },
+    {
+      "path": "app/models/document.py",
+      "size_bytes": 20997,
+      "sha256": "faa67dfe1195885c65b731a5b1aa74bdd71856b4b24e25007eaeb09b76341161"
+    },
+    {
+      "path": "app/schemas/__init__.py",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/schemas/chat.py",
+      "size_bytes": 2698,
+      "sha256": "4b86badec9658167c8fd1f3c6b8e2283a1de155ec00c9a3b48404db146dbd646"
+    },
+    {
+      "path": "app/schemas/media.py",
+      "size_bytes": 3289,
+      "sha256": "b71b4ab3a555678fc7d9b6d41d44721881fc2fc5901408c8812d1138f1bc0a51"
+    },
+    {
+      "path": "app/services/__init__.py",
+      "size_bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "app/services/campaign_media_service.py",
+      "size_bytes": 113736,
+      "sha256": "01874c4b2474e1a38bd431d8b17ca300d5c9f72901cfa9d93ddb586df0b1d878"
+    },
+    {
+      "path": "app/services/chat_history_service.py",
+      "size_bytes": 5401,
+      "sha256": "a1804941404392efbd6915e975f6988849f61e6b68691cf967c63bbe687a814f"
+    },
+    {
+      "path": "app/services/chat_service.py",
+      "size_bytes": 98740,
+      "sha256": "56c41ab29ba0ceb82e4be5e11aafdc57b916f7d8b7780bb9760135ffeb1eb840"
+    },
+    {
+      "path": "app/services/chat_stream_service.py",
+      "size_bytes": 120749,
+      "sha256": "e6171903e576c61d8430c2cd3e154ea4b637bd7772eae4c878d78df3da5886b8"
+    },
+    {
+      "path": "app/services/client_config_service.py",
+      "size_bytes": 28928,
+      "sha256": "4a831e48a49c40cd211b2a5c7f1a0184a199fca0a08ae5e0ebf4927f1c37336d"
+    },
+    {
+      "path": "app/services/conversation_intent_service.py",
+      "size_bytes": 10857,
+      "sha256": "de41b3a2f86c3dca549e60f1d0b6b1ee2ff670564067368f5bba100f2ea23322"
+    },
+    {
+      "path": "app/services/dashboard_auth_service.py",
+      "size_bytes": 7292,
+      "sha256": "30c62993abf7d358747f7501b306afcdd98a2c89891f4c65d55228bab177883f"
+    },
+    {
+      "path": "app/services/embedding_service.py",
+      "size_bytes": 3193,
+      "sha256": "37ef8faf4a2f9f374c3f092312f610083d8fdfc60c9d940774876013313f6c06"
+    },
+    {
+      "path": "app/services/embedding_token_service.py",
+      "size_bytes": 3983,
+      "sha256": "96761d41732dda3c4148568e763c01d0ff9edd062a65bbb956ad74c0789fa987"
+    },
+    {
+      "path": "app/services/media_catalog_service.py",
+      "size_bytes": 27660,
+      "sha256": "c3335bc662b8afc52c2179302096cf4b3eae551b4f9f6df6d4289cc1ce8c83ad"
+    },
+    {
+      "path": "app/services/media_evidence_service.py",
+      "size_bytes": 36540,
+      "sha256": "452a0a34e610b9980ceaf846f1a644682002d66719908aeee9f79539ff19bf8f"
+    },
+    {
+      "path": "app/services/openai_client.py",
+      "size_bytes": 537,
+      "sha256": "1a4183e084600e6f7cf6bac62f6c4b8e208f36e2daa2d0051f5b0b493b555f34"
+    },
+    {
+      "path": "app/services/product_catalog_service.py",
+      "size_bytes": 63042,
+      "sha256": "161a58992a6b42488ba04d13c11950cc21c48a26125d62dccbdd884515a38fc8"
+    },
+    {
+      "path": "app/services/product_image_service.py",
+      "size_bytes": 7225,
+      "sha256": "d58c99dd6fa7560609b16db236cffc4eddcbf4ed29e8c29579aa080ceafd60ba"
+    },
+    {
+      "path": "app/services/retrieval_service.py",
+      "size_bytes": 11479,
+      "sha256": "8024f92b6ad47d62ab98e0ca9ff215ce0526b92967800def42b06c8e95bd5f34"
+    },
+    {
+      "path": "app/services/retrieval_threshold_service.py",
+      "size_bytes": 9804,
+      "sha256": "fd2a62bd81bba8e9ea87aa8d4c3bd6330587a47066a3fa49a3b34a6dae45c279"
+    },
+    {
+      "path": "app/services/route_service.py",
+      "size_bytes": 1884,
+      "sha256": "799be5205f822e7b2a5be0ccb3f3463dd3fbbd59cb1131ebd26c925d537f5374"
+    },
+    {
+      "path": "app/services/session_memory_store.py",
+      "size_bytes": 15467,
+      "sha256": "4395606ae684a4091bbcd84628ce66b0c282502369a27a4317b1783c4adb96de"
+    },
+    {
+      "path": "app/standalone_db_seed.py",
+      "size_bytes": 7591,
+      "sha256": "364e3f221f05bacf30294d28132442b187c299ea1c3e7bc06c3da3c132a0a3ee"
+    },
+    {
+      "path": "app/static/client_assets/central-trade-auto-co-markazia-toyota-jordan/favicon.png",
+      "size_bytes": 2595,
+      "sha256": "c491eb5a2bd9abfea4451ba2d5ae4a72ae146a132e0907a6ed08ed2695b01229"
+    },
+    {
+      "path": "app/static/client_assets/central-trade-auto-co-markazia-toyota-jordan/logo.jpg",
+      "size_bytes": 3685,
+      "sha256": "e5db6491fc05a9817b133f12017918427ba3250ef841127cc43a64cc52290294"
+    },
+    {
+      "path": "app/static/css/chat-history.css",
+      "size_bytes": 5399,
+      "sha256": "4586dfb46889927b473f229a1b706b38da53a8205aacd63de6bcb0c0df6eda59"
+    },
+    {
+      "path": "app/static/css/dashboard-login.css",
+      "size_bytes": 1538,
+      "sha256": "619705800fb79bf14cab4d740d5cc6eb8dbc13b976527d9219fdbf5f7472a9af"
+    },
+    {
+      "path": "app/static/css/sales-callbacks.css",
+      "size_bytes": 5709,
+      "sha256": "946dd8005cebe8b6a87ac8659a7d984d9311826a468e93e35a2e11356dd1321b"
+    },
+    {
+      "path": "app/static/css/styles.css",
+      "size_bytes": 43846,
+      "sha256": "7bcd3672227aeb5d91d552bba0956ce3e8889641a1b0781fd713f34feefee817"
+    },
+    {
+      "path": "app/static/images/favicon.png",
+      "size_bytes": 115008,
+      "sha256": "7ac6038c45e0f1120e518cae7d291085d2719186464104d096ec7649234a53cb"
+    },
+    {
+      "path": "app/static/images/logo.png",
+      "size_bytes": 69665,
+      "sha256": "c69b0421fb0256a3665b6352bc7ba1531a718bf1d7804cec6f26a093df781cd3"
+    },
+    {
+      "path": "app/static/js/chat-history.js",
+      "size_bytes": 10395,
+      "sha256": "b89de35292d6ee751d48678709ee8e69b16932c7f7bb13fd9bb27090f0d747fc"
+    },
+    {
+      "path": "app/static/js/chat.js",
+      "size_bytes": 65435,
+      "sha256": "f952f97cd9575635bc74c341749fec9bcb671bbbe409722000f21568f8335399"
+    },
+    {
+      "path": "app/static/js/embed-widget.js",
+      "size_bytes": 11079,
+      "sha256": "7ba1a0d8e2720d9a98cac3d774ae98ba614f2cdcc5731dc2473641278d034702"
+    },
+    {
+      "path": "app/static/js/sales-callbacks.js",
+      "size_bytes": 9494,
+      "sha256": "d0d872e55e95c6618b3490d5173fbf90b5f6e54f8757f943c67376d1fee98a26"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/10b5f5b6-4e45-4ec1-ae23-e74790906298-30dfee7aa5f4.png",
+      "size_bytes": 2809241,
+      "sha256": "f48af49c3ac02d4ab73cd1c45731b25250b829548179ff950c25c9684c665671"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/1e67c230-94a5-4f9c-b4d9-7c0ef616e6f1-4ad7fb377f6a.png",
+      "size_bytes": 366845,
+      "sha256": "aebf8e831e2d6ca9c7cabdc1d3ed114e898caebe44bbdc77d6093711b67caad6"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/2f9f2995-2fbc-4e4e-81b8-3ce3f6f8f926-910ae88b26e3.png",
+      "size_bytes": 1983352,
+      "sha256": "4479e62491c93a2a1c72dc5a4fa1ecbe7f5819a641a62455adcba68582a22710"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/66df856d-851a-4de6-ad4c-2ea72faaf8e7-aff1b3ab4b7b.png",
+      "size_bytes": 344312,
+      "sha256": "403e8c9f9d04db58850f7cec24a6f9a5d63c7a3c1a4a2593cdb85e345a927151"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/74421f54-0183-41c4-b88b-5741d98e68a4-f2b139871901.png",
+      "size_bytes": 805936,
+      "sha256": "09b6f083d63e03135df3081e5fccde3e44583299ac28c4d6840db58d969db52e"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/7f972317-e2e2-4fb2-8074-b44eabb02d25-aed533d6f455.png",
+      "size_bytes": 985765,
+      "sha256": "143f16972c2ea95bb5d652ab014cda8e61e493f9b644d2d1b9eab9fa38bc9a0e"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/c3c3e272-268e-42a0-a3be-f7753d006d06-c3815436fb1a.png",
+      "size_bytes": 341788,
+      "sha256": "89140ccee449b2c2ac3de7116c06292984cb1b82ee969f6415e78f888b6dde55"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/d0260276-dc30-4579-ba52-066e52d9015a-34668cf2a620.png",
+      "size_bytes": 1592420,
+      "sha256": "246a0faea8ff4328e50a9d03911db11c02d1621e938d4d5926862336c3f5f14c"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/dc0471a2-5c83-4571-bce5-85e1094c51e2-76389baa173f.png",
+      "size_bytes": 1554684,
+      "sha256": "bd21e290d6a68ce51162f3214c7a5a432b4ed52c9680afd13cbd233362dbecf7"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/e2391a96-4657-4906-b629-e1ca9ba958a6-8c37b8483dce.png",
+      "size_bytes": 1832745,
+      "sha256": "4021ed2afa8e5ff3e4085e9f7dd25053c61494571b85de086119afa3b7800d18"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/10b5f5b6-4e45-4ec1-ae23-e74790906298.jpg",
+      "size_bytes": 34826,
+      "sha256": "f53bc4402f89ddd790820a867051a468961ee07fa3f4009cb76c2e974f40ffe0"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/1e67c230-94a5-4f9c-b4d9-7c0ef616e6f1.jpg",
+      "size_bytes": 30840,
+      "sha256": "7ee1f3ef2e2af030118a0095cd5b7ac6d9419319f2519cbd135ac645c020a8d6"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/2f9f2995-2fbc-4e4e-81b8-3ce3f6f8f926.jpg",
+      "size_bytes": 29299,
+      "sha256": "a20e1b1c10d52d7aade84319dc54ffbe5253057b61e78dbc99f8b59bc7c8edc4"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/66df856d-851a-4de6-ad4c-2ea72faaf8e7.jpg",
+      "size_bytes": 19358,
+      "sha256": "c277502896ecfd2a8e43ef782aa78674e7170bfadf912ee01030dc88b1a7e802"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/74421f54-0183-41c4-b88b-5741d98e68a4.jpg",
+      "size_bytes": 27247,
+      "sha256": "b7cca352a44affbcea5d87df3b95dd4a710f1bd89eef0cc771449dd64741c563"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/7f972317-e2e2-4fb2-8074-b44eabb02d25.jpg",
+      "size_bytes": 24354,
+      "sha256": "4338ba0659e9138b94dafe9a732f7bf6304716cca82d63242142dc7729e51b81"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/c3c3e272-268e-42a0-a3be-f7753d006d06.jpg",
+      "size_bytes": 21182,
+      "sha256": "3e46352d8541c0f0171ca33565bfea90c14aad8b5ad202421fc891dff4b41735"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/d0260276-dc30-4579-ba52-066e52d9015a.jpg",
+      "size_bytes": 31735,
+      "sha256": "4271e24bd403aa1a77cf9ee574a839932c270b7acda0b6594485965d319f6145"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/dc0471a2-5c83-4571-bce5-85e1094c51e2.jpg",
+      "size_bytes": 24565,
+      "sha256": "74d5e70e7aa038002e12c035c79f373e80999a153fa493e15058f1ab642755c1"
+    },
+    {
+      "path": "app/static/scraped_sources/central-trade-auto-co-markazia-toyota-jordan/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/e2391a96-4657-4906-b629-e1ca9ba958a6.jpg",
+      "size_bytes": 33577,
+      "sha256": "d8533434590471a5b0df3fc97e724df79b2e28f8c084570681ad9bcd0eb1878f"
+    },
+    {
+      "path": "app/templates/chat.html",
+      "size_bytes": 10915,
+      "sha256": "f799648ce82d211978803f99248ea0930e24567c7eda522cdc4a40b00e5b7507"
+    },
+    {
+      "path": "app/templates/chat_history.html",
+      "size_bytes": 4247,
+      "sha256": "cc9266b4d8f720adc61c6c341ea749d543429ca225cf572d67a74eb98738fe9e"
+    },
+    {
+      "path": "app/templates/dashboard_login.html",
+      "size_bytes": 1387,
+      "sha256": "52ba4c839c4eff9ac240f966ab6e99c8c836ecebc256cc6b2b6a4c0cbf3ad8f1"
+    },
+    {
+      "path": "app/templates/sales_callbacks.html",
+      "size_bytes": 5117,
+      "sha256": "83c5f3b5c231783cbac445f4b8f65579a9cb183db23be93eefc00de3a4f47f7b"
+    },
+    {
+      "path": "data/branding/favicon.png",
+      "size_bytes": 2595,
+      "sha256": "c491eb5a2bd9abfea4451ba2d5ae4a72ae146a132e0907a6ed08ed2695b01229"
+    },
+    {
+      "path": "data/branding/logo.jpg",
+      "size_bytes": 3685,
+      "sha256": "e5db6491fc05a9817b133f12017918427ba3250ef841127cc43a64cc52290294"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/approved/Toyota_Corolla_2026_Bilingual_Promo_Chatbot_Guide_Fixed.docx",
+      "size_bytes": 59298,
+      "sha256": "709afb7ea145adca6d7334ddeeb9f5bfdf5325d9f10d8b2072f80af0fcf8103c"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/approved/campaign/campaign_profile.docx",
+      "size_bytes": 37589,
+      "sha256": "56804e144422281abcbc82ed6c3eb75df2355cd1ce176e298b8d9f9698fe4c3a"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/approved/campaign_profile.docx",
+      "size_bytes": 37589,
+      "sha256": "56804e144422281abcbc82ed6c3eb75df2355cd1ce176e298b8d9f9698fe4c3a"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/approved/uploaded/Toyota_Corolla_2026_Bilingual_Promo_Chatbot_Guide_Fixed.docx",
+      "size_bytes": 59298,
+      "sha256": "709afb7ea145adca6d7334ddeeb9f5bfdf5325d9f10d8b2072f80af0fcf8103c"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/config.json",
+      "size_bytes": 20939,
+      "sha256": "c25814aa4221c7111d2a254ba1318f0b671b296a7d223cbab72621ef02725ac9"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/10b5f5b6-4e45-4ec1-ae23-e74790906298-30dfee7aa5f4.png",
+      "size_bytes": 2809241,
+      "sha256": "f48af49c3ac02d4ab73cd1c45731b25250b829548179ff950c25c9684c665671"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/1e67c230-94a5-4f9c-b4d9-7c0ef616e6f1-4ad7fb377f6a.png",
+      "size_bytes": 366845,
+      "sha256": "aebf8e831e2d6ca9c7cabdc1d3ed114e898caebe44bbdc77d6093711b67caad6"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/2f9f2995-2fbc-4e4e-81b8-3ce3f6f8f926-910ae88b26e3.png",
+      "size_bytes": 1983352,
+      "sha256": "4479e62491c93a2a1c72dc5a4fa1ecbe7f5819a641a62455adcba68582a22710"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/66df856d-851a-4de6-ad4c-2ea72faaf8e7-aff1b3ab4b7b.png",
+      "size_bytes": 344312,
+      "sha256": "403e8c9f9d04db58850f7cec24a6f9a5d63c7a3c1a4a2593cdb85e345a927151"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/74421f54-0183-41c4-b88b-5741d98e68a4-f2b139871901.png",
+      "size_bytes": 805936,
+      "sha256": "09b6f083d63e03135df3081e5fccde3e44583299ac28c4d6840db58d969db52e"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/7f972317-e2e2-4fb2-8074-b44eabb02d25-aed533d6f455.png",
+      "size_bytes": 985765,
+      "sha256": "143f16972c2ea95bb5d652ab014cda8e61e493f9b644d2d1b9eab9fa38bc9a0e"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/c3c3e272-268e-42a0-a3be-f7753d006d06-c3815436fb1a.png",
+      "size_bytes": 341788,
+      "sha256": "89140ccee449b2c2ac3de7116c06292984cb1b82ee969f6415e78f888b6dde55"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/d0260276-dc30-4579-ba52-066e52d9015a-34668cf2a620.png",
+      "size_bytes": 1592420,
+      "sha256": "246a0faea8ff4328e50a9d03911db11c02d1621e938d4d5926862336c3f5f14c"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/dc0471a2-5c83-4571-bce5-85e1094c51e2-76389baa173f.png",
+      "size_bytes": 1554684,
+      "sha256": "bd21e290d6a68ce51162f3214c7a5a432b4ed52c9680afd13cbd233362dbecf7"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/e2391a96-4657-4906-b629-e1ca9ba958a6-8c37b8483dce.png",
+      "size_bytes": 1832745,
+      "sha256": "4021ed2afa8e5ff3e4085e9f7dd25053c61494571b85de086119afa3b7800d18"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/10b5f5b6-4e45-4ec1-ae23-e74790906298.jpg",
+      "size_bytes": 34826,
+      "sha256": "f53bc4402f89ddd790820a867051a468961ee07fa3f4009cb76c2e974f40ffe0"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/1e67c230-94a5-4f9c-b4d9-7c0ef616e6f1.jpg",
+      "size_bytes": 30840,
+      "sha256": "7ee1f3ef2e2af030118a0095cd5b7ac6d9419319f2519cbd135ac645c020a8d6"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/2f9f2995-2fbc-4e4e-81b8-3ce3f6f8f926.jpg",
+      "size_bytes": 29299,
+      "sha256": "a20e1b1c10d52d7aade84319dc54ffbe5253057b61e78dbc99f8b59bc7c8edc4"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/66df856d-851a-4de6-ad4c-2ea72faaf8e7.jpg",
+      "size_bytes": 19358,
+      "sha256": "c277502896ecfd2a8e43ef782aa78674e7170bfadf912ee01030dc88b1a7e802"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/74421f54-0183-41c4-b88b-5741d98e68a4.jpg",
+      "size_bytes": 27247,
+      "sha256": "b7cca352a44affbcea5d87df3b95dd4a710f1bd89eef0cc771449dd64741c563"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/7f972317-e2e2-4fb2-8074-b44eabb02d25.jpg",
+      "size_bytes": 24354,
+      "sha256": "4338ba0659e9138b94dafe9a732f7bf6304716cca82d63242142dc7729e51b81"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/c3c3e272-268e-42a0-a3be-f7753d006d06.jpg",
+      "size_bytes": 21182,
+      "sha256": "3e46352d8541c0f0171ca33565bfea90c14aad8b5ad202421fc891dff4b41735"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/d0260276-dc30-4579-ba52-066e52d9015a.jpg",
+      "size_bytes": 31735,
+      "sha256": "4271e24bd403aa1a77cf9ee574a839932c270b7acda0b6594485965d319f6145"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/dc0471a2-5c83-4571-bce5-85e1094c51e2.jpg",
+      "size_bytes": 24565,
+      "sha256": "74d5e70e7aa038002e12c035c79f373e80999a153fa493e15058f1ab642755c1"
+    },
+    {
+      "path": "data/clients/central-trade-auto-co-markazia-toyota-jordan/media/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/e2391a96-4657-4906-b629-e1ca9ba958a6.jpg",
+      "size_bytes": 33577,
+      "sha256": "d8533434590471a5b0df3fc97e724df79b2e28f8c084570681ad9bcd0eb1878f"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/10b5f5b6-4e45-4ec1-ae23-e74790906298-30dfee7aa5f4.png",
+      "size_bytes": 2809241,
+      "sha256": "f48af49c3ac02d4ab73cd1c45731b25250b829548179ff950c25c9684c665671"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/1e67c230-94a5-4f9c-b4d9-7c0ef616e6f1-4ad7fb377f6a.png",
+      "size_bytes": 366845,
+      "sha256": "aebf8e831e2d6ca9c7cabdc1d3ed114e898caebe44bbdc77d6093711b67caad6"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/2f9f2995-2fbc-4e4e-81b8-3ce3f6f8f926-910ae88b26e3.png",
+      "size_bytes": 1983352,
+      "sha256": "4479e62491c93a2a1c72dc5a4fa1ecbe7f5819a641a62455adcba68582a22710"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/66df856d-851a-4de6-ad4c-2ea72faaf8e7-aff1b3ab4b7b.png",
+      "size_bytes": 344312,
+      "sha256": "403e8c9f9d04db58850f7cec24a6f9a5d63c7a3c1a4a2593cdb85e345a927151"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/74421f54-0183-41c4-b88b-5741d98e68a4-f2b139871901.png",
+      "size_bytes": 805936,
+      "sha256": "09b6f083d63e03135df3081e5fccde3e44583299ac28c4d6840db58d969db52e"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/7f972317-e2e2-4fb2-8074-b44eabb02d25-aed533d6f455.png",
+      "size_bytes": 985765,
+      "sha256": "143f16972c2ea95bb5d652ab014cda8e61e493f9b644d2d1b9eab9fa38bc9a0e"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/c3c3e272-268e-42a0-a3be-f7753d006d06-c3815436fb1a.png",
+      "size_bytes": 341788,
+      "sha256": "89140ccee449b2c2ac3de7116c06292984cb1b82ee969f6415e78f888b6dde55"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/d0260276-dc30-4579-ba52-066e52d9015a-34668cf2a620.png",
+      "size_bytes": 1592420,
+      "sha256": "246a0faea8ff4328e50a9d03911db11c02d1621e938d4d5926862336c3f5f14c"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/dc0471a2-5c83-4571-bce5-85e1094c51e2-76389baa173f.png",
+      "size_bytes": 1554684,
+      "sha256": "bd21e290d6a68ce51162f3214c7a5a432b4ed52c9680afd13cbd233362dbecf7"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/approved/e2391a96-4657-4906-b629-e1ca9ba958a6-8c37b8483dce.png",
+      "size_bytes": 1832745,
+      "sha256": "4021ed2afa8e5ff3e4085e9f7dd25053c61494571b85de086119afa3b7800d18"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/10b5f5b6-4e45-4ec1-ae23-e74790906298.jpg",
+      "size_bytes": 34826,
+      "sha256": "f53bc4402f89ddd790820a867051a468961ee07fa3f4009cb76c2e974f40ffe0"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/1e67c230-94a5-4f9c-b4d9-7c0ef616e6f1.jpg",
+      "size_bytes": 30840,
+      "sha256": "7ee1f3ef2e2af030118a0095cd5b7ac6d9419319f2519cbd135ac645c020a8d6"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/2f9f2995-2fbc-4e4e-81b8-3ce3f6f8f926.jpg",
+      "size_bytes": 29299,
+      "sha256": "a20e1b1c10d52d7aade84319dc54ffbe5253057b61e78dbc99f8b59bc7c8edc4"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/66df856d-851a-4de6-ad4c-2ea72faaf8e7.jpg",
+      "size_bytes": 19358,
+      "sha256": "c277502896ecfd2a8e43ef782aa78674e7170bfadf912ee01030dc88b1a7e802"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/74421f54-0183-41c4-b88b-5741d98e68a4.jpg",
+      "size_bytes": 27247,
+      "sha256": "b7cca352a44affbcea5d87df3b95dd4a710f1bd89eef0cc771449dd64741c563"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/7f972317-e2e2-4fb2-8074-b44eabb02d25.jpg",
+      "size_bytes": 24354,
+      "sha256": "4338ba0659e9138b94dafe9a732f7bf6304716cca82d63242142dc7729e51b81"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/c3c3e272-268e-42a0-a3be-f7753d006d06.jpg",
+      "size_bytes": 21182,
+      "sha256": "3e46352d8541c0f0171ca33565bfea90c14aad8b5ad202421fc891dff4b41735"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/d0260276-dc30-4579-ba52-066e52d9015a.jpg",
+      "size_bytes": 31735,
+      "sha256": "4271e24bd403aa1a77cf9ee574a839932c270b7acda0b6594485965d319f6145"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/dc0471a2-5c83-4571-bce5-85e1094c51e2.jpg",
+      "size_bytes": 24565,
+      "sha256": "74d5e70e7aa038002e12c035c79f373e80999a153fa493e15058f1ab642755c1"
+    },
+    {
+      "path": "data/media/campaign/collections/dd2db302-9c12-4e41-8bb6-4730af6934ef/thumbnails/e2391a96-4657-4906-b629-e1ca9ba958a6.jpg",
+      "size_bytes": 33577,
+      "sha256": "d8533434590471a5b0df3fc97e724df79b2e28f8c084570681ad9bcd0eb1878f"
+    },
+    {
+      "path": "data/runtime/README.txt",
+      "size_bytes": 106,
+      "sha256": "a7d9424953a49f95f06600fa7a92b66d9e9eb471785b1edf9671b4c28bb9996a"
+    },
+    {
+      "path": "data/runtime/db_seed.json",
+      "size_bytes": 23071846,
+      "sha256": "52e9624aaa71cdd6c0c373a4adb681cca01c5312b31a0c8e67f21947064261a8"
+    },
+    {
+      "path": "db/init/01-vector.sql",
+      "size_bytes": 39,
+      "sha256": "9e9b2cfec47519f49ee73cb533c459e22f8ca54fe5ba1cbec59f3d5883fe191c"
+    },
+    {
+      "path": "diagnose.ps1",
+      "size_bytes": 1784,
+      "sha256": "9383830ab8e5d4b4d4c1b501607e1ebd41b52e368008b4383f81d44b467c3b75"
+    },
+    {
+      "path": "docker-compose.yml",
+      "size_bytes": 1509,
+      "sha256": "d6f425d0830804c1a120fbe1358bc8ff3460095204044a4e0dde040eef29fecd"
+    },
+    {
+      "path": "frontend/README.md",
+      "size_bytes": 546,
+      "sha256": "506e94cb276b3c274d58b0ebe5d44e7cd192f863eb9ef75a94b7fcf81dbdabfc"
+    },
+    {
+      "path": "requirements.txt",
+      "size_bytes": 241,
+      "sha256": "3dbafa960fae8e190bbbea46608fb4d8c485cffc7a4ca60ba6c62eba3bbfe773"
+    },
+    {
+      "path": "start.ps1",
+      "size_bytes": 2323,
+      "sha256": "cdec43d54d933b8823b1235ee3668c7aa5893b7f94c9e55bfa2e614a49fe0dd8"
+    },
+    {
+      "path": "start.sh",
+      "size_bytes": 162,
+      "sha256": "03d63cab25c3235cf2f0617feb000c3b781d303de0064d0caeb1bbc7f5ca7a12"
+    }
+  ]
+}

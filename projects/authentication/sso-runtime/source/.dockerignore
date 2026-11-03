@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+**/.DS_Store
+.env
+.env.*
+!.env.example
+flask_sessions/
+logs/
+exports/
+assets/
+static/
+landing_pages/
+.git/
+.venv/
+venv/

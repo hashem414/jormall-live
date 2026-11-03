@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>كارماليت — مساعد العيادة</title>
+<link rel="icon" href="/static/logo-mark.png">
+<meta name="theme-color" content="#4d6160">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<style>
+  /* ================================================================
+     ثيم مشتق من شعار Karmalite:
+       #4D6160  حبر الشعار (السليت الأخضر)  → اللون الأساسي
+       #F3F5F4  خلفية بتلات اللوتس           → خلفية الصفحة
+       #DFE1E0  حدود البتلات                 → الخطوط والفواصل
+       #707473  رمادي "Medical Esthetic"     → النص الثانوي
+     ================================================================ */
+  :root{
+    --brand:#4d6160; --brand-soft:#6b807e; --brand-pale:#97a19f;
+    --bg:#f3f5f4; --panel:#ffffff; --ink:#283736; --muted:#707473;
+    --line:#dfe1e0; --accent:#4d6160; --accent-2:#6b807e; --accent-ink:#fff;
+    --bot-bg:#ffffff; --user-bg:linear-gradient(135deg,#4d6160,#3b4c4b);
+    --field:#f3f5f4;
+    --shadow:0 1px 2px rgba(40,55,54,.05), 0 8px 24px rgba(40,55,54,.07);
+    --ok:#2f7d55; --ok-bg:rgba(47,125,85,.1); --ok-line:rgba(47,125,85,.25);
+    --err:#b8524a; --err-bg:rgba(184,82,74,.1); --err-line:rgba(184,82,74,.25);
+    --radius:18px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#101716; --panel:#18201f; --ink:#e6ecea; --muted:#8b9b99;
+      --line:#283433; --accent:#9db3b0; --accent-2:#7d9591; --accent-ink:#101716;
+      --bot-bg:#1f2928; --field:#101716;
+      --user-bg:linear-gradient(135deg,#546967,#3d4f4e);
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.4);
+      --ok:#63b585; --ok-bg:rgba(99,181,133,.12); --ok-line:rgba(99,181,133,.28);
+      --err:#dd8079; --err-bg:rgba(221,128,121,.12); --err-line:rgba(221,128,121,.28);
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:"Segoe UI","Tahoma",system-ui,-apple-system,sans-serif;
+    background:var(--bg); color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{
+    width:100%; max-width:760px; height:100dvh; max-height:100dvh;
+    display:flex; flex-direction:column; background:var(--panel);
+    box-shadow:var(--shadow); overflow:hidden; position:relative;
+  }
+  @media(min-width:820px){ .app{height:min(92dvh,880px); border-radius:24px; border:1px solid var(--line)} }
+
+  /* ---------- Header ---------- */
+  header{
+    display:flex; flex-direction:column; gap:10px; padding:12px 16px;
+    border-bottom:1px solid var(--line); background:var(--panel); z-index:2;
+  }
+  .brand{
+    display:flex; align-items:center; gap:12px; width:100%;
+  }
+  .logo{
+    width:42px;height:42px;border-radius:14px;flex:none;background:#fff;
+    border:1px solid var(--line);background-image:url('/static/logo-mark.png');
+    background-size:82%;background-position:center;background-repeat:no-repeat;
+  }
+  .who{flex:1;min-width:0}
+  .who h1{font-size:15.5px;font-weight:650;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .who p{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);flex:none}
+  .dot.off{background:var(--err)} .dot.wait{background:#d9a441}
+
+  .actions{
+    display:flex; align-items:center; gap:6px; width:100%; overflow-x:auto; padding-bottom:2px;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .actions::-webkit-scrollbar{display:none}
+
+  @media(min-width:640px){
+    header{ flex-direction:row; justify-content:space-between; padding:14px 18px }
+    .brand{ width:auto; flex:1; min-width:0 }
+    .actions{ width:auto; flex:none; overflow-x:visible }
+  }
+
+  .ghost{
+    background:none;border:1px solid var(--line);color:var(--muted);
+    border-radius:10px;padding:7px 12px;font-size:12.5px;cursor:pointer;font-family:inherit;
+    white-space:nowrap;transition:.15s;flex:none;
+  }
+  .ghost:hover{color:var(--ink);border-color:var(--accent)}
+  .cta{
+    border:none;border-radius:11px;padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer;
+    font-family:inherit;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:var(--accent-ink);white-space:nowrap;transition:.15s;flex:none;
+  }
+  .cta:hover:not(:disabled){filter:brightness(1.07)}
+  .cta:disabled{opacity:.5;cursor:not-allowed}
+
+  /* ---------- Messages ---------- */
+  main{flex:1;overflow-y:auto;padding:20px 18px 8px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+  main::-webkit-scrollbar{width:8px}
+  main::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+  .msg{max-width:82%;display:flex;flex-direction:column;gap:6px;animation:rise .25s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.bot{align-self:flex-start}
+  .msg.me{align-self:flex-end}
+  /* سطر الرسالة: شعار العيادة جنب الفقاعة */
+  .msg .line{display:flex;align-items:flex-end;gap:8px}
+  .avatar{
+    width:30px;height:30px;border-radius:10px;flex:none;background:#fff;
+    border:1px solid var(--line);background-image:url('/static/logo-mark.png');
+    background-size:78%;background-position:center;background-repeat:no-repeat;
+    margin-bottom:2px;
+  }
+  /* زر الاستماع والمصادر بينحاذوا مع الفقاعة، مش مع الشعار */
+  .msg.bot .speak,.msg.bot .sources{margin-inline-start:38px}
+  .bubble{padding:12px 15px;border-radius:var(--radius);font-size:15px;line-height:1.75;white-space:pre-wrap;word-wrap:break-word}
+  .bot .bubble{background:var(--bot-bg);border:1px solid var(--line);border-start-start-radius:6px}
+  /* رقم قابل للاتصال داخل رد البوت */
+  a.telnum{
+    color:var(--accent);font-weight:700;text-decoration:none;white-space:nowrap;
+    direction:ltr;unicode-bidi:embed;border-bottom:1px dashed var(--accent);
+  }
+  a.telnum:hover{border-bottom-style:solid}
+  .me .bubble{background:var(--user-bg);color:#fff;border-start-end-radius:6px}
+  .sources{font-size:11.5px;color:var(--muted);padding:0 4px}
+  .sources summary{cursor:pointer;opacity:.75;list-style:none}
+  .sources summary::-webkit-details-marker{display:none}
+  .sources ul{margin:6px 0 0;padding-inline-start:14px;display:flex;flex-direction:column;gap:3px}
+  .sources li{list-style:none;opacity:.85}
+  .badge{
+    align-self:flex-start;display:inline-flex;align-items:center;gap:7px;font-size:12.5px;
+    padding:7px 13px;border-radius:999px;background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line);
+  }
+  .badge.alert{background:var(--err-bg);color:var(--err);border-color:var(--err-line)}
+
+  /* بطاقة الموقع */
+  .loc{
+    align-self:flex-start;max-width:82%;background:var(--bot-bg);border:1px solid var(--line);
+    border-radius:var(--radius);padding:14px 16px;display:flex;flex-direction:column;gap:10px;
+    animation:rise .25s ease;
+  }
+  .loc .head{display:flex;align-items:center;gap:9px;font-weight:650;font-size:14px}
+  .loc .pin{
+    width:30px;height:30px;border-radius:10px;flex:none;display:grid;place-items:center;font-size:15px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink);
+  }
+  .loc .addr{font-size:14px;line-height:1.8;color:var(--ink)}
+  .loc a{
+    display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink);
+    padding:10px 16px;border-radius:12px;font-size:13.5px;font-weight:600;transition:.15s;
+  }
+  .loc a:hover{filter:brightness(1.07)}
+
+  /* ---------- Welcome ---------- */
+  .welcome{text-align:center;padding:22px 10px 6px;color:var(--muted)}
+  .welcome .mark{
+    width:150px;height:138px;margin:0 auto 18px;border-radius:20px;background:#fff;
+    border:1px solid var(--line);background-image:url('/static/logo.png');
+    background-size:76%;background-position:center;background-repeat:no-repeat;
+  }
+  .welcome h2{color:var(--ink);font-size:18px;font-weight:650;margin-bottom:6px}
+  .welcome p{font-size:14px;line-height:1.7;max-width:340px;margin:0 auto}
+  .chip{
+    background:none;border:1px solid var(--line);color:var(--ink);padding:9px 15px;
+    border-radius:999px;font-size:13.5px;cursor:pointer;font-family:inherit;transition:.15s;
+  }
+  .chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+
+  /* شريط الأسئلة السريعة — ظاهر دائماً فوق مربع الكتابة، بيمرّر أفقياً */
+  .quickbar{
+    display:flex;gap:7px;overflow-x:auto;padding-bottom:9px;margin-bottom:2px;
+    scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth;
+  }
+  .quickbar::-webkit-scrollbar{display:none}
+  .quickbar .chip{
+    flex:0 0 auto;padding:7px 13px;font-size:12.5px;background:var(--field);white-space:nowrap;
+  }
+
+  .typing{display:flex;gap:4px;padding:15px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.3s infinite}
+  .typing i:nth-child(2){animation-delay:.18s} .typing i:nth-child(3){animation-delay:.36s}
+  @keyframes blink{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+  /* ---------- Composer ---------- */
+  footer{padding:12px 16px 14px;border-top:1px solid var(--line);background:var(--panel)}
+  .composer{display:flex;gap:9px;align-items:flex-end}
+  textarea{
+    flex:1;resize:none;font-family:inherit;font-size:15px;line-height:1.6;color:var(--ink);
+    background:var(--field);border:1px solid var(--line);border-radius:16px;padding:12px 15px;
+    max-height:130px;outline:none;transition:border-color .15s;
+  }
+  textarea:focus{border-color:var(--accent)}
+  .send{
+    width:44px;height:44px;flex:none;border:none;border-radius:14px;cursor:pointer;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink);
+    display:grid;place-items:center;transition:.15s;
+  }
+  .send:hover:not(:disabled){filter:brightness(1.07)}
+  .send:disabled{opacity:.4;cursor:not-allowed}
+  .send svg{width:19px;height:19px}
+  html[dir="rtl"] .send svg{transform:scaleX(-1)}
+
+  /* ---------- الصوت ---------- */
+  .mic{
+    width:44px;height:44px;flex:none;border:1px solid var(--line);border-radius:14px;cursor:pointer;
+    background:var(--field);color:var(--muted);display:grid;place-items:center;transition:.15s;
+  }
+  .mic:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .mic:disabled{opacity:.4;cursor:not-allowed}
+  .mic svg{width:19px;height:19px}
+  .mic.rec{
+    background:var(--err-bg);border-color:var(--err-line);color:var(--err);
+    animation:pulse 1.3s ease-in-out infinite;
+  }
+  .mic.busy{opacity:.6;cursor:progress}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--err-line)}50%{box-shadow:0 0 0 6px transparent}}
+
+  /* شريط حالة التسجيل فوق مربع الكتابة */
+  .recbar{
+    display:none;align-items:center;gap:9px;margin-bottom:8px;padding:8px 13px;
+    border:1px solid var(--err-line);background:var(--err-bg);border-radius:12px;font-size:12.5px;color:var(--err);
+  }
+  .recbar.on{display:flex}
+  .recbar .dot{width:8px;height:8px;border-radius:50%;background:var(--err);animation:pulse 1.3s infinite}
+  .recbar .time{font-variant-numeric:tabular-nums;font-weight:600}
+  .recbar button{
+    margin-inline-start:auto;background:none;border:1px solid var(--err-line);
+    color:var(--err);border-radius:999px;padding:3px 11px;font-size:11.5px;cursor:pointer;
+  }
+
+  /* زر تشغيل رد البوت */
+  .speak{
+    align-self:flex-start;margin-top:5px;background:none;border:1px solid var(--line);
+    border-radius:999px;padding:4px 11px;font-size:11.5px;color:var(--muted);
+    cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.15s;
+  }
+  .speak:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .speak:disabled{opacity:.55;cursor:progress}
+  .speak.playing{border-color:var(--accent);color:var(--accent)}
+  .speak svg{width:13px;height:13px}
+  .footbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+  .hint{font-size:11px;color:var(--muted);flex:1;line-height:1.5}
+  .langswitch{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex:none}
+  .langswitch button{
+    background:none;border:none;font-family:inherit;font-size:11.5px;font-weight:600;
+    padding:6px 13px;cursor:pointer;color:var(--muted);transition:.15s;
+  }
+  .langswitch button.on{background:var(--accent);color:var(--accent-ink)}
+
+  /* ---------- Booking modal ---------- */
+  .overlay{
+    position:absolute;inset:0;background:rgba(20,17,16,.5);backdrop-filter:blur(3px);
+    display:none;align-items:center;justify-content:center;padding:16px;z-index:10;
+  }
+  .overlay.open{display:flex;animation:fade .2s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .sheet{
+    background:var(--panel);border-radius:22px;width:100%;max-width:440px;max-height:100%;
+    overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:pop .25s ease;
+  }
+  @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+  .sheet header{border-bottom:1px solid var(--line);padding:16px 20px}
+  .sheet header h2{font-size:16.5px;font-weight:650;flex:1}
+  .sheet header p{font-size:12px;color:var(--muted);margin-top:3px}
+  .sheet .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:15px}
+  .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:7px;color:var(--muted)}
+  .field input,.field select,.field textarea{
+    width:100%;font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--field);
+    border:1px solid var(--line);border-radius:12px;padding:11px 13px;outline:none;transition:border-color .15s;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+  .field textarea{min-height:64px;resize:vertical}
+  .field.bad input,.field.bad select{border-color:var(--err)}
+  .field .err{font-size:11.5px;color:var(--err);margin-top:5px;display:none}
+  .field.bad .err{display:block}
+
+  .cal{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--field)}
+  .cal .nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .cal .nav strong{font-size:13.5px;font-weight:650}
+  .cal .nav button{
+    background:none;border:1px solid var(--line);border-radius:9px;width:30px;height:30px;
+    cursor:pointer;color:var(--ink);font-size:15px;line-height:1;display:grid;place-items:center;
+  }
+  .cal .nav button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .cal .nav button:disabled{opacity:.3;cursor:not-allowed}
+  .cal .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+  .cal .dow{font-size:10.5px;color:var(--muted);text-align:center;padding:5px 0;font-weight:600}
+  .cal .day{
+    aspect-ratio:1;border:none;background:none;border-radius:10px;cursor:pointer;
+    font-family:inherit;font-size:13px;color:var(--ink);transition:.12s;
+  }
+  .cal .day:hover:not(:disabled){background:var(--line)}
+  .cal .day:disabled{opacity:.25;cursor:not-allowed}
+  .cal .day.sel{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink);font-weight:700}
+  .cal .day.today{box-shadow:inset 0 0 0 1px var(--accent)}
+  .cal .blank{aspect-ratio:1}
+
+  .note{font-size:11.5px;font-weight:700;color:var(--muted);line-height:1.6;background:var(--field);
+        border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  /* بطاقات مواعيدي */
+  .appt{
+    border:1px solid var(--line);border-radius:14px;padding:13px 15px;background:var(--field);
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .appt .when{font-size:15px;font-weight:650;font-variant-numeric:tabular-nums}
+  .appt .svc{font-size:13px;color:var(--muted)}
+  .appt .foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .appt .st{display:inline-block;padding:4px 11px;border-radius:999px;font-size:11.5px;font-weight:600}
+  .appt .st.requested{background:rgba(191,150,60,.15);color:#8a6d1f}
+  .appt .st.confirmed{background:var(--ok-bg);color:var(--ok)}
+  @media (prefers-color-scheme:dark){ .appt .st.requested{color:#d9b45c} }
+  .appt button{
+    background:none;border:1px solid var(--line);color:var(--muted);border-radius:10px;
+    padding:7px 14px;font-size:12.5px;font-family:inherit;cursor:pointer;transition:.15s;
+  }
+  .appt button:hover:not(:disabled){border-color:var(--err);color:var(--err)}
+  .appt button:disabled{opacity:.45;cursor:not-allowed}
+  .appt.gone{opacity:.6}
+  .appt.gone .when{text-decoration:line-through}
+  .appt button.go:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+
+  /* اقتراحات الحجز البديل بعد الإلغاء */
+  .rebook{
+    border:1px solid var(--ok-line);background:var(--ok-bg);border-radius:14px;
+    padding:13px 15px;display:flex;flex-direction:column;gap:10px;
+  }
+  .rebook .title{font-size:13px;font-weight:650;color:var(--ok)}
+  .rebook .hint{font-size:12px;color:var(--muted);line-height:1.6}
+  .slots{display:flex;flex-wrap:wrap;gap:7px}
+  .slots button{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:8px 12px;font-size:12.5px;font-family:inherit;cursor:pointer;color:var(--ink);
+    transition:.15s;line-height:1.4;
+  }
+  .slots button:hover:not(:disabled){border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+  .slots button:disabled{opacity:.45;cursor:not-allowed}
+  .slots button small{display:block;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="logo" role="img" aria-label="Karmalite"></div>
+      <div class="who">
+        <h1 data-i18n="clinic">عيادة كارماليت</h1>
+        <p><span class="dot wait" id="dot"></span><span id="status">…</span></p>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="ghost" id="openMine" data-i18n="myAppts">مواعيدي</button>
+      <button class="ghost" id="openPwa" data-i18n="addToHomeScreen">📱 Add to Home Screen</button>
+    </div>
+  </header>
+
+  <main id="feed">
+    <div class="welcome" id="welcome">
+      <div class="mark" role="img" aria-label="Karmalite Medical Esthetic"></div>
+      <h2 data-i18n="welcomeTitle">أهلاً فيك في كارماليت</h2>
+      <p data-i18n="welcomeText">أنا مساعد العيادة. اسألني عن الخدمات، الأسعار، أوقات الدوام، أو خليني أرتّبلك موعد.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="quickbar" id="quickbar"></div>
+    <div class="recbar" id="recbar">
+      <span class="dot"></span>
+      <span data-i18n="recording">جارِ التسجيل…</span>
+      <span class="time" id="recTime">0:00</span>
+      <button type="button" id="recCancel" data-i18n="recCancel">إلغاء</button>
+    </div>
+    <div class="composer">
+      <textarea id="input" rows="1" data-i18n-ph="placeholder" placeholder="اكتب رسالتك…"></textarea>
+      <button class="mic" id="mic" hidden aria-label="mic">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M18 11a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.91V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-3.09A6 6 0 0 0 18 11z"/></svg>
+      </button>
+      <button class="send" id="send" disabled aria-label="send">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+    <div class="footbar">
+      <p class="hint" data-i18n="hint"></p>
+      <div class="langswitch">
+        <button data-lang="ar">عربي</button>
+        <button data-lang="en">EN</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ My appointments ============ -->
+  <div class="overlay" id="mineOverlay">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <header style="display:flex;align-items:flex-start;gap:10px">
+        <div style="flex:1">
+          <h2 data-i18n="mineTitle">مواعيدي</h2>
+          <p data-i18n="mineSub">أدخل الاسم والرقم اللي حجزت فيهم</p>
+        </div>
+        <button class="ghost" id="closeMine" aria-label="close">✕</button>
+      </header>
+
+      <div class="body" id="mineBody">
+        <div class="field" id="mNameField">
+          <label data-i18n="fName">الاسم الكامل</label>
+          <input id="mName" autocomplete="name">
+          <div class="err" data-i18n="eName">اكتب اسمك الكامل</div>
+        </div>
+        <div class="field" id="mPhoneField">
+          <label data-i18n="fPhone">رقم الهاتف</label>
+          <input id="mPhone" inputmode="tel" placeholder="07XXXXXXXX" autocomplete="tel">
+          <div class="err" data-i18n="ePhone">رقم أردني غير صحيح</div>
+        </div>
+        <p class="note" data-i18n="mineNote"></p>
+        <p class="err" id="mineError" style="display:none;font-size:12.5px;color:var(--err)"></p>
+        <button class="cta" id="lookupBtn" style="padding:13px" data-i18n="lookup">اعرض مواعيدي</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Reschedule ============ -->
+  <!-- الحجز الجديد صار بالشات بالكامل. هذا التقويم بيخدم نقل موعد قائم فقط،
+       وبيفتح من «مواعيدي» بعد ما يتحقق العميل من اسمه ورقمه. -->
+  <div class="overlay" id="overlay">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <header style="display:flex;align-items:flex-start;gap:10px">
+        <div style="flex:1">
+          <h2 id="moveTitle" data-i18n="rescheduleBtn">تغيير الموعد</h2>
+          <p id="moveSub"></p>
+        </div>
+        <button class="ghost" id="closeBooking" aria-label="close">✕</button>
+      </header>
+
+      <div class="body" id="bookingBody">
+        <p class="note" data-i18n="moveNote"></p>
+
+        <div class="field" id="dateField">
+          <label data-i18n="fDate">التاريخ</label>
+          <div class="cal">
+            <div class="nav">
+              <button id="prevM" aria-label="prev">‹</button>
+              <strong id="monthLabel"></strong>
+              <button id="nextM" aria-label="next">›</button>
+            </div>
+            <div class="grid" id="dows"></div>
+            <div class="grid" id="days"></div>
+          </div>
+          <div class="err" data-i18n="ePickDate">اختار تاريخ</div>
+        </div>
+
+        <div class="field" id="timeField">
+          <label data-i18n="fTime">الوقت</label>
+          <select id="fTime" disabled></select>
+          <div class="err" data-i18n="ePickTime">اختار وقت</div>
+        </div>
+
+        <p class="err" id="formError" style="display:none;font-size:12.5px;color:var(--err)"></p>
+        <button class="cta" id="submitBooking" style="padding:13px" data-i18n="rescheduleBtn">تغيير الموعد</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Add to Home Screen ============ -->
+  <div class="overlay" id="pwaOverlay">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <header>
+        <h2 id="pwaTitle" data-i18n="addToHomeScreen" style="margin:0;font-size:16px;font-weight:650">📱 Add to Home Screen</h2>
+      </header>
+
+      <div class="body" id="pwaBody" style="gap:16px;padding:20px">
+        <p id="pwaMessage" style="font-size:14.5px;line-height:1.75;color:var(--ink);white-space:pre-line;word-break:break-word"></p>
+        <button class="cta" id="closePwaBtn" style="padding:12px;width:100%" data-i18n="pwaOk">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==================== i18n ==================== */
+const I18N = {
+  ar:{
+    dir:'rtl', htmlLang:'ar', title:'كارماليت — مساعد العيادة',
+    clinic:'عيادة كارماليت', myAppts:'مواعيدي', addToHomeScreen:'📱 Add to Home Screen', pwaOk:'فهمت',
+    mineTitle:'مواعيدي', mineSub:'أدخل الاسم والرقم اللي حجزت فيهم',
+    mineNote:'بنعرض مواعيدك القادمة فقط. للتحقق من هويتك بنحتاج نفس الاسم والرقم اللي حجزت فيهم.',
+    lookup:'اعرض مواعيدي', looking:'جارِ البحث…',
+    mineEmpty:'ما لقينا مواعيد قادمة بهالاسم والرقم. تأكد من البيانات أو اتصل فينا.',
+    cancelBtn:'إلغاء الموعد', cancelling:'جارِ الإلغاء…', cancelled:'ملغي',
+    rescheduleBtn:'تغيير الموعد', rescheduling:'جارِ النقل…',
+    rebookTitle:'احجز موعد بديل', rebookHint:'هدول أقرب الأوقات المتاحة — اضغط على أي وقت لتحجزه فوراً:',
+    otherTime:'بدي وقت ثاني — رتّبلي بالشات', rebookAsk:'بدي أحجز موعد بديل', booking:'جارِ الحجز…',
+    rebookDone:d=>`تم تسجيل طلب موعدك الجديد — ${d}`,
+    moved:(a,b)=>`تم نقل موعدك من ${a} إلى ${b}`,
+    noNearby:'ما في أوقات قريبة متاحة حالياً.',
+    confirmCancel:d=>`متأكد إنك بدك تلغي موعد ${d}؟`,
+    cancelDone:'تم إلغاء الموعد. فريق الاستقبال تم إشعاره.',
+    lateNotice:'ملاحظة: سياسة العيادة تفضّل الإلغاء قبل 24 ساعة على الأقل.',
+    backToForm:'بحث بمعلومات ثانية',
+    status:{requested:'بانتظار التأكيد', confirmed:'مؤكد'},
+    resumed:'— تكملة محادثتك السابقة —',
+    welcomeTitle:'أهلاً فيك في كارماليت',
+    welcomeText:'أنا مساعد العيادة. اسألني عن الخدمات، الأسعار، أوقات الدوام، أو خليني أرتّبلك موعد.',
+    chips:['عن العيادة وخدماتنا','وين موقعكم؟','العروض الحالية'],
+    placeholder:'اكتب رسالتك…',
+    hint:'بتوصلك رسالة نصية عند تأكيد الموعد — الأسعار تقديرية وبتتحدد بعد الاستشارة.',
+    connected:n=>`متصل · ${n} مقطع بقاعدة المعرفة`,
+    noDb:'قاعدة البيانات مش متصلة — راجع DATABASE_URL بملف .env',
+    noKb:'قاعدة المعرفة فاضية — شغّل: python -m app.cli ingest data',
+    noServer:'السيرفر مش شغّال',
+    sources:n=>`المصادر (${n})`,
+    netError:'صار خطأ بالاتصال بالسيرفر. تأكد إنه شغّال وجرّب كمان مرة.',
+    leadSaved:'<i class="fa-solid fa-circle-check"></i> تم تسجيل بياناتك — الاستقبال رح يتواصل معك',
+    emergency:'<i class="fa-solid fa-triangle-exclamation"></i> تم تصعيد الحالة كطارئة', medical:'تم تحويل استفسارك للطبيب المسؤول',
+    manager:'تم تسجيل ملاحظتك لمدير العيادة', reception:'تم تحويل طلبك للاستقبال',
+    apptBadge:d=>`<i class="fa-solid fa-circle-check"></i> تم تسجيل طلب موعد — ${d}`,
+    apptCancelled:d=>`تم إلغاء موعد ${d}`,
+    locTitle:'موقع العيادة', openMaps:'افتح على الخرائط',
+    recording:'جارِ التسجيل…', recCancel:'إلغاء', recTranscribing:'جارِ تحويل الصوت لنص…',
+    micDenied:'ما قدرنا نوصل للمايك — اسمح للموقع باستخدام المايكروفون من إعدادات المتصفح.',
+    micUnsupported:'متصفحك ما بيدعم التسجيل الصوتي.',
+    micFailed:'تعذّر تحويل الصوت لنص، جرّب كمان مرة.',
+    micEmpty:'ما سمعنا شي — جرّب تحكي بصوت أوضح.',
+    speak:'استمع', speakLoading:'جارِ التحضير…', speakStop:'إيقاف',
+    speakFailed:'تعذّر تشغيل الصوت.',
+    fDate:'التاريخ', fTime:'الوقت', fName:'الاسم الكامل', fPhone:'رقم الهاتف',
+    moveSub:d=>`موعدك الحالي: ${d} — اختار الوقت الجديد`,
+    moveNote:'الدوام العام: السبت–الخميس ٩ ص – ٧ م · الجمعة مغلق. ساعات الرجال الممتدة تحتاج تأكيد الاستقبال. النقل بيسجّل طلب موعد جديد وليس حجزاً مؤكداً.',
+    ePickDate:'اختار تاريخ', ePickTime:'اختار وقت', eName:'اكتب اسمك الكامل',
+    ePhone:'رقم أردني غير صحيح (مثال: 0791234567)',
+    loadingSlots:'جارِ تحميل الأوقات…', chooseTime:'اختار الوقت', noSlots:'ما في أوقات متاحة بهذا اليوم',
+    slotsFailed:'تعذّر تحميل الأوقات — تحقق من الاتصال', retry:'إعادة المحاولة',
+    fridayClosed:'الجمعة مغلق', slotTaken:'هذا الوقت لم يعد متاحاً — اختار وقت ثاني',
+    doneText:'رح توصلك رسالة نصية على رقمك أول ما يتأكد موعدك.',
+    months:['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول'],
+    dows:['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'],
+    fmtDate:d=>`${d.getDate()} ${I18N.ar.months[d.getMonth()]} ${d.getFullYear()}`,
+    fmtTime:t=>{const[h,m]=t.split(':').map(Number);const p=h<12?'ص':'م';const h12=h%12||12;return `${h12}:${String(m).padStart(2,'0')} ${p}`}
+  },
+  en:{
+    dir:'ltr', htmlLang:'en', title:'Karmalite — Clinic Assistant',
+    clinic:'Karmalite Clinic', myAppts:'My appointments', addToHomeScreen:'📱 Add to Home Screen', pwaOk:'Got it',
+    mineTitle:'My appointments', mineSub:'Enter the name and phone you booked with',
+    mineNote:'Only upcoming appointments are shown. We need the same name and phone used for the booking to verify it is you.',
+    lookup:'Show my appointments', looking:'Searching…',
+    mineEmpty:'No upcoming appointments found for that name and number. Please check the details or call us.',
+    cancelBtn:'Cancel appointment', cancelling:'Cancelling…', cancelled:'Cancelled',
+    rescheduleBtn:'Reschedule', rescheduling:'Moving…',
+    rebookTitle:'Book a new appointment', rebookHint:'Here are the nearest available times — tap one to book it straight away:',
+    otherTime:'I want another time — arrange it in chat', rebookAsk:'I want to book a replacement appointment', booking:'Booking…',
+    rebookDone:d=>`Your new appointment request is registered — ${d}`,
+    moved:(a,b)=>`Your appointment moved from ${a} to ${b}`,
+    noNearby:'No nearby times are available right now.',
+    confirmCancel:d=>`Cancel your appointment on ${d}?`,
+    cancelDone:'Appointment cancelled. Our reception has been notified.',
+    lateNotice:'Note: the clinic asks for at least 24 hours notice when cancelling.',
+    backToForm:'Search with different details',
+    status:{requested:'Pending confirmation', confirmed:'Confirmed'},
+    resumed:'— continuing your earlier conversation —',
+    welcomeTitle:'Welcome to Karmalite',
+    welcomeText:"I'm the clinic assistant. Ask me about services, prices, working hours — or let me arrange an appointment for you.",
+    chips:['About us & our services','Where are you located?','Current offers'],
+    placeholder:'Type your message…',
+    hint:'You will receive an SMS once your appointment is confirmed — prices are estimates finalised after consultation.',
+    connected:n=>`Connected · ${n} passages indexed`,
+    noDb:'Database not reachable — check DATABASE_URL in .env',
+    noKb:'Knowledge base is empty — run: python -m app.cli ingest data',
+    noServer:'Server is not running',
+    sources:n=>`Sources (${n})`,
+    netError:'Connection error. Make sure the server is running and try again.',
+    leadSaved:'<i class="fa-solid fa-circle-check"></i> Your details were saved — reception will contact you',
+    emergency:'<i class="fa-solid fa-triangle-exclamation"></i> Escalated as an emergency', medical:'Your question was routed to the doctor',
+    manager:'Your feedback was logged for the clinic manager', reception:'Your request was routed to reception',
+    apptBadge:d=>`<i class="fa-solid fa-circle-check"></i> Appointment request received — ${d}`,
+    apptCancelled:d=>`Appointment cancelled — ${d}`,
+    locTitle:'Clinic location', openMaps:'Open in Maps',
+    recording:'Recording…', recCancel:'Cancel', recTranscribing:'Transcribing…',
+    micDenied:'Could not access the microphone — allow microphone access for this site in your browser settings.',
+    micUnsupported:'Your browser does not support voice recording.',
+    micFailed:'Could not transcribe the recording, please try again.',
+    micEmpty:"We didn't catch that — try speaking a little more clearly.",
+    speak:'Listen', speakLoading:'Preparing…', speakStop:'Stop',
+    speakFailed:'Could not play the audio.',
+    fDate:'Date', fTime:'Time', fName:'Full name', fPhone:'Phone number',
+    moveSub:d=>`Current appointment: ${d} — pick the new time`,
+    moveNote:'Hours: Sat–Thu 9 AM – 7 PM · Closed Friday · Men: late hours until midnight. Moving registers a new appointment request, not a confirmed booking.',
+    ePickDate:'Pick a date', ePickTime:'Pick a time', eName:'Enter your full name',
+    ePhone:'Invalid Jordanian number (e.g. 0791234567)',
+    loadingSlots:'Loading times…', chooseTime:'Choose a time', noSlots:'No times available on this day',
+    slotsFailed:"Couldn't load times — check your connection", retry:'Try again',
+    fridayClosed:'Closed on Friday', slotTaken:'That time is no longer available — pick another',
+    doneText:'You will receive an SMS message once your appointment is confirmed.',
+    months:['January','February','March','April','May','June','July','August','September','October','November','December'],
+    dows:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+    fmtDate:d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}),
+    fmtTime:t=>{const[h,m]=t.split(':').map(Number);const p=h<12?'AM':'PM';const h12=h%12||12;return `${h12}:${String(m).padStart(2,'0')} ${p}`}
+  }
+};
+
+let lang = localStorage.getItem('karmalite_lang') || 'ar';
+const T = () => I18N[lang];
+
+const $ = id => document.getElementById(id);
+const API = location.origin;
+const feed = $('feed'), input = $('input'), sendBtn = $('send');
+const overlay = $('overlay');
+
+let sessionId = localStorage.getItem('karmalite_session') || 'web-' + Math.random().toString(36).slice(2,12);
+localStorage.setItem('karmalite_session', sessionId);
+let busy = false, healthInfo = null;
+
+/* ==================== language ==================== */
+function applyLang(){
+  const t = T();
+  document.documentElement.lang = t.htmlLang;
+  document.documentElement.dir  = t.dir;
+  document.title = t.title;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = t[el.dataset.i18n];
+    if (typeof v === 'string') el.textContent = v;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = t[el.dataset.i18nPh];
+  });
+  document.querySelectorAll('.langswitch button').forEach(b => {
+    b.classList.toggle('on', b.dataset.lang === lang);
+  });
+
+  // شريط الأسئلة السريعة ظاهر دائماً — مش بشاشة الترحيب فقط
+  const bar = $('quickbar');
+  bar.innerHTML = '';
+  t.chips.forEach(q => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.type = 'button'; b.textContent = q;
+    b.onclick = () => { send(q); bar.scrollTo({ left: 0 }); };
+    bar.appendChild(b);
+  });
+
+  $('closeBooking').textContent = '✕';
+  renderStatus();
+  renderCalendar();
+  renderMoveSub();               // نص «موعدك الحالي» بيتبدّل مع اللغة كمان
+  if (selectedDate) loadSlots();
+}
+
+document.querySelectorAll('.langswitch button').forEach(b => {
+  b.onclick = () => { lang = b.dataset.lang; localStorage.setItem('karmalite_lang', lang); applyLang(); };
+});
+
+/* ==================== health ==================== */
+function renderStatus(){
+  const dot = $('dot'), el = $('status'), t = T();
+  if (!healthInfo)                    { dot.className='dot off'; el.textContent = t.noServer; }
+  else if (healthInfo.database!=='ok'){ dot.className='dot off'; el.textContent = t.noDb; }
+  else if (!healthInfo.chunks)        { dot.className='dot wait'; el.textContent = t.noKb; }
+  else                                { dot.className='dot'; el.textContent = t.connected(healthInfo.chunks); }
+}
+/* الصوت بيظهر فقط لو السيرفر مفعّله والمتصفح بيدعم التسجيل */
+let VOICE_ON = false;
+// بنحتفظ بالوعد عشان استرجاع السجل ينتظره، وإلا الرسائل القديمة بتنعرض بدون زر الاستماع
+const healthReady = fetch(API + '/health').then(r => r.json())
+  .then(h => {
+    healthInfo = h;
+    VOICE_ON = Boolean(h.voice);
+    if (VOICE_ON && micSupported()) micBtn.hidden = false;
+    renderStatus();
+  })
+  .catch(() => renderStatus());
+
+/* ==================== chat ==================== */
+const scroll = () => feed.scrollTop = feed.scrollHeight;
+
+/* ---------- تحويل أرقام العيادة لروابط اتصال ---------- */
+let CONTACT = { clinic_phone: '', emergency_phone: '' };
+let phoneRe = null;
+
+// نحتفظ بالوعد عشان استرجاع السجل ينتظره، وإلا الرسائل القديمة بتنعرض بدون روابط
+const contactReady = fetch(API + '/contact').then(r => r.json())
+  .then(c => { CONTACT = c; buildPhoneRegex(); })
+  .catch(() => {});
+
+function buildPhoneRegex(){
+  // بنطابق أرقام العيادة فقط — مش أي رقم بالنص، حتى ما نحوّل سعراً أو تاريخاً لرابط.
+  // كل رقم بيسمح بفواصل بينه (مسافة، شرطة، أقواس) لأن الموديل بيكتبها بصيغ مختلفة.
+  const parts = [CONTACT.clinic_phone, CONTACT.emergency_phone]
+    .filter(Boolean)
+    .map(p => p.replace(/\D/g, ''))
+    .filter(d => d.length >= 8)
+    // \(? عشان يبلع القوس المفتوح كمان — بدونها بيطلع رقم الهاتف بقوس أعرج
+    .map(d => '\\(?' + d.split('').join('[\\s\\-().‏]*'));
+  phoneRe = parts.length ? new RegExp('(' + parts.join('|') + ')', 'g') : null;
+}
+
+function telHref(display){
+  let d = display.replace(/[٠-٩]/g, c => '٠١٢٣٤٥٦٧٨٩'.indexOf(c)).replace(/\D/g, '');
+  if (d.startsWith('962')) return '+' + d;
+  return '+962' + d.replace(/^0+/, '');
+}
+
+/* بنبني عقد DOM يدوياً — ممنوع innerHTML على مخرجات الموديل */
+function withPhoneLinks(text){
+  const frag = document.createDocumentFragment();
+  if (!phoneRe){ frag.appendChild(document.createTextNode(text)); return frag; }
+
+  phoneRe.lastIndex = 0;
+  let last = 0, m;
+  while ((m = phoneRe.exec(text)) !== null){
+    if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+    const a = document.createElement('a');
+    a.className = 'telnum';
+    a.href = telHref(m[0]);
+    a.textContent = m[0];
+    frag.appendChild(a);
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+  return frag;
+}
+
+function botAvatar(){
+  const av = document.createElement('div');
+  av.className = 'avatar';
+  av.setAttribute('role', 'img');
+  av.setAttribute('aria-label', 'Karmalite');
+  return av;
+}
+
+function addMessage(text, who){
+  $('welcome')?.remove();
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ' + who;
+
+  // الفقاعة داخل سطر عشان الشعار يوقف جنبها؛ زر الاستماع والمصادر
+  // بيضلوا أبناء .msg فما بنحتاج نغيّر الدوال اللي بتضيفهم
+  const line = document.createElement('div');
+  line.className = 'line';
+  if (who === 'bot') line.appendChild(botAvatar());
+
+  const b = document.createElement('div');
+  b.className = 'bubble';
+  if (who === 'bot') b.appendChild(withPhoneLinks(text));
+  else b.textContent = text;
+
+  line.appendChild(b);
+  wrap.appendChild(line);
+  feed.appendChild(wrap); scroll();
+  return wrap;
+}
+function addBadge(text, kind){
+  const el = document.createElement('div');
+  el.className = 'badge' + (kind ? ' ' + kind : '');
+  el.innerHTML = text; feed.appendChild(el); scroll();
+}
+
+function addLocation(data){
+  const t = T();
+  const card = document.createElement('div');
+  card.className = 'loc';
+
+  const head = document.createElement('div');
+  head.className = 'head';
+  head.innerHTML = '<div class="pin"><i class="fa-solid fa-location-dot"></i></div>';
+  head.appendChild(document.createTextNode(t.locTitle));
+  card.appendChild(head);
+
+  const addr = document.createElement('div');
+  addr.className = 'addr';
+  addr.textContent = (lang === 'ar' ? data.address_ar : data.address_en) || data.address_ar;
+  card.appendChild(addr);
+
+  if (data.maps_url){
+    const link = document.createElement('a');
+    link.href = data.maps_url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.innerHTML = '<i class="fa-solid fa-map-location-dot"></i> ' + t.openMaps;
+    card.appendChild(link);
+  }
+
+  feed.appendChild(card); scroll();
+}
+function addSources(wrap, sources){
+  if (!sources?.length) return;
+  const d = document.createElement('details'); d.className = 'sources';
+  const s = document.createElement('summary'); s.textContent = T().sources(sources.length);
+  d.appendChild(s);
+  const ul = document.createElement('ul');
+  sources.forEach(x => {
+    const li = document.createElement('li');
+    li.textContent = `${x.breadcrumb} · ${x.type} · ${x.score}`;
+    ul.appendChild(li);
+  });
+  d.appendChild(ul); wrap.appendChild(d);
+}
+function showTyping(){
+  const w = document.createElement('div');
+  w.className = 'msg bot';
+  const line = document.createElement('div');
+  line.className = 'line';
+  line.appendChild(botAvatar());          // نفس شكل الرسالة حتى ما تقفز لما توصل
+  const b = document.createElement('div');
+  b.className = 'bubble';
+  b.style.padding = '0';
+  b.innerHTML = '<div class="typing"><i></i><i></i><i></i></div>';
+  line.appendChild(b);
+  w.appendChild(line);
+  feed.appendChild(w); scroll(); return w;
+}
+
+async function send(text){
+  if (busy) return;
+  text = (text ?? input.value).trim();
+  if (!text) return;
+
+  busy = true; sendBtn.disabled = true;
+  addMessage(text, 'me');
+  input.value = ''; input.style.height = 'auto';
+  const typing = showTyping();
+
+  try{
+    const res = await fetch(API + '/chat', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ message:text, session_id:sessionId, channel:'web', lang })
+    });
+    typing.remove();
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    const wrap = addMessage(data.answer, 'bot');
+    addSpeakButton(wrap, data.answer);
+    addSources(wrap, data.sources);
+
+    (data.tool_calls || []).forEach(call => {
+      const r = call.result || {};
+      if (call.name === 'capture_lead' && r.ok) addBadge(T().leadSaved);
+      else if (call.name === 'book_appointment' && r.ok)
+        addBadge(T().apptBadge(`${T().fmtDate(new Date(r.date))} · ${T().fmtTime(r.time)}`));
+      else if (call.name === 'send_location' && r.ok) addLocation(r);
+      else if (call.name === 'cancel_appointment' && r.ok)
+        addBadge(T().apptCancelled(`${T().fmtDate(new Date(r.date))} · ${T().fmtTime(r.time)}`), 'alert');
+      else if (call.name === 'escalate' && r.ok)
+        addBadge(T()[r.level] || T().reception, r.level === 'emergency' ? 'alert' : '');
+    });
+  } catch(err){
+    typing.remove();
+    addMessage(T().netError + '\n(' + err.message + ')', 'bot');
+  } finally {
+    busy = false; sendBtn.disabled = !input.value.trim(); input.focus();
+  }
+}
+
+input.oninput = () => {
+  sendBtn.disabled = !input.value.trim() || busy;
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 130) + 'px';
+};
+input.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); send(); } };
+sendBtn.onclick = () => send();
+
+/* ==================== الصوت: تسجيل ← نص ==================== */
+/* التسجيل بيتحوّل لنص بالسيرفر وبينبعت كرسالة عادية على /chat —
+   فما في مسار حجز موازي: نفس الأدوات ونفس الحواجز بالحالتين. */
+let mediaRecorder = null, recChunks = [], recTimer = null, recStart = 0, recCancelled = false;
+const micBtn = $('mic'), recBar = $('recbar');
+
+const micSupported = () =>
+  Boolean(navigator.mediaDevices?.getUserMedia && window.MediaRecorder);
+
+function pickMime(){
+  // كل متصفح بيدعم صيغة مختلفة — بناخد أول وحدة مدعومة فعلاً
+  const candidates = ['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4'];
+  return candidates.find(m => MediaRecorder.isTypeSupported?.(m)) || '';
+}
+
+function recTick(){
+  const s = Math.floor((Date.now() - recStart) / 1000);
+  $('recTime').textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2,'0')}`;
+}
+
+async function startRecording(){
+  const t = T();
+  if (!micSupported()) return addMessage(t.micUnsupported, 'bot');
+
+  let stream;
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+  } catch {
+    // رفض الإذن أو ما في مايك — نفرّقها عن فشل التحويل حتى المستخدم يعرف شو يعمل
+    addMessage(t.micDenied, 'bot');
+    return;
+  }
+
+  const mime = pickMime();
+  mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+  recChunks = []; recCancelled = false;
+  mediaRecorder.ondataavailable = e => { if (e.data.size) recChunks.push(e.data); };
+  mediaRecorder.onstop = async () => {
+    stream.getTracks().forEach(tr => tr.stop());     // يطفّي مؤشر المايك بالمتصفح
+    clearInterval(recTimer);
+    recBar.classList.remove('on');
+    micBtn.classList.remove('rec');
+    if (recCancelled || !recChunks.length) return;
+    await sendRecording(new Blob(recChunks, { type: mediaRecorder.mimeType || 'audio/webm' }));
+  };
+
+  mediaRecorder.start();
+  recStart = Date.now(); recTick();
+  recTimer = setInterval(recTick, 500);
+  recBar.classList.add('on');
+  micBtn.classList.add('rec');
+}
+
+function stopRecording(cancel = false){
+  recCancelled = cancel;
+  if (mediaRecorder?.state === 'recording') mediaRecorder.stop();
+}
+
+async function sendRecording(blob){
+  const t = T();
+  micBtn.classList.add('busy'); micBtn.disabled = true;
+  const note = addMessage(t.recTranscribing, 'bot');
+  try{
+    const fd = new FormData();
+    const ext = (blob.type.split('/')[1] || 'webm').split(';')[0];
+    fd.append('audio', blob, `speech.${ext}`);
+    fd.append('lang', lang);
+
+    const res = await fetch(API + '/voice/transcribe', { method:'POST', body: fd });
+    const data = await res.json().catch(() => ({}));
+    note.remove();
+    if (!res.ok) throw new Error(data.detail || 'HTTP ' + res.status);
+
+    const text = (data.text || '').trim();
+    if (!text){ addMessage(t.micEmpty, 'bot'); return; }
+    await send(text);                 // بيمشي بنفس مسار الرسالة المكتوبة
+  } catch(err){
+    note.remove();
+    addMessage(`${t.micFailed}\n(${err.message})`, 'bot');
+  } finally {
+    micBtn.classList.remove('busy'); micBtn.disabled = false;
+  }
+}
+
+micBtn.onclick = () => {
+  if (mediaRecorder?.state === 'recording') stopRecording(false);
+  else startRecording();
+};
+$('recCancel').onclick = () => stopRecording(true);
+
+/* ==================== الصوت: تشغيل رد البوت ==================== */
+let currentAudio = null, currentSpeakBtn = null;
+
+function stopPlayback(){
+  if (currentAudio){ currentAudio.pause(); URL.revokeObjectURL(currentAudio.src); currentAudio = null; }
+  if (currentSpeakBtn){
+    currentSpeakBtn.classList.remove('playing');
+    currentSpeakBtn.lastChild.textContent = T().speak;
+    currentSpeakBtn = null;
+  }
+}
+
+function addSpeakButton(wrap, text){
+  if (!VOICE_ON || !text.trim()) return;
+  const t = T();
+  const btn = document.createElement('button');
+  btn.className = 'speak';
+  btn.type = 'button';
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>';
+  btn.appendChild(document.createTextNode(t.speak));
+
+  btn.onclick = async () => {
+    if (currentSpeakBtn === btn){ stopPlayback(); return; }   // ضغطة تانية = إيقاف
+    stopPlayback();                                            // صوت واحد بس بنفس الوقت
+    btn.disabled = true; btn.lastChild.textContent = t.speakLoading;
+    try{
+      const res = await fetch(API + '/voice/speak', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ text, lang })
+      });
+      if (!res.ok){
+        const d = await res.json().catch(() => ({}));
+        throw new Error(d.detail || 'HTTP ' + res.status);
+      }
+      const url = URL.createObjectURL(await res.blob());
+      currentAudio = new Audio(url);
+      currentSpeakBtn = btn;
+      btn.classList.add('playing'); btn.lastChild.textContent = t.speakStop;
+      currentAudio.onended = stopPlayback;
+      currentAudio.onerror = stopPlayback;
+      await currentAudio.play();
+    } catch(err){
+      addMessage(`${t.speakFailed}\n(${err.message})`, 'bot');
+      stopPlayback();
+    } finally {
+      btn.disabled = false;
+      if (currentSpeakBtn !== btn) btn.lastChild.textContent = t.speak;
+    }
+  };
+  wrap.appendChild(btn);
+}
+
+/* ==================== chat memory ==================== */
+/* الخادم بيخزّن كل رسالة بقاعدة البيانات. هون بنسترجعها عشان المحادثة
+   تكمل من وين وقفت بعد إغلاق الصفحة أو إعادة تحميلها. */
+async function restoreHistory(){
+  try{
+    // بننتظر الاتنين: الأرقام تنعرض كروابط اتصال، وزر الاستماع يظهر على الردود القديمة
+    await Promise.all([contactReady, healthReady]);
+    const res = await fetch(`${API}/history?session_id=${encodeURIComponent(sessionId)}`);
+    if (!res.ok) return;
+    const { messages } = await res.json();
+    if (!messages?.length) return;
+
+    $('welcome')?.remove();
+    messages.forEach(m => {
+      const wrap = addMessage(m.content, m.role === 'user' ? 'me' : 'bot');
+      if (m.role !== 'user') addSpeakButton(wrap, m.content);
+    });
+
+    const mark = document.createElement('div');
+    mark.className = 'meta';
+    mark.style.cssText = 'align-self:center;font-size:11px;opacity:.6;margin:2px 0 6px';
+    mark.textContent = T().resumed;
+    feed.appendChild(mark);
+    scroll();
+  } catch { /* لا سجل = محادثة جديدة، مش خطأ */ }
+}
+
+/* ==================== calendar (نقل المواعيد فقط) ==================== */
+const MAX_AHEAD = 60;
+let viewYear, viewMonth, selectedDate = null;
+const today = new Date(); today.setHours(0,0,0,0);
+const maxDate = new Date(today); maxDate.setDate(maxDate.getDate() + MAX_AHEAD);
+viewYear = today.getFullYear(); viewMonth = today.getMonth();
+
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const isFriday = d => d.getDay() === 5;
+
+function renderCalendar(){
+  const t = T();
+  $('monthLabel').textContent = `${t.months[viewMonth]} ${viewYear}`;
+  $('dows').innerHTML = t.dows.map(d => `<div class="dow">${d}</div>`).join('');
+
+  const first = new Date(viewYear, viewMonth, 1);
+  const total = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const grid = $('days');
+  grid.innerHTML = '';
+  for (let i = 0; i < first.getDay(); i++) grid.insertAdjacentHTML('beforeend','<div class="blank"></div>');
+
+  for (let day = 1; day <= total; day++){
+    const d = new Date(viewYear, viewMonth, day);
+    const btn = document.createElement('button');
+    btn.className = 'day';
+    btn.textContent = day;
+    btn.disabled = d < today || d > maxDate || isFriday(d);
+    if (isFriday(d)) btn.title = t.fridayClosed;
+    if (+d === +today) btn.classList.add('today');
+    if (selectedDate && iso(d) === iso(selectedDate)) btn.classList.add('sel');
+    btn.onclick = () => { selectedDate = d; $('dateField').classList.remove('bad'); renderCalendar(); loadSlots(); };
+    grid.appendChild(btn);
+  }
+
+  $('prevM').disabled = viewYear === today.getFullYear() && viewMonth === today.getMonth();
+  $('nextM').disabled = new Date(viewYear, viewMonth + 1, 1) > maxDate;
+}
+$('prevM').onclick = () => { if (--viewMonth < 0){ viewMonth = 11; viewYear--; } renderCalendar(); };
+$('nextM').onclick = () => { if (++viewMonth > 11){ viewMonth = 0; viewYear++; } renderCalendar(); };
+
+async function loadSlots(){
+  const sel = $('fTime'), t = T();
+  if (!selectedDate) return;
+  const previous = sel.value;      // نحافظ على اختيار المستخدم عند تبديل اللغة أو إعادة التحميل
+  sel.disabled = true;
+  sel.innerHTML = `<option>${t.loadingSlots}</option>`;
+  $('slotsRetry')?.remove();
+
+  // مهلة صريحة: بدونها الطلب بيضل معلّق للأبد لو السيرفر وقع،
+  // والقائمة بتظل عالقة على "جارِ تحميل الأوقات…" بدون ما يعرف المستخدم شو صار.
+  const abort = new AbortController();
+  const timer = setTimeout(() => abort.abort(), 12000);
+
+  try{
+    // الخانة بتستوعب خدمات مختلفة بنفس الوقت، فالتوفر بيعتمد على خدمة هذا
+    // الموعد بالذات — بدونها بتظهر أوقات محجوزة لنفس الخدمة كأنها متاحة.
+    const gender = rescheduleTarget?.gender || 'unknown';
+    const params = new URLSearchParams({ date: iso(selectedDate), gender });
+    if (rescheduleTarget?.service) params.set('service', rescheduleTarget.service);
+    if (minePhone) params.set('phone', minePhone);   // الرقم اللي تحقّق فيه بشاشة «مواعيدي»
+    const res = await fetch(`${API}/availability?${params}`, { signal: abort.signal });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    if (!data.slots?.length){
+      sel.innerHTML = `<option value="">${data.reason === 'friday_closed' ? t.fridayClosed : t.noSlots}</option>`;
+      return;
+    }
+    sel.innerHTML = `<option value="">${t.chooseTime}</option>` +
+      data.slots.map(s => `<option value="${s}">${t.fmtTime(s)}</option>`).join('');
+    if (previous && data.slots.includes(previous)) sel.value = previous;
+    sel.disabled = false;
+  } catch {
+    // خطأ شبكة ≠ يوم ممتلئ. لازم نفرّقهم وإلا المستخدم بيظن إنه ما في مواعيد أصلاً.
+    sel.innerHTML = `<option value="">${t.slotsFailed}</option>`;
+    const retry = document.createElement('button');
+    retry.id = 'slotsRetry';
+    retry.type = 'button';
+    retry.className = 'ghost';
+    retry.style.cssText = 'margin-top:8px;width:100%;padding:9px';
+    retry.textContent = t.retry;
+    retry.onclick = loadSlots;
+    $('timeField').appendChild(retry);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+$('fTime').onchange = () => $('timeField').classList.remove('bad');
+
+/* ==================== نقل الموعد ==================== */
+/* الحجز الجديد صار بالشات. هالتقويم بيفتح فقط من «مواعيدي» لنقل موعد قائم. */
+function closeBooking(){
+  overlay.classList.remove('open');
+  clearReschedule();
+}
+
+$('closeBooking').onclick = closeBooking;
+overlay.onclick = e => { if (e.target === overlay) closeBooking(); };
+document.onkeydown = e => {
+  if (e.key === 'Escape'){
+    closeBooking();
+    document.getElementById('mineOverlay')?.classList.remove('open');
+    document.getElementById('pwaOverlay')?.classList.remove('open');
+  }
+};
+
+/* ---------- Add to Home Screen ---------- */
+function getMobileOS() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  if (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
+    return 'ios';
+  }
+  if (/android/i.test(ua)) {
+    return 'android';
+  }
+  return 'desktop';
+}
+
+function openPwaModal() {
+  const os = getMobileOS();
+  const msgEl = $('pwaMessage');
+  const pwaOverlay = $('pwaOverlay');
+
+  if (os === 'ios') {
+    msgEl.textContent = "To add this chat to your home screen:\n1. Tap the Share button at the bottom of your Safari screen (the square with an arrow pointing up).\n2. Scroll down the menu and tap 'Add to Home Screen'.\n3. Tap 'Add' in the top right corner!";
+  } else if (os === 'android') {
+    msgEl.textContent = "To add this chat to your home screen:\n1. Tap the Menu icon (the three dots) in the top right corner of Chrome.\n2. Tap 'Add to Home screen' (or 'Install app').\n3. Tap 'Add' on the pop-up to confirm!";
+  } else {
+    const currentUrl = location.href;
+    const safeUrl = currentUrl.replace(/"/g, '&quot;');
+    msgEl.innerHTML = `To install this app on your home screen, please open <a href="${safeUrl}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;text-decoration:underline;word-break:break-all">this link</a> in Safari (on iPhone/iPad) or Chrome (on Android) from your mobile device.<br><br><span style="font-size:13px;color:var(--muted)">Direct URL: <code style="background:var(--field);padding:3px 7px;border-radius:6px;border:1px solid var(--line);font-size:12px;user-select:all">${safeUrl}</code></span>`;
+  }
+
+  pwaOverlay.classList.add('open');
+}
+
+const pwaOverlay = $('pwaOverlay');
+$('openPwa').onclick = openPwaModal;
+$('closePwaBtn').onclick = () => pwaOverlay.classList.remove('open');
+pwaOverlay.onclick = e => { if (e.target === pwaOverlay) pwaOverlay.classList.remove('open'); };
+
+const validPhone = v => /^(?:00962|\+?962|0)?(7[789]\d{7})$/.test(
+  v.replace(/[\s\-().]/g,'').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+);
+
+$('submitBooking').onclick = async () => {
+  const t = T(), btn = $('submitBooking'), errBox = $('formError');
+  const moving = rescheduleTarget;
+  if (!moving) return;               // التقويم ما بيفتح إلا بوضع النقل
+  errBox.style.display = 'none';
+
+  const time = $('fTime').value;
+  let ok = true;
+  const flag = (id, bad) => { $(id).classList.toggle('bad', bad); if (bad) ok = false; };
+  flag('dateField', !selectedDate);
+  flag('timeField', !time);
+  if (!ok) return;
+
+  btn.disabled = true;
+  btn.textContent = t.rescheduling;
+  try{
+    // الاسم والرقم جايين من تحقق «مواعيدي» — ما بنسألهم من جديد
+    const res = await fetch(API + '/appointments/reschedule', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        full_name:mineName, phone:minePhone, reference:moving.reference,
+        date:iso(selectedDate), time, lang
+      })
+    });
+    const data = await res.json();
+
+    if (res.status === 409){
+      errBox.textContent = data.detail || t.slotTaken;
+      errBox.style.display = 'block';
+      loadSlots();
+      return;
+    }
+    if (!res.ok) throw new Error(data.detail || 'HTTP ' + res.status);
+
+    const when = `${t.fmtDate(selectedDate)} · ${t.fmtTime(time)}`;
+    const from = `${t.fmtDate(new Date(moving.date))} · ${t.fmtTime(moving.time)}`;
+    closeBooking();
+    addBadge(t.moved(from, when));
+  } catch(err){
+    errBox.textContent = err.message; errBox.style.display = 'block';
+  } finally {
+    btn.disabled = false; btn.textContent = t.rescheduleBtn;
+  }
+};
+
+/* ==================== my appointments ==================== */
+const mineOverlay = $('mineOverlay');
+let mineName = '', minePhone = '';
+
+$('openMine').onclick = () => {
+  mineForm();          // نرجّع النموذج، وإلا بتظهر نتائج البحث السابق
+  mineOverlay.classList.add('open');
+  $('mName').focus();
+};
+$('closeMine').onclick = () => mineOverlay.classList.remove('open');
+mineOverlay.onclick = e => { if (e.target === mineOverlay) mineOverlay.classList.remove('open'); };
+
+function mineForm(){
+  const t = T();
+  $('mineBody').innerHTML = `
+    <div class="field" id="mNameField">
+      <label>${t.fName}</label><input id="mName" autocomplete="name">
+      <div class="err">${t.eName}</div>
+    </div>
+    <div class="field" id="mPhoneField">
+      <label>${t.fPhone}</label><input id="mPhone" inputmode="tel" placeholder="07XXXXXXXX" autocomplete="tel">
+      <div class="err">${t.ePhone}</div>
+    </div>
+    <p class="note">${t.mineNote}</p>
+    <p class="err" id="mineError" style="display:none;font-size:12.5px;color:var(--err)"></p>
+    <button class="cta" id="lookupBtn" style="padding:13px">${t.lookup}</button>`;
+  $('mName').value = mineName;
+  $('mPhone').value = minePhone;
+  $('lookupBtn').onclick = lookup;
+  $('mPhone').onkeydown = e => { if (e.key === 'Enter') lookup(); };
+}
+
+async function lookup(){
+  const t = T(), btn = $('lookupBtn'), err = $('mineError');
+  err.style.display = 'none';
+  const name = $('mName').value.trim();
+  const phone = $('mPhone').value.trim();
+
+  let ok = true;
+  const flag = (id, bad) => { $(id).classList.toggle('bad', bad); if (bad) ok = false; };
+  flag('mNameField', name.length < 3);
+  flag('mPhoneField', !validPhone(phone));
+  if (!ok) return;
+
+  mineName = name; minePhone = phone;
+  btn.disabled = true; btn.textContent = t.looking;
+  try{
+    const res = await fetch(API + '/my-appointments', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ full_name:name, phone })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'HTTP ' + res.status);
+    renderMine(data.appointments || []);
+  } catch(e){
+    err.textContent = e.message; err.style.display = 'block';
+    btn.disabled = false; btn.textContent = t.lookup;
+  }
+}
+
+function renderMine(list){
+  const t = T();
+  const body = $('mineBody');
+  body.innerHTML = '';
+
+  if (!list.length){
+    const empty = document.createElement('p');
+    empty.className = 'note';
+    empty.textContent = t.mineEmpty;
+    body.appendChild(empty);
+  }
+
+  list.forEach(a => {
+    const when = `${t.fmtDate(new Date(a.date))} · ${t.fmtTime(a.time)}`;
+    const card = document.createElement('div');
+    card.className = 'appt';
+    card.innerHTML =
+      `<div class="when">${when}</div>
+       <div class="svc">${lang === 'ar' ? (a.service_label_ar || '—') : (a.service_label_en || '—')}</div>
+       <div class="foot">
+         <span class="st ${a.status}">${t.status?.[a.status] || a.status}</span>
+       </div>`;
+    const foot = card.querySelector('.foot');
+
+    /* --- تغيير الموعد: بيفتح نموذج الحجز بوضع النقل --- */
+    const move = document.createElement('button');
+    move.className = 'go';
+    move.textContent = t.rescheduleBtn;
+    move.onclick = () => {
+      mineOverlay.classList.remove('open');
+      startReschedule(a);
+    };
+    foot.appendChild(move);
+
+    /* --- الإلغاء --- */
+    const btn = document.createElement('button');
+    btn.textContent = t.cancelBtn;
+    btn.onclick = async () => {
+      if (!confirm(t.confirmCancel(when))) return;
+      btn.disabled = true; move.disabled = true; btn.textContent = t.cancelling;
+      try{
+        const res = await fetch(API + '/appointments/cancel', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ full_name:mineName, phone:minePhone, reference:a.reference, lang })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'HTTP ' + res.status);
+
+        card.classList.add('gone');
+        card.querySelector('.st').textContent = t.cancelled;
+        card.querySelector('.st').className = 'st';
+        btn.remove(); move.remove();
+        addBadge(T().apptCancelled(when), 'alert');
+        if (data.late_cancellation) addBadge(t.lateNotice, 'alert');
+
+        // بدل ما نترك الزبون بدون موعد: بنعرض أقرب الأوقات ليحجز بديل بضغطة
+        await showRebook(card, a);
+      } catch(e){
+        btn.disabled = false; move.disabled = false; btn.textContent = t.cancelBtn;
+        alert(e.message);
+      }
+    };
+    foot.appendChild(btn);
+    body.appendChild(card);
+  });
+
+  const back = document.createElement('button');
+  back.className = 'ghost';
+  back.style.cssText = 'width:100%;padding:11px';
+  back.textContent = t.backToForm;
+  back.onclick = mineForm;
+  body.appendChild(back);
+}
+
+/* ---------- اقتراح مواعيد بديلة بعد الإلغاء ---------- */
+async function showRebook(afterCard, cancelled){
+  const t = T();
+  const panel = document.createElement('div');
+  panel.className = 'rebook';
+  panel.innerHTML = `<div class="title">${t.rebookTitle}</div>
+                     <div class="hint">${t.rebookHint}</div>`;
+  afterCard.insertAdjacentElement('afterend', panel);
+
+  const row = document.createElement('div');
+  row.className = 'slots';
+  panel.appendChild(row);
+
+  let slots = [];
+  try{
+    const res = await fetch(`${API}/next-slots?gender=${cancelled.gender || 'unknown'}&limit=6`);
+    slots = (await res.json()).slots || [];
+  } catch { /* بنكمل بزر «اختر وقت آخر» */ }
+
+  if (!slots.length){
+    const none = document.createElement('div');
+    none.className = 'hint';
+    none.textContent = t.noNearby;
+    row.appendChild(none);
+  }
+
+  slots.forEach(s => {
+    const btn = document.createElement('button');
+    btn.innerHTML = `${t.fmtTime(s.time)}<small>${t.fmtDate(new Date(s.date))}</small>`;
+    btn.onclick = async () => {
+      [...row.children].forEach(b => b.disabled = true);
+      btn.textContent = t.booking;
+      try{
+        const res = await fetch(API + '/appointments', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({
+            full_name: mineName, phone: minePhone, date: s.date, time: s.time,
+            service: cancelled.service || null, gender: cancelled.gender || 'unknown',
+            session_id: sessionId, lang
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'HTTP ' + res.status);
+        const when = `${t.fmtDate(new Date(s.date))} · ${t.fmtTime(s.time)}`;
+        panel.innerHTML = `<div class="title">✓ ${t.rebookDone(when)}</div>
+                           <div class="hint">${t.doneText}</div>`;
+        addBadge(t.apptBadge(when));
+      } catch(e){
+        alert(e.message);
+        [...row.children].forEach(b => b.disabled = false);
+        btn.innerHTML = `${t.fmtTime(s.time)}<small>${t.fmtDate(new Date(s.date))}</small>`;
+      }
+    };
+    row.appendChild(btn);
+  });
+
+  // ما في نموذج حجز — الأوقات خارج هالقائمة بيرتّبها المساعد بالشات
+  const other = document.createElement('button');
+  other.className = 'ghost';
+  other.style.cssText = 'width:100%;padding:10px';
+  other.textContent = t.otherTime;
+  other.onclick = () => {
+    mineOverlay.classList.remove('open');
+    send(t.rebookAsk);
+  };
+  panel.appendChild(other);
+}
+
+/* ---------- وضع نقل الموعد ---------- */
+let rescheduleTarget = null;      // الموعد المطلوب نقله، أو null والتقويم مسكّر
+
+function renderMoveSub(){
+  const a = rescheduleTarget;
+  if (!a) return;
+  const t = T();
+  $('moveSub').textContent = t.moveSub(`${t.fmtDate(new Date(a.date))} · ${t.fmtTime(a.time)}`);
+}
+
+function startReschedule(appointment){
+  rescheduleTarget = appointment;
+  selectedDate = null;                       // ما بنورّث تاريخ من نقل سابق
+  $('fTime').innerHTML = ''; $('fTime').disabled = true;
+  $('formError').style.display = 'none';
+  $('dateField').classList.remove('bad');
+  $('timeField').classList.remove('bad');
+  renderMoveSub();
+  overlay.classList.add('open');
+  renderCalendar();
+}
+
+function clearReschedule(){
+  rescheduleTarget = null;
+}
+
+$('lookupBtn').onclick = lookup;
+$('mPhone').onkeydown = e => { if (e.key === 'Enter') lookup(); };
+
+/* ==================== init ==================== */
+applyLang();
+restoreHistory();
+input.focus();
+</script>
+</body>
+</html>

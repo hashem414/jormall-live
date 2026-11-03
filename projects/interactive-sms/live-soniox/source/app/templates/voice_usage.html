@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Usage</title>
+    <link rel="icon" type="image/png" href="{{ app_base_path }}/static/images/favicon.png?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ app_base_path }}/static/css/chat-history.css?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ app_base_path }}/static/css/voice-usage.css?v={{ asset_version }}">
+    {% if authenticated %}<meta name="voice-usage-csrf" content="{{ csrf_token }}">{% endif %}
+</head>
+<body data-app-base-path="{{ app_base_path }}">
+{% if not authenticated %}
+<main class="login-shell"><section class="login-card" aria-labelledby="login-title">
+    <img src="{{ app_base_path }}/static/client_assets/central-e-commerce-co-ltd/Jormall_logo.png" alt="JorMall logo" class="login-logo">
+    <h1 id="login-title">API Usage</h1>
+    <p>Authorised staff can review OpenAI and Soniox usage, performance, failures, and budgets.</p>
+    <form method="post" action="{{ dashboard_path }}login" class="login-form">
+        <label for="dashboard-password">Password</label>
+        <input id="dashboard-password" name="password" type="password" autocomplete="current-password" required autofocus>
+        {% if login_message %}<p class="login-message" role="alert">{{ login_message }}</p>{% endif %}
+        <button type="submit">Open Dashboard</button>
+    </form>
+</section></main>
+{% else %}
+<main class="dashboard-shell">
+    <header class="dashboard-header">
+        <div><p class="eyebrow">Internal Dashboard</p><h1>API Usage</h1><p>OpenAI token usage and Soniox voice usage in one local ledger.</p></div>
+        <div class="header-actions">
+            <a class="secondary-link" href="{{ app_base_path }}/chat-history/">Chat history</a>
+            <a class="secondary-link" href="{{ app_base_path }}/sales-callbacks/">Sales callbacks</a>
+            <a class="secondary-link" href="{{ app_base_path }}/client-usage/">Client view</a>
+            <form method="post" action="{{ dashboard_path }}logout"><button class="logout-button" type="submit">Logout</button></form>
+        </div>
+    </header>
+
+    <section id="budget-alerts" class="budget-alerts" aria-live="polite"></section>
+    <section class="metric-grid" aria-label="Voice usage summary">
+        <article><span>Requests</span><strong id="metric-requests">—</strong></article>
+        <article><span>Total tracked cost</span><strong id="metric-cost">—</strong></article>
+        <article><span>OpenAI requests</span><strong id="metric-openai-requests">—</strong></article>
+        <article><span>OpenAI input tokens</span><strong id="metric-openai-input">—</strong></article>
+        <article><span>OpenAI output tokens</span><strong id="metric-openai-output">—</strong></article>
+        <article><span>STT minutes</span><strong id="metric-stt">—</strong></article>
+        <article><span>TTS minutes</span><strong id="metric-tts">—</strong></article>
+        <article><span>Failures</span><strong id="metric-failures">—</strong></article>
+        <article><span>Cache hits</span><strong id="metric-cache">—</strong></article>
+        <article><span>Latency p50 / p95</span><strong id="metric-latency">—</strong></article>
+        <article><span>First audio p50 / p95</span><strong id="metric-first-audio">—</strong></article>
+    </section>
+
+    <section class="toolbar" aria-label="Usage filters">
+        <label class="filter-field"><span>Period</span><select id="days-filter"><option value="7">7 days</option><option value="30" selected>30 days</option><option value="90">90 days</option><option value="366">1 year</option></select></label>
+        <label class="filter-field"><span>Provider</span><select id="provider-filter"><option value="">All</option><option value="openai">OpenAI</option><option value="soniox">Soniox</option></select></label>
+        <label class="filter-field"><span>Operation</span><select id="operation-filter"><option value="">All</option><option value="chat">Chat</option><option value="embedding">Embedding</option><option value="stt">STT</option><option value="tts">TTS</option></select></label>
+        <label class="filter-field"><span>Language</span><select id="language-filter"><option value="">All</option><option value="en">English</option><option value="ar">Arabic</option><option value="auto">Auto / pending</option></select></label>
+        <label class="filter-field"><span>Status</span><select id="status-filter"><option value="">All</option><option value="completed">Completed</option><option value="failed">Failed</option><option value="cancelled">Cancelled</option><option value="started">In progress</option></select></label>
+        <button id="export-button" class="export-button" type="button">Export CSV</button>
+        <button id="sync-button" class="small-button" type="button">Sync Soniox</button>
+    </section>
+    <section class="status-line" aria-live="polite"><span id="dashboard-status"></span><span id="sync-status"></span></section>
+
+    <section class="usage-layout">
+        <section class="table-panel">
+            <div class="table-wrap"><table><thead><tr><th>Time</th><th>Provider</th><th>Type</th><th>Language</th><th>Status</th><th>Model / voice</th><th>Latency</th><th>Usage</th><th>Cost</th><th>Source</th></tr></thead><tbody id="request-table-body"></tbody></table></div>
+            <div class="pagination"><button id="previous-page" class="small-button">Previous</button><span id="page-label"></span><button id="next-page" class="small-button">Next</button></div>
+        </section>
+        <aside class="detail-panel" id="detail-panel"><div class="detail-header"><div><p class="eyebrow">Request Detail</p><h2 id="detail-title">Select a request</h2></div></div><dl id="detail-grid" class="detail-grid"><dt>Privacy</dt><dd>No transcript, answer text, audio, API key, or raw session ID is stored.</dd></dl></aside>
+    </section>
+    <p class="cost-note" id="cost-note"></p>
+</main>
+<script src="{{ app_base_path }}/static/js/voice-usage.js?v={{ asset_version }}"></script>
+{% endif %}
+</body></html>
